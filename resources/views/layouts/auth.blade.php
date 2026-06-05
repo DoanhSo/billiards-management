@@ -20,7 +20,18 @@
     @stack('styles')
 
     <style>
+        :root {
+            --primary: #667eea;
+            --primary-hover: #764ba2;
+            --background: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #ffffff;
+            --text-muted: #e2e8f0;
+        }
+
         body {
+            background-color: var(--background);
+            color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -60,7 +71,7 @@
         }
 
         .auth-brand-sub {
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-muted);
             font-size: 0.8rem;
             margin: 0;
         }
@@ -79,14 +90,14 @@
         }
 
         .auth-card-subtitle {
-            color: rgba(255, 255, 255, 0.45);
+            color: var(--text-muted);
             font-size: 0.875rem;
             margin-bottom: 2rem;
         }
 
         /* Form controls */
         .form-label {
-            color: rgba(255, 255, 255, 0.75);
+            color: #e2e8f0;
             font-size: 0.875rem;
             font-weight: 500;
             margin-bottom: 0.45rem;
@@ -111,7 +122,7 @@
         }
 
         .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.25);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .form-control.is-invalid {
@@ -123,7 +134,7 @@
         .input-group-text {
             background: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.7);
             border-radius: 0.75rem 0 0 0.75rem;
         }
 
@@ -140,7 +151,7 @@
             background: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-left: none;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.7);
             border-radius: 0 0.75rem 0.75rem 0;
             padding: 0 0.9rem;
             cursor: pointer;
@@ -176,7 +187,7 @@
         }
 
         .form-check-label {
-            color: rgba(255, 255, 255, 0.55);
+            color: #cbd5e1;
             font-size: 0.875rem;
         }
 
@@ -238,22 +249,22 @@
         }
 
         .auth-divider span {
-            color: rgba(255, 255, 255, 0.25);
+            color: var(--text-muted);
             font-size: 0.8rem;
         }
 
         /* Links */
         .auth-link {
-            color: #a78bfa;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
         }
 
-        .auth-link:hover { color: #c4b5fd; }
+        .auth-link:hover { color: var(--primary-hover); }
 
         .auth-footer-text {
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-muted);
             font-size: 0.875rem;
             text-align: center;
             margin: 0;
