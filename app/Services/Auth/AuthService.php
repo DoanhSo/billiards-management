@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -34,6 +35,32 @@ class AuthService
         request()->session()->regenerate();
 
         return true;
+    }
+
+    /**
+     * Xử lý đăng ký tài khoản.
+     *
+     * @param array{name: string, email: string, phone?: string, password: string} $data
+     * @return User
+     */
+    public function register(array $data): User
+    {
+        $customerRole = Role::where('name', 'customer')->first();
+
+        $user = User::create([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'phone'    => $data['phone'] ?? null,
+            'password' => Hash::make($data['password']),
+            'role_id'  => $customerRole?->id,
+            'status'   => true,
+        ]);
+
+        // Tự động đăng nhập
+        Auth::login($user);
+        request()->session()->regenerate();
+
+        return $user;
     }
 
     /**

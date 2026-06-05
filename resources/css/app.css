@@ -17,20 +17,19 @@
     --success: #34d399;
     --warning: #fbbf24;
     --danger: #f87171;
-    --background: #0f172a;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
+    --background: #0f172a; /* Slate 900 */
+    --card-bg: #1e293b;    /* Slate 800 */
+    --sidebar-bg: #020617; /* Slate 950 */
+    --text-main: #ffffff;  /* Pure white */
+    --text-muted: #e2e8f0; /* Slate 200 (even lighter for high contrast) */
     
-    /* Glassmorphism */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-hover: rgba(255, 255, 255, 0.1);
+    /* High Contrast Border */
+    --border-color: #334155; /* Slate 700 */
 }
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-    background-attachment: fixed;
+    background-color: var(--background);
     color: var(--text-main);
     margin: 0;
     padding: 0;
@@ -42,13 +41,16 @@ h1, .page-title { font-size: 30px; font-weight: 700; color: #ffffff; margin-bott
 h2, .section-title { font-size: 20px; font-weight: 600; color: #f1f5f9; margin-bottom: 16px; }
 p, .body-text, .table-text { font-size: 14px; font-weight: 400; color: var(--text-muted); }
 
-/* Utility Classes for Glassmorphism */
+/* Override Bootstrap text-muted and text-secondary */
+.text-muted, .text-secondary {
+    color: var(--text-muted) !important;
+}
+
+/* High Contrast Cards */
 .glass-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
 /* Layout Structure */
@@ -58,9 +60,8 @@ p, .body-text, .table-text { font-size: 14px; font-weight: 400; color: var(--tex
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(15, 12, 41, 0.8);
-    backdrop-filter: blur(20px);
-    border-right: 1px solid var(--glass-border);
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
     color: white;
     z-index: 1000;
     transition: all 0.3s ease;
@@ -71,7 +72,7 @@ p, .body-text, .table-text { font-size: 14px; font-weight: 400; color: var(--tex
     display: flex;
     align-items: center;
     padding: 0 24px;
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar-menu a {
@@ -86,7 +87,7 @@ p, .body-text, .table-text { font-size: 14px; font-weight: 400; color: var(--tex
 }
 
 .sidebar-menu a:hover, .sidebar-menu a.active {
-    background: var(--glass-hover);
+    background-color: var(--card-bg);
     color: #ffffff;
     border-left: 4px solid var(--primary);
 }
@@ -99,9 +100,8 @@ p, .body-text, .table-text { font-size: 14px; font-weight: 400; color: var(--tex
 
 .topbar {
     height: 64px;
-    background: rgba(15, 12, 41, 0.4);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--glass-border);
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: flex-end;
