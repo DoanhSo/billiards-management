@@ -18,6 +18,7 @@
 9. [Git Workflow](#9-git-workflow)
 10. [Kiểm Tra Trước Khi Commit](#10-kiểm-tra-trước-khi-commit)
 11. [Công Cụ & Môi Trường](#11-công-cụ--môi-trường)
+12. [Quy Tắc Thiết Kế UI/UX](#12-quy-tắc-thiết-kế-uiux)
 
 ---
 
@@ -1173,6 +1174,58 @@ DB_PASSWORD=
 # Migrate
 php artisan migrate --seed
 ```
+
+---
+
+## 12. Quy Tắc Thiết Kế UI/UX
+
+> **Lưu ý:** Tất cả lập trình viên và AI Agents phải tuân thủ nghiêm ngặt tài liệu này, không được tự ý sáng tạo khác với guideline.
+
+### 12.1 Mục Tiêu Cốt Lõi
+- **Đồng nhất:** Thống nhất về màu sắc, khoảng cách, typography và component.
+- **Dễ sử dụng:** Trải nghiệm thân thiện.
+- **Responsive:** Hoạt động tốt trên Desktop, Tablet, Mobile.
+- **Chuẩn Layout:** Tuân thủ cùng một cấu trúc bố cục.
+
+### 12.2 Cấu Trúc Layout Chuẩn (Trang Quản Trị)
+- **Header:** Chiều cao 64px (chứa Logo, Tên hệ thống, User dropdown, Notification).
+- **Sidebar:** Rộng 280px, cố định bên trái.
+- **Main Content:** Padding 24px, không đặt nội dung sát mép màn hình.
+
+### 12.3 Typography & Màu Sắc
+- **Font chữ:** `Inter` (Fallback: `sans-serif`).
+  - Page Title: 32px (Bold - 700)
+  - Section Title: 20px (Semi-bold - 600)
+  - Body / Table Text: 14px (Regular - 400)
+- **Bảng màu (Hex):**
+  - Primary: `#2563EB` (Button chính, Link, Focus)
+  - Success: `#16A34A`
+  - Warning: `#F59E0B`
+  - Danger: `#DC2626`
+  - Background: `#F8FAFC`
+  - Card: `#FFFFFF`
+
+### 12.4 Quy Tắc UI Components
+- **Card:** Mọi nội dung nằm trong Card (Nền trắng, bo góc 12px, padding 24px, shadow-sm).
+- **Button:** 
+  - Primary (Nền Primary, chữ trắng, cao 40px)
+  - Secondary (Nền trắng, viền xám)
+  - Danger (Màu đỏ)
+- **Form:** Dùng Flexbox cột (gap 16px). Label trên input, chiều cao input 40px. Validation lỗi hiển thị dưới input (màu đỏ).
+- **Table:** Phải có Search, Filter, Pagination. Cột Action giữ thứ tự: View ➔ Edit ➔ Delete.
+- **Modal:** Max-width 600px. Gồm Title, Content, Footer (chứa Cancel, Save).
+- **Responsive:** Breakpoint 768px. Mobile dùng Drawer thay Sidebar, Card List thay Table.
+- **State đặc biệt:** Luôn hiển thị Skeleton/Spinner khi tải. Không để màn hình trắng khi không có dữ liệu (Hiển thị empty state kèm nút Tạo mới).
+
+### 12.5 Quy Tắc Laravel Blade cho UI
+- Tất cả các trang phải extend `@extends('layouts.app')`.
+- Sử dụng các components chung trong `resources/views/components/` (button, input, modal, table, card). Không lặp lại HTML.
+
+### 12.6 Yêu Cầu Cho AI Agent
+- Luôn tái sử dụng component có sẵn. Không tạo màu/font mới.
+- Không đổi layout hệ thống, bắt buộc responsive.
+- Mọi màn hình mới phải mang phong cách y hệt màn hình hiện có (Spacing lưới 8px).
+- Tự tìm file view tương tự trong dự án để tham khảo trước khi sinh code.
 
 ---
 
