@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TableController;
@@ -10,24 +9,30 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
 
-// Auth Routes (Guest)
+// ── Trang chủ redirect ─────────────────────────────────────────
+Route::get('/', function () {
+    return redirect()->route('auth.login');
+})->name('home');
+
+// ── Auth: Guest only (chưa đăng nhập) ─────────────────────────
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('auth.login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login.post');
+    
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('auth.register');
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register.post');
 });
 
-// Authenticated Routes
+// ── Auth: Đã đăng nhập ────────────────────────────────────────
 Route::middleware('auth')->group(function () {
-    // Logout & Change Password
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
     Route::get('/change-password', [AuthController::class, 'showChangePasswordForm'])->name('auth.change-password');
-    Route::post('/change-password', [AuthController::class, 'changePassword']);
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password.post');
 
     // Dashboard
-    Route::get('/', function () {
-        return redirect()->route('dashboard.index');
-    });
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     // Users
@@ -61,7 +66,3 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
 });
 
-// Guest redirection if not authenticated
-Route::get('/', function () {
-    return redirect()->route('auth.login');
-})->name('home');
