@@ -111,6 +111,31 @@ class BookingService
     }
 
     /**
+     * Hoàn tất đặt bàn.
+     *
+     * @throws ValidationException
+     */
+    public function completeBooking(int $id): Booking
+    {
+        $booking = $this->getBookingById($id);
+
+        if ($booking->status !== 'CONFIRMED') {
+            throw ValidationException::withMessages([
+                'status' => ['Chỉ có thể hoàn tất đặt bàn ở trạng thái CONFIRMED.'],
+            ]);
+        }
+
+        $booking->update(['status' => 'COMPLETED']);
+
+        // Trả bàn về AVAILABLE nếu đang RESERVED
+        if ($booking->billiardTable->status === 'RESERVED') {
+            $booking->billiardTable->update(['status' => 'AVAILABLE']);
+        }
+
+        return $booking->fresh(['user', 'billiardTable']);
+    }
+
+    /**
      * Lấy lịch sử đặt bàn (đã hoàn thành hoặc đã hủy).
      */
     public function getBookingHistory(int $perPage = 15): LengthAwarePaginator

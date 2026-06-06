@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('bookings', BookingController::class);
     Route::patch('bookings/{id}/confirm', [BookingController::class, 'confirm'])->name('bookings.confirm');
     Route::patch('bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+    Route::patch('bookings/{id}/complete', [BookingController::class, 'complete'])->name('bookings.complete');
 
     // Sessions (Table Sessions)
     Route::get('sessions', [TableSessionController::class, 'index'])->name('sessions.index');

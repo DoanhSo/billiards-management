@@ -86,6 +86,15 @@
                         </form>
                     @endif
 
+                    @if($booking->status === 'CONFIRMED')
+                        <form action="{{ route('bookings.complete', $booking->id) }}" method="POST" class="m-0">
+                            @csrf @method('PATCH')
+                            <button type="submit" class="btn btn-info text-white d-flex align-items-center gap-2">
+                                <i class="bi bi-check2-all"></i> Hoàn tất đặt bàn
+                            </button>
+                        </form>
+                    @endif
+
                     @if($booking->status === 'PENDING' || $booking->status === 'CONFIRMED')
                         <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST" class="m-0" onsubmit="return confirm('Bạn có chắc muốn hủy đặt bàn này?')">
                             @csrf @method('PATCH')
