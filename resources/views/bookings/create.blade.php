@@ -130,9 +130,17 @@
             const endHour = endHourInput.value;
 
             if (date && startHour && endHour) {
-                // Combine into Y-m-d H:i:s format
-                startTimeHidden.value = `${date} ${startHour}:00`;
-                endTimeHidden.value = `${date} ${endHour}:00`;
+                // Ensure time has seconds format (HH:MM:SS)
+                const formatTime = (timeStr) => {
+                    const parts = timeStr.split(':');
+                    if (parts.length === 2) {
+                        return `${timeStr}:00`;
+                    }
+                    return timeStr;
+                };
+
+                startTimeHidden.value = `${date} ${formatTime(startHour)}`;
+                endTimeHidden.value = `${date} ${formatTime(endHour)}`;
             }
         });
     });
