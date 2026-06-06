@@ -6,162 +6,143 @@
 <div class="container-fluid px-0" style="max-width: 800px;">
 
     {{-- ═══ PAGE HEADER ═══ --}}
-    <div class="page-header">
+    <div class="page-header mb-4">
         <div>
-            <h1 class="page-title"><i class="bi bi-calendar-plus-fill me-2" style="color: var(--info)"></i>Đặt Bàn Mới</h1>
+            <h1 class="page-title"><i class="bi bi-calendar-plus-fill me-2" style="color: var(--primary)"></i>Đặt Bàn Mới</h1>
             <p class="page-subtitle">Tạo lịch đặt bàn chơi cho khách hàng</p>
         </div>
-        <a href="{{ route('bookings.index') }}" class="btn btn-outline-secondary">
+        <a href="{{ route('bookings.index') }}" class="btn btn-outline-secondary" style="height: 40px; display: inline-flex; align-items: center;">
             <i class="bi bi-arrow-left"></i> Quay lại
         </a>
     </div>
 
     {{-- ═══ FORM CARD ═══ --}}
-    <div class="card">
-        <div class="card-body p-5">
-            <form action="{{ route('bookings.store') }}" method="POST" id="bookingForm">
-                @csrf
-                {{-- Hidden combined datetime fields --}}
-                <input type="hidden" name="start_time" id="start_time" value="{{ old('start_time') }}">
-                <input type="hidden" name="end_time"   id="end_time"   value="{{ old('end_time') }}">
+    <x-card>
+        <form action="{{ route('bookings.store') }}" method="POST" id="bookingForm" class="d-flex flex-column gap-3">
+            @csrf
+            {{-- Hidden combined datetime fields --}}
+            <input type="hidden" name="start_time" id="start_time" value="{{ old('start_time') }}">
+            <input type="hidden" name="end_time"   id="end_time"   value="{{ old('end_time') }}">
 
-                {{-- ─── Customer ID ─── --}}
-                <div class="mb-4">
-                    <label class="form-label">
-                        ID Khách hàng <span style="color: var(--danger)">*</span>
-                    </label>
-                    <div class="input-group glow-on-focus">
-                        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                        <input type="number"
-                               id="user_id"
-                               name="user_id"
-                               class="form-control @error('user_id') is-invalid @enderror"
-                               placeholder="Nhập ID tài khoản khách hàng (VD: 1, 2...)"
-                               value="{{ old('user_id') }}"
-                               min="1"
-                               required>
-                    </div>
-                    <div class="form-text mt-1"><i class="bi bi-info-circle me-1"></i>Nhập mã ID của tài khoản khách hàng trong hệ thống</div>
-                    @error('user_id')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
+            {{-- ─── Customer ID ─── --}}
+            <div>
+                <x-input name="user_id"
+                         label="ID Khách hàng"
+                         type="number"
+                         placeholder="Nhập ID tài khoản khách hàng (VD: 1, 2...)"
+                         value="{{ old('user_id') }}"
+                         required="true"
+                         error="{{ $errors->first('user_id') }}"
+                         min="1" />
+                <div class="form-text mt-1"><i class="bi bi-info-circle me-1"></i>Nhập mã ID của tài khoản khách hàng trong hệ thống</div>
+            </div>
+
+            {{-- ─── Table Selection ─── --}}
+            <div class="d-flex flex-column gap-1 w-100">
+                <label for="billiard_table_id" class="form-label mb-1">
+                    Bàn chơi <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-grid-3x3-gap"></i></span>
+                    <select id="billiard_table_id" name="billiard_table_id"
+                            class="form-select border-start-0 @error('billiard_table_id') is-invalid @enderror" 
+                            style="height: 40px;" required>
+                        <option value="" disabled {{ old('billiard_table_id') ? '' : 'selected' }}>— Chọn bàn trống —</option>
+                        @foreach($tables as $table)
+                            <option value="{{ $table->id }}" {{ old('billiard_table_id') == $table->id ? 'selected' : '' }}>
+                                Bàn {{ $table->table_number }} · {{ $table->table_type }} — {{ number_format($table->price_per_hour, 0, ',', '.') }} VNĐ/giờ
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
+                @error('billiard_table_id')
+                    <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
+                @enderror
+                @if($tables->isEmpty())
+                    <div class="form-text mt-1 text-warning"><i class="bi bi-exclamation-triangle me-1"></i>Hiện tại không có bàn trống nào</div>
+                @endif
+            </div>
 
-                {{-- ─── Table Selection ─── --}}
-                <div class="mb-4">
-                    <label class="form-label">
-                        Bàn chơi <span style="color: var(--danger)">*</span>
-                    </label>
-                    <div class="input-group glow-on-focus">
-                        <span class="input-group-text"><i class="bi bi-grid-3x3-gap"></i></span>
-                        <select id="billiard_table_id" name="billiard_table_id"
-                                class="form-select @error('billiard_table_id') is-invalid @enderror" required>
-                            <option value="" disabled {{ old('billiard_table_id') ? '' : 'selected' }}>— Chọn bàn trống —</option>
-                            @foreach($tables as $table)
-                                <option value="{{ $table->id }}" {{ old('billiard_table_id') == $table->id ? 'selected' : '' }}>
-                                    Bàn {{ $table->table_number }} · {{ $table->table_type }} — {{ number_format($table->price_per_hour, 0, ',', '.') }} VNĐ/giờ
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @error('billiard_table_id')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                    @if($tables->isEmpty())
-                        <div class="form-text mt-1" style="color: var(--warning)"><i class="bi bi-exclamation-triangle me-1"></i>Hiện tại không có bàn trống nào</div>
-                    @endif
-                </div>
+            {{-- ─── Booking Date ─── --}}
+            <div>
+                <x-input name="booking_date"
+                         label="Ngày đặt bàn"
+                         type="date"
+                         value="{{ old('booking_date', date('Y-m-d')) }}"
+                         required="true"
+                         error="{{ $errors->first('booking_date') }}"
+                         min="{{ date('Y-m-d') }}" />
+            </div>
 
-                {{-- ─── Booking Date ─── --}}
-                <div class="mb-4">
-                    <label class="form-label">
-                        Ngày đặt bàn <span style="color: var(--danger)">*</span>
-                    </label>
-                    <div class="input-group glow-on-focus">
-                        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
-                        <input type="date"
-                               id="booking_date"
-                               name="booking_date"
-                               class="form-control @error('booking_date') is-invalid @enderror"
-                               min="{{ date('Y-m-d') }}"
-                               value="{{ old('booking_date', date('Y-m-d')) }}"
-                               required>
-                    </div>
-                    @error('booking_date')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                {{-- ─── Time Range ─── --}}
-                <div class="row g-4 mb-4">
-                    <div class="col-12 col-md-6">
-                        <label class="form-label">
-                            Giờ bắt đầu <span style="color: var(--danger)">*</span>
+            {{-- ─── Time Range ─── --}}
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <div class="d-flex flex-column gap-1 w-100">
+                        <label for="start_hour" class="form-label mb-1">
+                            Giờ bắt đầu <span class="text-danger">*</span>
                         </label>
-                        <div class="input-group glow-on-focus">
-                            <span class="input-group-text" style="color: var(--success)"><i class="bi bi-clock"></i></span>
-                            <input type="time"
-                                   id="start_hour"
-                                   class="form-control @error('start_time') is-invalid @enderror"
-                                   required>
-                        </div>
+                        <input type="time"
+                               id="start_hour"
+                               class="form-control @error('start_time') is-invalid @enderror"
+                               style="height: 40px;"
+                               required>
                         @error('start_time')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                            <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
 
-                    <div class="col-12 col-md-6">
-                        <label class="form-label">
-                            Giờ kết thúc <span style="color: var(--danger)">*</span>
+                <div class="col-12 col-md-6">
+                    <div class="d-flex flex-column gap-1 w-100">
+                        <label for="end_hour" class="form-label mb-1">
+                            Giờ kết thúc <span class="text-danger">*</span>
                         </label>
-                        <div class="input-group glow-on-focus">
-                            <span class="input-group-text" style="color: var(--danger)"><i class="bi bi-clock-fill"></i></span>
-                            <input type="time"
-                                   id="end_hour"
-                                   class="form-control @error('end_time') is-invalid @enderror"
-                                   required>
-                        </div>
+                        <input type="time"
+                               id="end_hour"
+                               class="form-control @error('end_time') is-invalid @enderror"
+                               style="height: 40px;"
+                               required>
                         @error('end_time')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                            <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
+            </div>
 
-                {{-- Duration Preview --}}
-                <div id="duration-preview" class="mb-4" style="display: none;">
-                    <div style="background: var(--primary-glow); border: 1px solid rgba(129,140,248,0.3); border-radius: 8px; padding: 12px 16px; font-size: 0.875rem; color: var(--primary);">
-                        <i class="bi bi-stopwatch-fill me-2"></i>
-                        Thời gian đặt: <strong id="duration-text"></strong>
-                    </div>
+            {{-- Duration Preview --}}
+            <div id="duration-preview" style="display: none;">
+                <div class="p-3 bg-primary-subtle border border-primary-subtle rounded-3" style="font-size: 0.875rem; color: var(--primary);">
+                    <i class="bi bi-stopwatch-fill me-2"></i>
+                    Thời gian đặt: <strong id="duration-text"></strong>
                 </div>
+            </div>
 
-                {{-- ─── Note ─── --}}
-                <div class="mb-5">
-                    <label class="form-label">Ghi chú <span style="color: var(--text-muted-c);">(tuỳ chọn)</span></label>
-                    <textarea id="note"
-                              name="note"
-                              class="form-control @error('note') is-invalid @enderror"
-                              rows="3"
-                              placeholder="Yêu cầu đặc biệt, ghi chú về khách...">{{ old('note') }}</textarea>
-                    @error('note')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+            {{-- ─── Note ─── --}}
+            <div class="d-flex flex-column gap-1 w-100">
+                <label for="note" class="form-label mb-1">Ghi chú <span class="text-muted">(tuỳ chọn)</span></label>
+                <textarea id="note"
+                          name="note"
+                          class="form-control @error('note') is-invalid @enderror"
+                          rows="3"
+                          placeholder="Yêu cầu đặc biệt, ghi chú về khách...">{{ old('note') }}</textarea>
+                @error('note')
+                    <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
+                @enderror
+            </div>
 
-                <div class="divider"></div>
+            <hr class="my-3 text-secondary-subtle">
 
-                {{-- ─── Actions ─── --}}
-                <div class="d-flex justify-content-end gap-3 pt-3">
-                    <a href="{{ route('bookings.index') }}" class="btn btn-outline-secondary">
-                        <i class="bi bi-x-lg"></i> Hủy bỏ
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-calendar-plus-fill"></i> Xác nhận đặt bàn
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+            {{-- ─── Actions ─── --}}
+            <div class="d-flex justify-content-end gap-3">
+                <x-button type="button" variant="secondary" onclick="window.location.href='{{ route('bookings.index') }}'">
+                    Hủy bỏ
+                </x-button>
+                <x-button type="submit" variant="primary" icon="calendar-plus-fill">
+                    Xác nhận đặt bàn
+                </x-button>
+            </div>
+        </form>
+    </x-card>
 
 </div>
 @endsection

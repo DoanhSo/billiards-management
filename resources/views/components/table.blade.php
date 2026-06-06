@@ -1,13 +1,14 @@
 {{-- resources/views/components/table.blade.php --}}
 <div class="table-responsive">
-    <table class="table table-hover table-borderless align-middle mb-0 text-white">
+    <table class="table table-hover align-middle mb-0 text-dark">
         @if(isset($thead))
-            <thead style="font-size: 13px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--glass-border);">
+            <thead style="font-size: 13px; text-transform: uppercase; color: var(--text-secondary); border-bottom: 2px solid var(--border);">
                 {{ $thead }}
             </thead>
         @endif
-        <tbody style="font-size: 14px; color: #cbd5e1;">
+        <tbody style="font-size: 14px; color: var(--text-primary);">
             {{ $slot }}
         </tbody>
     </table>
 </div>
+
