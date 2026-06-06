@@ -84,6 +84,17 @@ class BookingController extends Controller
     }
 
     /**
+     * Hoàn tất đặt bàn.
+     */
+    public function complete(int $id): RedirectResponse
+    {
+        $this->bookingService->completeBooking($id);
+
+        return redirect()->back()
+            ->with('success', 'Đặt bàn đã được hoàn thành.');
+    }
+
+    /**
      * Lịch sử đặt bàn.
      */
     public function history(Request $request): View
