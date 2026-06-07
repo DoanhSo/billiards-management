@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('sessions/{id}', [TableSessionController::class, 'show'])->name('sessions.show');
     Route::post('sessions/{id}/end', [TableSessionController::class, 'end'])->name('sessions.end');
 
+
     // Invoices
     Route::get('invoices/history', [InvoiceController::class, 'history'])->name('invoices.history');
     Route::resource('invoices', InvoiceController::class);
