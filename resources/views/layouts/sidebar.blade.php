@@ -9,6 +9,7 @@
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
         </li>
+        @if(auth()->user()->isAdmin())
         <li>
             <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
                 <i class="bi bi-people"></i> Quản lý người dùng
@@ -19,11 +20,15 @@
                 <i class="bi bi-table"></i> Quản lý bàn
             </a>
         </li>
+        @endif
+        
         <li>
             <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">
                 <i class="bi bi-calendar-check"></i> Đặt bàn
             </a>
         </li>
+        
+        @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
         <li>
             <a href="{{ route('sessions.index') }}" class="{{ request()->routeIs('sessions.*') ? 'active' : '' }}">
                 <i class="bi bi-play-circle"></i> Phiên chơi
@@ -39,10 +44,14 @@
                 <i class="bi bi-box-seam"></i> Sản phẩm
             </a>
         </li>
+        @endif
+
+        @if(auth()->user()->isAdmin())
         <li>
             <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
                 <i class="bi bi-tags"></i> Danh mục
             </a>
         </li>
+        @endif
     </ul>
 </nav>

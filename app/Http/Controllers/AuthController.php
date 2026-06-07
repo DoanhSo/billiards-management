@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\ChangePasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,29 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard.index')
             ->with('success', 'Đăng nhập thành công. Chào mừng ' . Auth::user()->name . '!');
+    }
+
+    /**
+     * Hiển thị form đăng ký.
+     */
+    public function showRegisterForm(): View|RedirectResponse
+    {
+        if (Auth::check()) {
+            return redirect()->route('dashboard.index');
+        }
+
+        return view('auth.register');
+    }
+
+    /**
+     * Xử lý đăng ký tài khoản.
+     */
+    public function register(RegisterRequest $request): RedirectResponse
+    {
+        $this->authService->register($request->validated());
+
+        return redirect()->route('dashboard.index')
+            ->with('success', 'Đăng ký tài khoản thành công! Chào mừng bạn đến với hệ thống.');
     }
 
     /**
