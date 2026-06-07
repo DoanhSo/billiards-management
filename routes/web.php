@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
 
     // Products
     Route::resource('products', ProductController::class);
+    Route::patch('products/{id}/toggle', [ProductController::class, 'toggle'])->name('products.toggle');
 
     // Categories
     Route::resource('categories', CategoryController::class);

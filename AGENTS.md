@@ -172,6 +172,7 @@ app/Http/Requests/Product/UpdateProductRequest.php
 app/Http/Requests/Category/StoreCategoryRequest.php
 app/Http/Requests/Category/UpdateCategoryRequest.php
 app/Services/Product/ProductService.php
+app/Services/Product/CategoryService.php
 resources/views/products/
 resources/views/categories/
 ```
