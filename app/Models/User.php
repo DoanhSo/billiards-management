@@ -76,6 +76,34 @@ class User extends Authenticatable
     }
 
     // =====================
+    // Role Helpers
+    // =====================
+
+    /**
+     * Kiểm tra user có phải Admin không.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role?->name === 'admin';
+    }
+
+    /**
+     * Kiểm tra user có phải Nhân viên không.
+     */
+    public function isStaff(): bool
+    {
+        return $this->role?->name === 'staff';
+    }
+
+    /**
+     * Kiểm tra user có phải Khách hàng không.
+     */
+    public function isCustomer(): bool
+    {
+        return $this->role?->name === 'customer';
+    }
+
+    // =====================
     // Scopes
     // =====================
 
