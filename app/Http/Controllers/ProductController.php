@@ -84,4 +84,16 @@ class ProductController extends Controller
         return redirect()->route('products.index')
             ->with('success', 'Xóa sản phẩm thành công.');
     }
+
+    /**
+     * Đổi trạng thái bán sản phẩm.
+     */
+    public function toggle(int $id): RedirectResponse
+    {
+        $product = $this->productService->toggleProductStatus($id);
+        $statusMessage = $product->status ? 'bật bán' : 'ngừng bán';
+
+        return redirect()->back()
+            ->with('success', "Đã {$statusMessage} sản phẩm: {$product->name}");
+    }
 }

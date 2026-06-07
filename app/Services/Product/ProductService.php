@@ -75,16 +75,33 @@ class ProductService
     }
 
     /**
-     * Xóa sản phẩm (xóa kèm ảnh).
+     * Xóa sản phẩm (chỉ xóa khi không có trong hóa đơn, xóa kèm ảnh).
      */
     public function deleteProduct(int $id): bool
     {
         $product = $this->getProductById($id);
+
+        abort_if(
+            $product->invoiceDetails()->exists(),
+            422,
+            'Không thể xóa sản phẩm đã có trong hóa đơn.'
+        );
 
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
 
         return (bool) $product->delete();
+    }
+
+    /**
+     * Thay đổi trạng thái bán của sản phẩm.
+     */
+    public function toggleProductStatus(int $id): Product
+    {
+        $product = $this->getProductById($id);
+        $product->update(['status' => !$product->status]);
+
+        return $product;
     }
 }
