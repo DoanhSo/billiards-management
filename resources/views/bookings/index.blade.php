@@ -21,6 +21,62 @@
         </div>
     </div>
 
+    {{-- ═══ STAT CARDS ═══ --}}
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-warning">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Chờ xác nhận</div>
+                        <div class="stat-value" style="color: var(--warning)">{{ $summary['PENDING'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-warning">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-success">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Đã xác nhận</div>
+                        <div class="stat-value" style="color: var(--success)">{{ $summary['CONFIRMED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-info">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Hoàn thành</div>
+                        <div class="stat-value" style="color: var(--info)">{{ $summary['COMPLETED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-info">
+                        <i class="bi bi-check2-all"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-secondary">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Đã hủy</div>
+                        <div class="stat-value" style="color: var(--danger)">{{ $summary['CANCELLED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-danger">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- ═══ FILTER BAR ═══ --}}
     <div class="filter-bar mb-4" style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
         <form action="{{ route('bookings.index') }}" method="GET">

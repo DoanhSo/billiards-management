@@ -173,4 +173,17 @@ class BookingService
             })
             ->exists();
     }
+
+    /**
+     * Thống kê số lượng lịch đặt theo từng trạng thái.
+     *
+     * @return array<string, int>
+     */
+    public function getBookingStatusSummary(): array
+    {
+        return Booking::selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->toArray();
+    }
 }

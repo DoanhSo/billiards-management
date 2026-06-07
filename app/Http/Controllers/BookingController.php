@@ -26,8 +26,9 @@ class BookingController extends Controller
         $search   = $request->string('search')->toString();
         $status   = $request->string('status')->toString();
         $bookings = $this->bookingService->getAllBookings($search, $status);
+        $summary  = $this->bookingService->getBookingStatusSummary();
 
-        return view('bookings.index', compact('bookings', 'search', 'status'));
+        return view('bookings.index', compact('bookings', 'search', 'status', 'summary'));
     }
 
     /**
