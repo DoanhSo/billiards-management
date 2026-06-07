@@ -6,12 +6,12 @@
 <div class="container-fluid px-0" style="max-width: 800px;">
 
     {{-- ═══ PAGE HEADER ═══ --}}
-    <div class="page-header mb-4">
+    <div class="page-header mb-4 d-flex justify-content-between align-items-center">
         <div>
-            <h1 class="page-title"><i class="bi bi-calendar-plus-fill me-2" style="color: var(--primary)"></i>Đặt Bàn Mới</h1>
-            <p class="page-subtitle">Tạo lịch đặt bàn chơi cho khách hàng</p>
+            <h1 class="page-title mb-1"><i class="bi bi-calendar-plus-fill me-2" style="color: var(--primary)"></i>Đặt Bàn Mới</h1>
+            <p class="text-muted mb-0">Tạo lịch hẹn giữ bàn chơi trước cho khách hàng</p>
         </div>
-        <a href="{{ route('bookings.index') }}" class="btn btn-outline-secondary" style="height: 40px; display: inline-flex; align-items: center;">
+        <a href="{{ route('bookings.index') }}" class="btn btn-outline-light d-flex align-items-center gap-2" style="height: 40px;">
             <i class="bi bi-arrow-left"></i> Quay lại
         </a>
     </div>
@@ -25,17 +25,21 @@
             <input type="hidden" name="end_time"   id="end_time"   value="{{ old('end_time') }}">
 
             {{-- ─── Customer ID ─── --}}
-            <div>
-                <x-input name="user_id"
-                         label="ID Khách hàng"
-                         type="number"
-                         placeholder="Nhập ID tài khoản khách hàng (VD: 1, 2...)"
-                         value="{{ old('user_id') }}"
-                         required="true"
-                         error="{{ $errors->first('user_id') }}"
-                         min="1" />
-                <div class="form-text mt-1"><i class="bi bi-info-circle me-1"></i>Nhập mã ID của tài khoản khách hàng trong hệ thống</div>
-            </div>
+            @if(auth()->user()->isCustomer())
+                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+            @else
+                <div>
+                    <x-input name="user_id"
+                             label="ID Khách hàng"
+                             type="number"
+                             placeholder="Nhập ID tài khoản khách hàng (VD: 1, 2...)"
+                             value="{{ old('user_id') }}"
+                             required="true"
+                             error="{{ $errors->first('user_id') }}"
+                             min="1" />
+                    <div class="form-text text-muted mt-1"><i class="bi bi-info-circle me-1"></i>Nhập mã ID của tài khoản khách hàng trong hệ thống</div>
+                </div>
+            @endif
 
             {{-- ─── Table Selection ─── --}}
             <div class="d-flex flex-column gap-1 w-100">
@@ -46,10 +50,10 @@
                     <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-grid-3x3-gap"></i></span>
                     <select id="billiard_table_id" name="billiard_table_id"
                             class="form-select border-start-0 @error('billiard_table_id') is-invalid @enderror" 
-                            style="height: 40px;" required>
-                        <option value="" disabled {{ old('billiard_table_id') ? '' : 'selected' }}>— Chọn bàn trống —</option>
+                            style="height: 40px; background-color: rgba(255, 255, 255, 0.07); color: #fff;" required>
+                        <option value="" disabled {{ !request('table_id') && !old('billiard_table_id') ? 'selected' : '' }}>— Chọn bàn trống —</option>
                         @foreach($tables as $table)
-                            <option value="{{ $table->id }}" {{ old('billiard_table_id') == $table->id ? 'selected' : '' }}>
+                            <option value="{{ $table->id }}" {{ old('billiard_table_id', request('table_id')) == $table->id ? 'selected' : '' }} style="background-color: var(--card-bg); color: #fff;">
                                 Bàn {{ $table->table_number }} · {{ $table->table_type }} — {{ number_format($table->price_per_hour, 0, ',', '.') }} VNĐ/giờ
                             </option>
                         @endforeach
