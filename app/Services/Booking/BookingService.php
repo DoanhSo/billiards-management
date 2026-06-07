@@ -42,6 +42,13 @@ class BookingService
      */
     public function createBooking(array $data): Booking
     {
+        // Kiểm tra xem giờ bắt đầu có ở trong quá khứ không
+        if (now()->gt($data['start_time'])) {
+            throw ValidationException::withMessages([
+                'start_time' => ['Giờ bắt đầu đặt bàn không thể ở trong quá khứ.'],
+            ]);
+        }
+
         $isAvailable = $this->checkTableAvailability(
             (int) $data['billiard_table_id'],
             $data['start_time'],
