@@ -180,4 +180,82 @@ class DashboardService
             ->limit(10)
             ->get();
     }
+
+    /**
+     * Lấy dữ liệu cho Dashboard Nhân viên.
+     *
+     * @return array<string, mixed>
+     */
+    public function getStaffDashboardData(): array
+    {
+        $today = Carbon::today();
+
+        // Doanh thu hôm nay (tiền mặt/banking từ các hóa đơn đã thanh toán)
+        $revenueToday = Invoice::whereDate('created_at', $today)
+            ->where('payment_status', 'PAID')
+            ->sum('total_amount');
+
+        // Số lượng đặt bàn hôm nay
+        $bookingsToday = Booking::whereDate('booking_date', $today)->count();
+
+        // Số bàn đang hoạt động
+        $activeTablesCount = BilliardTable::where('status', 'PLAYING')->count();
+
+        // Sơ đồ tất cả bàn chơi kèm theo phiên chơi PLAYING (nếu có)
+        $tables = BilliardTable::with(['tableSessions' => function ($query) {
+            $query->where('status', 'PLAYING')->with('customer');
+        }])->orderBy('table_number')->get();
+
+        // Lấy danh sách booking CONFIRMED trong ngày hôm nay để check-in nhanh
+        $todayBookings = Booking::where('booking_date', $today)
+            ->where('status', 'CONFIRMED')
+            ->with('user')
+            ->get()
+            ->groupBy('billiard_table_id');
+
+        // Danh sách đặt bàn đang PENDING cần duyệt
+        $pendingBookings = Booking::where('status', 'PENDING')
+            ->with(['user', 'billiardTable'])
+            ->latest()
+            ->get();
+
+        return [
+            'revenue_today'    => (float) $revenueToday,
+            'bookings_today'   => $bookingsToday,
+            'active_tables'    => $activeTablesCount,
+            'tables'           => $tables,
+            'today_bookings'   => $todayBookings,
+            'pending_bookings' => $pendingBookings,
+        ];
+    }
+
+    /**
+     * Lấy dữ liệu cho Dashboard Khách hàng.
+     *
+     * @param int $customerId
+     * @return array<string, mixed>
+     */
+    public function getCustomerDashboardData(int $customerId): array
+    {
+        // Danh sách bàn chơi để theo dõi trạng thái trống
+        $tables = BilliardTable::orderBy('table_number')->get();
+
+        // Danh sách đặt bàn của riêng khách hàng này
+        $myBookings = Booking::where('user_id', $customerId)
+            ->with('billiardTable')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        // Danh sách thực đơn đồ uống/món ăn chia theo danh mục
+        $categories = \App\Models\Category::with(['products' => function ($query) {
+            $query->where('status', true);
+        }])->get();
+
+        return [
+            'tables'      => $tables,
+            'my_bookings' => $myBookings,
+            'categories'  => $categories,
+        ];
+    }
 }
