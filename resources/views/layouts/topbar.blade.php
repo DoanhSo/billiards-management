@@ -1,31 +1,85 @@
 {{-- resources/views/layouts/topbar.blade.php --}}
-<header class="topbar">
-    <button class="btn btn-sm" id="sidebarToggle"
-            style="background: var(--bg-elevated); border: 1px solid var(--border-light); color: var(--text-secondary); border-radius: 8px; padding: 6px 10px;">
-        <i class="bi bi-list fs-5"></i>
-    </button>
+<header class="topbar d-flex align-items-center justify-content-between">
 
+    {{-- Left: Toggle + Breadcrumb --}}
     <div class="d-flex align-items-center gap-3">
-        {{-- User info --}}
-        <div class="d-flex align-items-center gap-2">
-            <div class="avatar-circle" style="width: 32px; height: 32px; font-size: 0.8rem;">
-                {{ strtoupper(substr(Auth::user()->name ?? 'K', 0, 1)) }}
-            </div>
-            <div class="d-none d-md-block">
-                <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary);">{{ Auth::user()->name ?? 'Khách' }}</div>
-                <div style="font-size: 0.7rem; color: var(--text-muted-c);">{{ Auth::user()->role->name ?? '' }}</div>
-            </div>
+        <button class="btn btn-sm" id="sidebarToggle"
+                style="background: #f1f5f9; border: 1px solid #e2e8f0; color: var(--text-secondary); border-radius: 8px; padding: 6px 10px;">
+            <i class="bi bi-list fs-5"></i>
+        </button>
+
+        {{-- Page breadcrumb --}}
+        <nav aria-label="breadcrumb" class="d-none d-md-flex">
+            <ol class="breadcrumb mb-0" style="font-size: 0.8rem;">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('dashboard.index') }}" style="color: var(--text-secondary); text-decoration: none;">
+                        <i class="bi bi-house-fill me-1"></i>Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item active text-muted">
+                    {{ request()->segment(1) ? ucfirst(str_replace('-', ' ', request()->segment(1))) : 'Dashboard' }}
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    {{-- Right: User info + Logout --}}
+    <div class="d-flex align-items-center gap-3">
+        {{-- Current time display --}}
+        <div class="d-none d-lg-flex align-items-center gap-1" style="font-size: 0.8rem; color: var(--text-secondary);">
+            <i class="bi bi-clock me-1"></i>
+            <span id="topbarClock"></span>
         </div>
 
-        <div style="width: 1px; height: 24px; background: var(--border-light);"></div>
+        <div style="width: 1px; height: 24px; background: #e2e8f0;"></div>
 
-        {{-- Logout --}}
-        <form action="{{ route('auth.logout') }}" method="POST" class="m-0">
-            @csrf
-            <button type="submit" class="btn btn-outline-danger btn-sm">
-                <i class="bi bi-box-arrow-right"></i>
-                <span class="d-none d-md-inline">Đăng xuất</span>
+        {{-- User dropdown --}}
+        <div class="dropdown">
+            <button class="btn btn-sm d-flex align-items-center gap-2 px-2"
+                    style="background: transparent; border: none;"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="avatar-circle" style="width: 32px; height: 32px; font-size: 0.8rem; background: var(--primary-glow); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+                    {{ strtoupper(substr(Auth::user()->name ?? 'K', 0, 1)) }}
+                </div>
+                <div class="d-none d-md-block text-start">
+                    <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); line-height: 1.2;">{{ Auth::user()->name ?? 'Khách' }}</div>
+                    <div style="font-size: 0.7rem; color: var(--text-secondary);">{{ Auth::user()->role->name ?? '' }}</div>
+                </div>
+                <i class="bi bi-chevron-down d-none d-md-inline" style="font-size: 0.65rem; color: var(--text-secondary);"></i>
             </button>
-        </form>
+            <ul class="dropdown-menu dropdown-menu-end" style="min-width: 180px; margin-top: 8px;">
+                <li>
+                    <a class="dropdown-item" href="{{ route('auth.change-password') }}">
+                        <i class="bi bi-key-fill" style="color: var(--warning);"></i> Đổi mật khẩu
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{{ route('auth.logout') }}" method="POST" class="m-0">
+                        @csrf
+                        <button type="submit" class="dropdown-item text-danger">
+                            <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 </header>
+
+@push('scripts')
+<script>
+(function () {
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tick() {
+        const now = new Date();
+        const el = document.getElementById('topbarClock');
+        if (el) {
+            el.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+        }
+    }
+    tick();
+    setInterval(tick, 1000);
+})();
+</script>
+@endpush
