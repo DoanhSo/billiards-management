@@ -23,45 +23,55 @@
             </li>
 
             <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Dịch vụ & Bàn</li>
+            @if(auth()->user()->isAdmin())
             <li>
                 <a href="{{ route('tables.index') }}" class="{{ request()->routeIs('tables.*') ? 'active' : '' }}">
                     <i class="bi bi-layout-wtf"></i> Quản lý bàn
                 </a>
             </li>
+            @endif
             <li>
                 <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">
                     <i class="bi bi-calendar-check-fill"></i> Đặt bàn trước
                 </a>
             </li>
+            @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
             <li>
                 <a href="{{ route('sessions.index') }}" class="{{ request()->routeIs('sessions.*') ? 'active' : '' }}">
                     <i class="bi bi-play-circle-fill"></i> Phiên chơi
                 </a>
             </li>
+            @endif
 
+            @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
             <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Cửa hàng</li>
             <li>
                 <a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">
                     <i class="bi bi-box-seam-fill"></i> Sản phẩm
                 </a>
             </li>
+            @if(auth()->user()->isAdmin())
             <li>
                 <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
                     <i class="bi bi-tags-fill"></i> Danh mục
                 </a>
             </li>
+            @endif
             <li>
                 <a href="{{ route('invoices.index') }}" class="{{ request()->routeIs('invoices.*') ? 'active' : '' }}">
                     <i class="bi bi-receipt-cutoff"></i> Hóa đơn
                 </a>
             </li>
+            @endif
 
+            @if(auth()->user()->isAdmin())
             <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Hệ thống</li>
             <li>
                 <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
                     <i class="bi bi-people-fill"></i> Người dùng
                 </a>
             </li>
+            @endif
         </ul>
     </div>
 </nav>
