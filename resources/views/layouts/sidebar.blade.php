@@ -11,10 +11,21 @@
         </li>
         @if(auth()->user()->isAdmin())
         <li>
-            <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
-                <i class="bi bi-people"></i> Quản lý người dùng
+            <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}">
+                <i class="bi bi-person-badge"></i> Nhân viên
             </a>
         </li>
+        @endif
+
+        @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
+        <li>
+            <a href="{{ route('customers.index') }}" class="{{ request()->routeIs('customers.*') ? 'active' : '' }}">
+                <i class="bi bi-people"></i> Khách hàng
+            </a>
+        </li>
+        @endif
+
+        @if(auth()->user()->isAdmin())
         <li>
             <a href="{{ route('tables.index') }}" class="{{ request()->routeIs('tables.*') ? 'active' : '' }}">
                 <i class="bi bi-table"></i> Quản lý bàn
