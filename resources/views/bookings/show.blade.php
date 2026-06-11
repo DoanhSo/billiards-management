@@ -115,7 +115,7 @@
 
                 <div class="info-row" style="border-bottom: none;">
                     <div class="info-label">Ghi chú từ khách hàng</div>
-                    <div class="p-3 bg-light rounded-3 text-secondary mt-2" style="border: 1px solid var(--border); font-size: 0.9rem;">
+                    <div class="p-3 rounded-3 text-secondary mt-2" style="background: var(--bg-hover); border: 1px solid var(--border); font-size: 0.9rem;">
                         {{ $booking->note ?: 'Không có ghi chú.' }}
                     </div>
                 </div>

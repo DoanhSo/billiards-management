@@ -71,7 +71,7 @@
                                    step="1000"
                                    style="height: 40px;"
                                    required>
-                            <span class="input-group-text bg-light text-secondary" style="font-weight: 700; font-size: 0.8rem; height: 40px;">VNĐ</span>
+                            <span class="input-group-text text-secondary" style="background: transparent; font-weight: 700; font-size: 0.8rem; height: 40px;">VNĐ</span>
                         </div>
                         @error('price_per_hour')
                             <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>

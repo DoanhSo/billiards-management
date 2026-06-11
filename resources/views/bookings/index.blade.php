@@ -84,7 +84,7 @@
                 <div class="col-12 col-md-5">
                     <label class="form-label">Tìm kiếm</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-search"></i></span>
+                        <span class="input-group-text text-muted border-end-0" style="background: transparent;"><i class="bi bi-search"></i></span>
                         <input type="text" name="search" class="form-control border-start-0" style="height: 40px;"
                                placeholder="Tên khách hàng, số bàn..." value="{{ $search }}">
                     </div>

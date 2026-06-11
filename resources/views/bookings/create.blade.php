@@ -47,7 +47,7 @@
                     Bàn chơi <span class="text-danger">*</span>
                 </label>
                 <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-grid-3x3-gap"></i></span>
+                    <span class="input-group-text border-end-0 text-muted" style="background: transparent;"><i class="bi bi-grid-3x3-gap"></i></span>
                     <select id="billiard_table_id" name="billiard_table_id"
                             class="form-select border-start-0 @error('billiard_table_id') is-invalid @enderror" 
                             style="height: 40px; background-color: rgba(255, 255, 255, 0.07); color: #fff;" required>

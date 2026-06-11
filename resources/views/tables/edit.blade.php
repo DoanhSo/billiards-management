@@ -82,7 +82,7 @@
                                    step="1000"
                                    style="height: 40px;"
                                    required>
-                            <span class="input-group-text bg-light text-secondary" style="font-weight: 700; font-size: 0.8rem; height: 40px;">VNĐ</span>
+                            <span class="input-group-text text-secondary" style="background: transparent; font-weight: 700; font-size: 0.8rem; height: 40px;">VNĐ</span>
                         </div>
                         @error('price_per_hour')
                             <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
@@ -122,7 +122,7 @@
             </div>
 
             {{-- ─── Info Footer ─── --}}
-            <div class="p-3 bg-light rounded-3 d-flex align-items-center gap-2" style="font-size: 0.8rem; color: var(--text-secondary); border: 1px solid var(--border);">
+            <div class="p-3 rounded-3 d-flex align-items-center gap-2" style="background: var(--bg-hover); font-size: 0.8rem; color: var(--text-secondary); border: 1px solid var(--border);">
                 <i class="bi bi-clock-history text-muted"></i>
                 <div>
                     Tạo lúc <strong>{{ $table->created_at->format('H:i — d/m/Y') }}</strong>

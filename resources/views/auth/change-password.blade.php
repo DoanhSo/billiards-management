@@ -8,7 +8,7 @@
     <div class="col-md-6 col-lg-5">
 
         <div class="card border-0 shadow-sm" style="border-radius: 1rem;">
-            <div class="card-header bg-white border-0 pt-4 px-4" style="border-radius: 1rem 1rem 0 0;">
+            <div class="card-header border-0 pt-4 px-4" style="background: transparent; border-radius: 1rem 1rem 0 0;">
                 <h4 class="mb-1 fw-bold">
                     <i class="bi bi-shield-lock me-2 text-primary"></i>Đổi mật khẩu
                 </h4>
@@ -49,7 +49,7 @@
                             Mật khẩu hiện tại
                         </label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light">
+                            <span class="input-group-text" style="background: transparent;">
                                 <i class="bi bi-lock text-secondary"></i>
                             </span>
                             <input
@@ -78,7 +78,7 @@
                             Mật khẩu mới
                         </label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light">
+                            <span class="input-group-text" style="background: transparent;">
                                 <i class="bi bi-key text-secondary"></i>
                             </span>
                             <input
@@ -107,7 +107,7 @@
                             Xác nhận mật khẩu mới
                         </label>
                         <div class="input-group">
-                            <span class="input-group-text bg-light">
+                            <span class="input-group-text" style="background: transparent;">
                                 <i class="bi bi-shield-check text-secondary"></i>
                             </span>
                             <input
