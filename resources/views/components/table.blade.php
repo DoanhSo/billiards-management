@@ -6,7 +6,7 @@
                 {{ $thead }}
             </thead>
         @endif
-        <tbody style="font-size: 14px;">
+        <tbody style="font-size: 14px; color: var(--text-primary);">
             {{ $slot }}
         </tbody>
     </table>

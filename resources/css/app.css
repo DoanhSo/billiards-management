@@ -15,54 +15,54 @@
    ============================================================ */
 :root {
     /* Brand Colors */
-    --primary:         #2563EB; /* Guidelines Primary */
-    --primary-dark:    #1d4ed8;
-    --primary-glow:    rgba(37, 99, 235, 0.15);
+    --primary:         #818cf8; /* Indigo 400 */
+    --primary-dark:    #6366f1; /* Indigo 500 */
+    --primary-glow:    rgba(129, 140, 248, 0.25);
 
     /* Status Colors */
-    --success:         #16A34A; /* Guidelines Success */
-    --success-glow:    rgba(22, 163, 74, 0.1);
-    --warning:         #F59E0B; /* Guidelines Warning */
-    --warning-glow:    rgba(245, 158, 11, 0.1);
-    --danger:          #DC2626; /* Guidelines Danger */
-    --danger-glow:     rgba(220, 38, 38, 0.1);
-    --info:            #0284c7;
-    --info-glow:       rgba(2, 132, 199, 0.1);
-    --secondary-color: #64748b;
+    --success:         #34d399; /* Emerald 400 */
+    --success-glow:    rgba(52, 211, 153, 0.2);
+    --warning:         #fbbf24; /* Amber 400 */
+    --warning-glow:    rgba(251, 191, 36, 0.2);
+    --danger:          #f87171; /* Red 400 */
+    --danger-glow:     rgba(248, 113, 113, 0.2);
+    --info:            #38bdf8; /* Sky 400 */
+    --info-glow:       rgba(56, 189, 248, 0.2);
+    --secondary-color: #94a3b8; /* Slate 400 */
 
     /* Background Layers */
-    --bg-deep:         #f1f5f9; /* Slate 100 */
-    --bg-base:         #F8FAFC; /* Guidelines Background */
-    --bg-surface:      #FFFFFF; /* Guidelines Card Background */
-    --bg-elevated:     #ffffff;
-    --bg-hover:        #f8fafc;
+    --bg-deep:         #020617; /* Slate 950 */
+    --bg-base:         #0f172a; /* Slate 900 */
+    --bg-surface:      #1e293b; /* Slate 800 */
+    --bg-elevated:     #263347; /* Slate 750-ish */
+    --bg-hover:        #2d3f55;
 
     /* Sidebar */
-    --sidebar-bg:      #0f172a; /* Keep sidebar dark for premium look, or light */
+    --sidebar-bg:      #020617;
     --sidebar-width:   260px;
 
     /* Text */
-    --text-primary:    #0f172a; /* Slate 900 */
-    --text-secondary:  #475569; /* Slate 600 */
-    --text-muted-c:    #94a3b8; /* Slate 400 */
+    --text-primary:    #f1f5f9; /* Slate 100 */
+    --text-secondary:  #94a3b8; /* Slate 400 */
+    --text-muted-c:    #64748b; /* Slate 500 */
 
     /* Borders */
-    --border:          #e2e8f0; /* Slate 200 */
-    --border-light:    #f1f5f9; /* Slate 100 */
+    --border:          #1e293b;
+    --border-light:    #334155;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #2563EB, #3b82f6);
-    --gradient-success: linear-gradient(135deg, #16A34A, #22c55e);
-    --gradient-warning: linear-gradient(135deg, #F59E0B, #fbbf24);
-    --gradient-danger:  linear-gradient(135deg, #DC2626, #ef4444);
-    --gradient-info:    linear-gradient(135deg, #0284c7, #38bdf8);
-    --gradient-card:    linear-gradient(145deg, #ffffff, #f8fafc);
+    --gradient-primary: linear-gradient(135deg, #6366f1, #818cf8);
+    --gradient-success: linear-gradient(135deg, #10b981, #34d399);
+    --gradient-warning: linear-gradient(135deg, #f59e0b, #fbbf24);
+    --gradient-danger:  linear-gradient(135deg, #ef4444, #f87171);
+    --gradient-info:    linear-gradient(135deg, #0ea5e9, #38bdf8);
+    --gradient-card:    linear-gradient(145deg, #1e293b, #263347);
 
     /* Shadows */
-    --shadow-sm:   0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md:   0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    --shadow-lg:   0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-    --shadow-glow: 0 0 15px var(--primary-glow);
+    --shadow-sm:   0 1px 3px rgba(0,0,0,0.4);
+    --shadow-md:   0 4px 16px rgba(0,0,0,0.5);
+    --shadow-lg:   0 10px 40px rgba(0,0,0,0.6);
+    --shadow-glow: 0 0 20px var(--primary-glow);
 }
 
 /* ============================================================
@@ -544,7 +544,6 @@ h1, h2, h3, h4, h5, h6 {
 .table tbody tr {
     border-color: var(--border-light) !important;
     transition: background-color 0.15s ease;
-    background-color: transparent !important;
 }
 
 .table tbody tr:hover {
@@ -555,6 +554,7 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--border-light) !important;
     padding: 14px 16px !important;
     vertical-align: middle !important;
+    color: var(--text-primary) !important;
 }
 
 .table-hover > tbody > tr:hover > * {
