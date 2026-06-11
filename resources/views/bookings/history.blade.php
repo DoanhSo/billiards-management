@@ -64,7 +64,7 @@
                                 {{ strtoupper(substr($booking->user?->name ?? 'K', 0, 1)) }}
                             </div>
                             <div>
-                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ $booking->user?->name ?? 'Khách vãng lai' }}</div>
+                                <div style="font-weight: 600; font-size: 0.875rem;">{{ $booking->user?->name ?? 'Khách vãng lai' }}</div>
                                 <div class="text-xxs" style="color: var(--text-secondary); font-size: 0.75rem;">
                                     <i class="bi bi-telephone me-1"></i>{{ $booking->user?->phone ?? '—' }}
                                 </div>
