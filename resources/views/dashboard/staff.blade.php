@@ -40,33 +40,30 @@
     <div class="row g-3 mb-5">
         @foreach($data['tables'] as $table)
             @php
-                $statusColors = [
-                    'AVAILABLE' => 'rgba(52, 211, 153, 0.15)', // xanh lá
-                    'PLAYING' => 'rgba(239, 68, 68, 0.15)', // đỏ
-                    'RESERVED' => 'rgba(251, 191, 36, 0.15)', // vàng
-                    'MAINTENANCE' => 'rgba(148, 163, 184, 0.15)' // xám
-                ];
-                $statusBorders = [
-                    'AVAILABLE' => '#34d399',
-                    'PLAYING' => '#f87171',
-                    'RESERVED' => '#fbbf24',
-                    'MAINTENANCE' => '#64748b'
-                ];
                 $statusLabels = [
-                    'AVAILABLE' => 'TRỐNG',
-                    'PLAYING' => 'ĐANG CHƠI',
-                    'RESERVED' => 'ĐÃ ĐẶT TRƯỚC',
-                    'MAINTENANCE' => 'BẢO TRÌ'
+                    'AVAILABLE'   => 'TRỐNG',
+                    'PLAYING'     => 'ĐANG CHƠI',
+                    'RESERVED'    => 'ĐÃ ĐẶT TRƯỚC',
+                    'MAINTENANCE' => 'BẢO TRÌ',
                 ];
-                $statusBg = $statusColors[$table->status] ?? 'rgba(255,255,255,0.05)';
-                $statusBorder = $statusBorders[$table->status] ?? 'var(--border-color)';
+                $statusCardClass = [
+                    'AVAILABLE'   => 'table-card-available',
+                    'PLAYING'     => 'table-card-playing',
+                    'RESERVED'    => 'table-card-reserved',
+                    'MAINTENANCE' => 'table-card-maintenance',
+                ][$table->status] ?? 'table-card-maintenance';
+                $statusLabelClass = [
+                    'AVAILABLE'   => 'table-status-available',
+                    'PLAYING'     => 'table-status-playing',
+                    'RESERVED'    => 'table-status-reserved',
+                    'MAINTENANCE' => 'table-status-maintenance',
+                ][$table->status] ?? 'table-status-maintenance';
                 $activeSession = $table->status === 'PLAYING' ? $table->tableSessions->first() : null;
                 $booking = $table->status === 'RESERVED' ? ($data['today_bookings'][$table->id]->first() ?? null) : null;
             @endphp
 
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card glass-panel h-100 {{ $table->status === 'PLAYING' ? 'active-table-card' : '' }}" 
-                     style="border: 1px solid {{ $statusBorder }} !important; background-color: {{ $statusBg }} !important;"
+                <div class="card glass-panel h-100 {{ $statusCardClass }} {{ $table->status === 'PLAYING' ? 'active-table-card' : '' }}"
                      @if($activeSession)
                         data-start-time="{{ $activeSession->start_time->toIso8601String() }}"
                         data-price-per-hour="{{ $table->price_per_hour }}"
@@ -77,7 +74,7 @@
                                 <span class="badge" style="background-color: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);">
                                     {{ $table->table_type }}
                                 </span>
-                                <span class="fw-bold" style="color: {{ $statusBorder }}; font-size: 0.8rem; letter-spacing: 0.5px;">
+                                <span class="fw-bold {{ $statusLabelClass }}" style="font-size: 0.8rem; letter-spacing: 0.5px;">
                                     {{ $statusLabels[$table->status] }}
                                 </span>
                             </div>
