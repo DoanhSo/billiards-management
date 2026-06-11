@@ -169,10 +169,10 @@
 
                 <div class="d-flex align-items-center gap-3 mb-4">
                     <div class="avatar-circle avatar-circle-lg" style="background: var(--primary-glow); color: var(--primary); font-weight: 700; width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                        {{ strtoupper(substr($booking->user->name, 0, 1)) }}
+                        {{ strtoupper(substr($booking->user?->name ?? 'K', 0, 1)) }}
                     </div>
                     <div>
-                        <div style="font-weight: 700; font-size: 1rem; color: var(--text-primary);">{{ $booking->user->name }}</div>
+                        <div style="font-weight: 700; font-size: 1rem; color: var(--text-primary);">{{ $booking->user?->name ?? 'Khách vãng lai' }}</div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary);">ID #{{ $booking->user_id }}</div>
                     </div>
                 </div>
@@ -180,7 +180,7 @@
                 <div class="info-row">
                     <div class="info-label">Số điện thoại</div>
                     <div class="info-value">
-                        @if($booking->user->phone)
+                        @if($booking->user?->phone)
                             <a href="tel:{{ $booking->user->phone }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">
                                 <i class="bi bi-telephone-fill me-1"></i>{{ $booking->user->phone }}
                             </a>
@@ -193,9 +193,13 @@
                 <div class="info-row" style="border-bottom: none;">
                     <div class="info-label">Email</div>
                     <div class="info-value">
-                        <a href="mailto:{{ $booking->user->email }}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">
-                            <i class="bi bi-envelope-fill me-1"></i>{{ $booking->user->email }}
-                        </a>
+                        @if($booking->user?->email)
+                            <a href="mailto:{{ $booking->user->email }}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">
+                                <i class="bi bi-envelope-fill me-1"></i>{{ $booking->user->email }}
+                            </a>
+                        @else
+                            <span style="color: var(--text-secondary); font-style: italic;">Chưa cập nhật</span>
+                        @endif
                     </div>
                 </div>
             </x-card>

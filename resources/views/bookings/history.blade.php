@@ -61,12 +61,12 @@
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             <div class="avatar-circle" style="background: var(--bg-deep); color: var(--text-secondary); font-weight: 700; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                {{ strtoupper(substr($booking->user->name, 0, 1)) }}
+                                {{ strtoupper(substr($booking->user?->name ?? 'K', 0, 1)) }}
                             </div>
                             <div>
-                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ $booking->user->name }}</div>
-                                <div class="text-xxs" style="color: var(--text-secondary);">
-                                    <i class="bi bi-telephone me-1"></i>{{ $booking->user->phone ?? '—' }}
+                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ $booking->user?->name ?? 'Khách vãng lai' }}</div>
+                                <div class="text-xxs" style="color: var(--text-secondary); font-size: 0.75rem;">
+                                    <i class="bi bi-telephone me-1"></i>{{ $booking->user?->phone ?? '—' }}
                                 </div>
                             </div>
                         </div>
