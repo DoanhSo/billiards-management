@@ -78,7 +78,7 @@
     </div>
 
     {{-- ═══ FILTER BAR ═══ --}}
-    <div class="filter-bar mb-4" style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+    <div class="filter-bar mb-4" style="background: var(--bg-surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
         <form action="{{ route('bookings.index') }}" method="GET">
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">

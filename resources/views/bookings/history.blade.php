@@ -17,7 +17,7 @@
     </div>
 
     {{-- ═══ SUMMARY STRIP ═══ --}}
-    <div class="filter-bar mb-4" style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+    <div class="filter-bar mb-4" style="background: var(--bg-surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
         <div class="d-flex align-items-center gap-3 flex-wrap">
             <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
                 Tổng cộng:

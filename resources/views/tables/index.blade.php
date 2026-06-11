@@ -250,7 +250,7 @@
 {{-- ═══ DELETE CONFIRM MODAL ═══ --}}
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
-        <div class="modal-content" style="background: white; border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+        <div class="modal-content" style="background: var(--bg-surface); border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
             <div class="modal-body p-4 text-center">
                 <div class="mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
                     <i class="bi bi-trash3-fill" style="font-size: 1.75rem; color: var(--danger);"></i>

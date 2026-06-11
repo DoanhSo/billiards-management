@@ -33,7 +33,7 @@
     </div>
 
     {{-- ═══ STATUS FLOW ═══ --}}
-    <div class="filter-bar mb-4" style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+    <div class="filter-bar mb-4" style="background: var(--bg-surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
         <div class="status-flow flex-wrap d-flex align-items-center gap-2">
             @foreach([
                 ['PENDING',   'hourglass-split',   'var(--warning)', 'Chờ xác nhận'],
