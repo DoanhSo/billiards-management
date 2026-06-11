@@ -85,15 +85,14 @@
             </div>
         </div>
 
-        {{-- Submit --}}
-        <button type="submit" class="btn-auth" id="btn-login">
+        <button type="submit" class="btn-auth w-100 mb-3" id="btn-login">
             <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
         </button>
 
         {{-- Link Đăng ký --}}
-        <div class="mt-4 text-center">
-            <span class="text-muted">Chưa có tài khoản?</span>
-            <a href="{{ route('auth.register') }}" class="text-decoration-none fw-semibold" style="color: var(--primary);">Đăng ký ngay</a>
+        <div class="text-center mt-3">
+            <span class="text-muted" style="font-size: 0.85rem;">Chưa có tài khoản?</span>
+            <a href="{{ route('auth.register') }}" class="text-decoration-none fw-semibold" style="color: var(--primary); font-size: 0.85rem;">Đăng ký ngay</a>
         </div>
     </form>
 @endsection

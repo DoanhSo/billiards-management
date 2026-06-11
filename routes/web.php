@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TableSessionController;
@@ -35,9 +36,19 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    // Users
-    Route::resource('users', UserController::class);
-    Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
+    // Admin Only
+    Route::middleware('role:admin')->group(function () {
+        // Staff (nhân viên)
+        Route::resource('staff', StaffController::class)->except(['show']);
+        Route::patch('staff/{id}/toggle-status', [StaffController::class, 'toggleStatus'])->name('staff.toggle-status');
+    });
+
+    // Admin & Staff
+    Route::middleware('role:admin,staff')->group(function () {
+        // Customers (khách hàng)
+        Route::resource('customers', CustomerController::class)->except(['show']);
+        Route::patch('customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('customers.toggle-status');
+    });
 
     // Tables
     Route::resource('tables', TableController::class);

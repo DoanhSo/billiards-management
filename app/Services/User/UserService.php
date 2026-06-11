@@ -16,7 +16,7 @@ class UserService
     /**
      * Lấy danh sách tất cả tài khoản (có phân trang, tìm kiếm).
      */
-    public function getAllUsers(string $search = '', int $perPage = 15): LengthAwarePaginator
+    public function getAllUsers(string $search = '', string $role = '', string $status = '', int $perPage = 15): LengthAwarePaginator
     {
         return User::with('role')
             ->when($search, function (Builder $query) use ($search): void {
@@ -25,6 +25,14 @@ class UserService
                       ->orWhere('email', 'like', "%{$search}%")
                       ->orWhere('phone', 'like', "%{$search}%");
                 });
+            })
+            ->when($role, function (Builder $query) use ($role): void {
+                $query->whereHas('role', function (Builder $q) use ($role): void {
+                    $q->where('name', $role);
+                });
+            })
+            ->when($status !== '', function (Builder $query) use ($status): void {
+                $query->where('status', (bool) $status);
             })
             ->latest()
             ->paginate($perPage);
@@ -44,6 +52,14 @@ class UserService
     public function getAllRoles(): Collection
     {
         return Role::all();
+    }
+
+    /**
+     * Lấy Role theo tên (vd: 'staff', 'customer').
+     */
+    public function getRoleByName(string $name): Role
+    {
+        return Role::where('name', $name)->firstOrFail();
     }
 
     /**
