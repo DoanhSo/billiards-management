@@ -58,6 +58,17 @@ class TableController extends Controller
     }
 
     /**
+     * Xem chi tiết bàn và quản lý phụ kiện.
+     */
+    public function show(int $id): View
+    {
+        $table = $this->tableService->getTableById($id);
+        $table->load('equipments'); // Load phụ kiện của bàn
+
+        return view('tables.show', compact('table'));
+    }
+
+    /**
      * Cập nhật thông tin bàn.
      */
     public function update(UpdateTableRequest $request, int $id): RedirectResponse

@@ -203,6 +203,11 @@
                                 </ul>
                             </div>
 
+                            {{-- Show --}}
+                            <a href="{{ route('tables.show', $table->id) }}" class="btn btn-outline-info btn-sm" title="Chi tiết & Phụ kiện">
+                                <i class="bi bi-info-circle-fill"></i>
+                            </a>
+
                             {{-- Edit --}}
                             <a href="{{ route('tables.edit', $table->id) }}" class="btn btn-outline-warning btn-sm" title="Chỉnh sửa">
                                 <i class="bi bi-pencil-fill"></i>
