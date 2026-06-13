@@ -25,19 +25,18 @@
                 <div class="row g-3">
                     @foreach($data['tables'] as $table)
                         @php
-                            $statusColors = [
-                                'AVAILABLE' => '#34d399', // xanh lá
-                                'PLAYING' => '#f87171', // đỏ
-                                'RESERVED' => '#fbbf24', // vàng
-                                'MAINTENANCE' => '#64748b' // xám
-                            ];
                             $statusLabels = [
-                                'AVAILABLE' => 'Bàn trống',
-                                'PLAYING' => 'Đang bận',
-                                'RESERVED' => 'Đã đặt',
-                                'MAINTENANCE' => 'Bảo trì'
+                                'AVAILABLE'   => 'Bàn trống',
+                                'PLAYING'     => 'Đang bận',
+                                'RESERVED'    => 'Đã đặt',
+                                'MAINTENANCE' => 'Bảo trì',
                             ];
-                            $color = $statusColors[$table->status] ?? '#fff';
+                            $statusClass = [
+                                'AVAILABLE'   => 'table-status-available',
+                                'PLAYING'     => 'table-status-playing',
+                                'RESERVED'    => 'table-status-reserved',
+                                'MAINTENANCE' => 'table-status-maintenance',
+                            ][$table->status] ?? 'table-status-maintenance';
                         @endphp
                         <div class="col-12 col-sm-6">
                             <div class="p-3 rounded-3 border d-flex align-items-center justify-content-between" style="border-color: var(--border-color) !important; background-color: rgba(255,255,255,0.02);">
@@ -46,8 +45,8 @@
                                     <small class="text-muted">{{ $table->table_type }} — {{ number_format($table->price_per_hour, 0, ',', '.') }} ₫/h</small>
                                 </div>
                                 <div class="text-end">
-                                    <span class="d-block fw-semibold mb-2" style="color: {{ $color }}; font-size: 0.85rem;">
-                                        <i class="bi bi-circle-fill me-1" style="font-size: 0.65rem;"></i> {{ $statusLabels[$table->status] }}
+                                    <span class="d-block fw-semibold mb-2 {{ $statusClass }}">
+                                        <i class="bi bi-circle-fill me-1"></i> {{ $statusLabels[$table->status] }}
                                     </span>
                                     @if($table->status === 'AVAILABLE')
                                         <a href="{{ route('bookings.create', ['table_id' => $table->id]) }}" class="btn btn-sm btn-outline-success py-1 px-3">

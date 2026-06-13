@@ -15,54 +15,54 @@
    ============================================================ */
 :root {
     /* Brand Colors */
-    --primary:         #818cf8; /* Indigo 400 */
-    --primary-dark:    #6366f1; /* Indigo 500 */
-    --primary-glow:    rgba(129, 140, 248, 0.25);
+    --primary:         #3b82f6; /* Blue 500 */
+    --primary-dark:    #2563eb;
+    --primary-glow:    rgba(59, 130, 246, 0.15);
 
     /* Status Colors */
-    --success:         #34d399; /* Emerald 400 */
-    --success-glow:    rgba(52, 211, 153, 0.2);
-    --warning:         #fbbf24; /* Amber 400 */
-    --warning-glow:    rgba(251, 191, 36, 0.2);
-    --danger:          #f87171; /* Red 400 */
-    --danger-glow:     rgba(248, 113, 113, 0.2);
-    --info:            #38bdf8; /* Sky 400 */
-    --info-glow:       rgba(56, 189, 248, 0.2);
+    --success:         #10b981; /* Emerald 500 */
+    --success-glow:    rgba(16, 185, 129, 0.1);
+    --warning:         #f59e0b; /* Amber 500 */
+    --warning-glow:    rgba(245, 158, 11, 0.1);
+    --danger:          #ef4444; /* Red 500 */
+    --danger-glow:     rgba(239, 68, 68, 0.1);
+    --info:            #0ea5e9;
+    --info-glow:       rgba(14, 165, 233, 0.1);
     --secondary-color: #94a3b8; /* Slate 400 */
 
-    /* Background Layers */
+    /* Background Layers (DARK THEME) */
     --bg-deep:         #020617; /* Slate 950 */
     --bg-base:         #0f172a; /* Slate 900 */
     --bg-surface:      #1e293b; /* Slate 800 */
-    --bg-elevated:     #263347; /* Slate 750-ish */
-    --bg-hover:        #2d3f55;
+    --bg-elevated:     #334155; /* Slate 700 */
+    --bg-hover:        #475569; /* Slate 600 */
 
     /* Sidebar */
-    --sidebar-bg:      #020617;
+    --sidebar-bg:      #0f172a; 
     --sidebar-width:   260px;
 
     /* Text */
-    --text-primary:    #f1f5f9; /* Slate 100 */
-    --text-secondary:  #94a3b8; /* Slate 400 */
-    --text-muted-c:    #64748b; /* Slate 500 */
+    --text-primary:    #f8fafc; /* Slate 50 */
+    --text-secondary:  #cbd5e1; /* Slate 300 */
+    --text-muted-c:    #94a3b8; /* Slate 400 */
 
     /* Borders */
-    --border:          #1e293b;
-    --border-light:    #334155;
+    --border:          #334155; /* Slate 700 */
+    --border-light:    #1e293b; /* Slate 800 */
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #6366f1, #818cf8);
-    --gradient-success: linear-gradient(135deg, #10b981, #34d399);
-    --gradient-warning: linear-gradient(135deg, #f59e0b, #fbbf24);
-    --gradient-danger:  linear-gradient(135deg, #ef4444, #f87171);
-    --gradient-info:    linear-gradient(135deg, #0ea5e9, #38bdf8);
-    --gradient-card:    linear-gradient(145deg, #1e293b, #263347);
+    --gradient-primary: linear-gradient(135deg, #3b82f6, #2563eb);
+    --gradient-success: linear-gradient(135deg, #10b981, #059669);
+    --gradient-warning: linear-gradient(135deg, #f59e0b, #d97706);
+    --gradient-danger:  linear-gradient(135deg, #ef4444, #dc2626);
+    --gradient-info:    linear-gradient(135deg, #0ea5e9, #0284c7);
+    --gradient-card:    linear-gradient(145deg, #1e293b, #0f172a);
 
     /* Shadows */
-    --shadow-sm:   0 1px 3px rgba(0,0,0,0.4);
-    --shadow-md:   0 4px 16px rgba(0,0,0,0.5);
-    --shadow-lg:   0 10px 40px rgba(0,0,0,0.6);
-    --shadow-glow: 0 0 20px var(--primary-glow);
+    --shadow-sm:   0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md:   0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --shadow-lg:   0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 15px var(--primary-glow);
 }
 
 /* ============================================================
@@ -70,23 +70,6 @@
    ============================================================ */
 *, *::before, *::after {
     box-sizing: border-box;
-}
-
-/* Custom Scrollbar for Webkit */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-::-webkit-scrollbar-thumb {
-    background-color: var(--secondary-color);
-    border-radius: 10px;
-    opacity: 0.5;
-}
-::-webkit-scrollbar-thumb:hover {
-    background-color: var(--text-secondary);
 }
 
 body {
@@ -208,7 +191,7 @@ body {
     border-bottom: 1px solid var(--border-light);
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 0 24px;
     position: sticky;
     top: 0;
@@ -561,7 +544,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .table-hover > tbody > tr:hover > * {
-    --bs-table-accent-bg: var(--bg-hover) !important;
+    --bs-table-accent-bg: var(--bg-elevated) !important;
 }
 
 /* ============================================================
@@ -918,3 +901,92 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.875rem;
     margin: 0;
 }
+
+/* ============================================================
+   BADGE COMPONENT — x-badge type variants
+   ============================================================ */
+.badge-custom {
+    font-weight: 600;
+    font-size: 0.72rem;
+    padding: 0.4em 0.75em;
+    letter-spacing: 0.4px;
+    border-radius: 20px;
+}
+
+.badge-custom.badge-success {
+    background-color: rgba(22, 163, 74, 0.12);
+    color: #16A34A;
+    border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.badge-custom.badge-warning {
+    background-color: rgba(245, 158, 11, 0.12);
+    color: #D97706;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-custom.badge-danger {
+    background-color: rgba(220, 38, 38, 0.12);
+    color: #DC2626;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.badge-custom.badge-primary {
+    background-color: rgba(37, 99, 235, 0.12);
+    color: #2563EB;
+    border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.badge-custom.badge-secondary {
+    background-color: rgba(100, 116, 139, 0.12);
+    color: #475569;
+    border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* ============================================================
+   TABLE STATUS — customer dashboard status labels
+   ============================================================ */
+.table-status-available {
+    color: #34d399;
+    font-size: 0.85rem;
+}
+
+.table-status-playing {
+    color: #f87171;
+    font-size: 0.85rem;
+}
+
+.table-status-reserved {
+    color: #fbbf24;
+    font-size: 0.85rem;
+}
+
+.table-status-maintenance {
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+/* ============================================================
+   TABLE CARD STATUS — staff dashboard card border/bg per status
+   ============================================================ */
+.table-card-available {
+    border: 1px solid #34d399 !important;
+    background-color: rgba(52, 211, 153, 0.08) !important;
+}
+
+.table-card-playing {
+    border: 1px solid #f87171 !important;
+    background-color: rgba(239, 68, 68, 0.08) !important;
+}
+
+.table-card-reserved {
+    border: 1px solid #fbbf24 !important;
+    background-color: rgba(251, 191, 36, 0.08) !important;
+}
+
+.table-card-maintenance {
+    border: 1px solid #64748b !important;
+    background-color: rgba(148, 163, 184, 0.08) !important;
+}
+
+

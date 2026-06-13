@@ -12,7 +12,6 @@
             <i class="bi bi-x-lg"></i>
         </button>
     </div>
-
     <div class="sidebar-scrollable" style="overflow-y: auto; overflow-x: hidden; padding: 16px;">
         <ul class="sidebar-menu list-unstyled m-0 d-flex flex-column gap-1">
             <li class="sidebar-label text-uppercase mb-2 mt-1 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Trang chủ</li>
@@ -23,22 +22,27 @@
             </li>
 
             <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Dịch vụ & Bàn</li>
+            @if(auth()->user()->isAdmin())
             <li>
                 <a href="{{ route('tables.index') }}" class="{{ request()->routeIs('tables.*') ? 'active' : '' }}">
                     <i class="bi bi-layout-wtf"></i> Quản lý bàn
                 </a>
             </li>
+            @endif
             <li>
                 <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">
                     <i class="bi bi-calendar-check-fill"></i> Đặt bàn trước
                 </a>
             </li>
+            @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
             <li>
                 <a href="{{ route('sessions.index') }}" class="{{ request()->routeIs('sessions.*') ? 'active' : '' }}">
                     <i class="bi bi-play-circle-fill"></i> Phiên chơi
                 </a>
             </li>
+            @endif
 
+            @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
             <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Cửa hàng</li>
             <li>
                 <a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">
@@ -55,13 +59,23 @@
                     <i class="bi bi-receipt-cutoff"></i> Hóa đơn
                 </a>
             </li>
+            @endif
 
             <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Hệ thống</li>
+            @if(auth()->user()->isAdmin())
             <li>
-                <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
-                    <i class="bi bi-people-fill"></i> Người dùng
+                <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-badge-fill"></i> Nhân viên
                 </a>
             </li>
+            @endif
+            @if(auth()->user()->isAdmin() || auth()->user()->isStaff())
+            <li>
+                <a href="{{ route('customers.index') }}" class="{{ request()->routeIs('customers.*') ? 'active' : '' }}">
+                    <i class="bi bi-people-fill"></i> Khách hàng
+                </a>
+            </li>
+            @endif
         </ul>
     </div>
 </nav>
