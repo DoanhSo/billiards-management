@@ -30,8 +30,13 @@
             </li>
             @endif
             <li>
-                <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">
-                    <i class="bi bi-calendar-check-fill"></i> Đặt bàn trước
+                <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.index') || request()->routeIs('bookings.create') || request()->routeIs('bookings.show') ? 'active' : '' }}">
+                    <i class="bi bi-calendar-check-fill"></i> Danh sách đặt bàn
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('bookings.calendar') }}" class="{{ request()->routeIs('bookings.calendar') ? 'active' : '' }}">
+                    <i class="bi bi-calendar-range-fill"></i> Lịch đặt bàn trực quan
                 </a>
             </li>
             @if(auth()->user()->isAdmin() || auth()->user()->isStaff())

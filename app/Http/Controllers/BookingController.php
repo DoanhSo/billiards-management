@@ -104,4 +104,30 @@ class BookingController extends Controller
 
         return view('bookings.history', compact('bookings'));
     }
+
+    /**
+     * Giao diện lịch đặt bàn trực quan.
+     */
+    public function calendar(): View
+    {
+        // Lấy danh sách bàn để làm resource cho timeline (nếu dùng timeline view)
+        $tables = $this->tableService->getAvailableTables();
+        return view('bookings.calendar', compact('tables'));
+    }
+
+    /**
+     * API trả về JSON events cho FullCalendar
+     */
+    public function getEvents(Request $request)
+    {
+        $start = $request->input('start');
+        $end = $request->input('end');
+
+        if (!$start || !$end) {
+            return response()->json([]);
+        }
+
+        $events = $this->bookingService->getEventsForCalendar($start, $end);
+        return response()->json($events);
+    }
 }
