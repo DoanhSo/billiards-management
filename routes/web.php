@@ -61,16 +61,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
     Route::patch('bookings/{id}/complete', [BookingController::class, 'complete'])->name('bookings.complete');
 
-    // Sessions (Table Sessions)
-    Route::get('sessions', [TableSessionController::class, 'index'])->name('sessions.index');
-    Route::post('sessions/start/{tableId}', [TableSessionController::class, 'start'])->name('sessions.start');
-    Route::get('sessions/{id}', [TableSessionController::class, 'show'])->name('sessions.show');
-    Route::post('sessions/{id}/end', [TableSessionController::class, 'end'])->name('sessions.end');
+    // Sessions (Table Sessions - Hieu's version under auth middleware)
+    Route::prefix('sessions')->name('sessions.')->group(function () {
+        Route::get('/', [TableSessionController::class, 'index'])->name('index');
+        Route::get('/start', [TableSessionController::class, 'startForm'])->name('start.form');
+        Route::post('/{tableId}/start', [TableSessionController::class, 'start'])->name('start');
+        Route::get('/{id}', [TableSessionController::class, 'show'])->name('show');
+        Route::patch('/{id}/end', [TableSessionController::class, 'end'])->name('end');
+    });
 
-
-    // Invoices
-    Route::get('invoices/history', [InvoiceController::class, 'history'])->name('invoices.history');
-    Route::resource('invoices', InvoiceController::class);
+    // Invoices (Hieu's version under auth middleware)
+    Route::prefix('invoices')->name('invoices.')->group(function () {
+        Route::get('/', [InvoiceController::class, 'index'])->name('index');
+        Route::get('/create', [InvoiceController::class, 'create'])->name('create');
+        Route::post('/', [InvoiceController::class, 'store'])->name('store');
+        Route::get('/history', [InvoiceController::class, 'history'])->name('history');
+        Route::get('/{id}', [InvoiceController::class, 'show'])->name('show');
+    });
 
     // Products
     Route::resource('products', ProductController::class);
@@ -79,4 +86,3 @@ Route::middleware('auth')->group(function () {
     // Categories
     Route::resource('categories', CategoryController::class);
 });
-
