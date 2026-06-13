@@ -154,7 +154,7 @@
             color: #000000 !important;
             width: 100% !important;
         }
-
+        
         /* Biến đổi card glass-panel tối thành bảng in trắng đen */
         .invoice-print-box {
             background: #ffffff !important;
