@@ -17,7 +17,6 @@
     
     {{-- Vite CSS & JS --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
     @stack('styles')
 </head>
 <body>
@@ -40,6 +39,21 @@
 
     {{-- Bootstrap 5 JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            if (toggleBtn && sidebar && mainContent) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sidebar.classList.toggle('active');
+                    mainContent.classList.toggle('active');
+                });
+            }
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

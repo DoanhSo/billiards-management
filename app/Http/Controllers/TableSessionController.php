@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Session\StartSessionRequest;
+use App\Models\User;
 use App\Services\Session\TableSessionService;
 use App\Services\Table\TableService;
-use App\Services\User\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -14,7 +15,6 @@ class TableSessionController extends Controller
     public function __construct(
         private readonly TableSessionService $tableSessionService,
         private readonly TableService        $tableService,
-        private readonly UserService         $userService,
     ) {}
 
     /**
@@ -29,9 +29,20 @@ class TableSessionController extends Controller
     }
 
     /**
+     * Form bắt đầu phiên chơi mới — chọn bàn và khách hàng.
+     */
+    public function startForm(): View
+    {
+        $tables    = $this->tableService->getAvailableTables();
+        $customers = User::active()->orderBy('name')->get();
+
+        return view('sessions.start', compact('tables', 'customers'));
+    }
+
+    /**
      * Bắt đầu phiên chơi cho một bàn.
      */
-    public function start(Request $request, int $tableId): RedirectResponse
+    public function start(StartSessionRequest $request, int $tableId): RedirectResponse
     {
         $customerId = $request->integer('customer_id') ?: null;
 

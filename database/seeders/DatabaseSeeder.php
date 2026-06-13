@@ -6,6 +6,8 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\BilliardTable;
 use App\Models\Booking;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -33,6 +35,18 @@ class DatabaseSeeder extends Seeder
                 'role_id' => $staffRole->id,
                 'name' => 'Trần Nhân Viên',
                 'phone' => '0912345678',
+                'password' => Hash::make('password'),
+                'status' => true,
+            ]
+        );
+
+        // also seed test@example.com so we don't break login instructions we gave earlier
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'role_id' => $staffRole->id,
+                'name' => 'Test User',
+                'phone' => '0912345679',
                 'password' => Hash::make('password'),
                 'status' => true,
             ]
@@ -151,6 +165,50 @@ class DatabaseSeeder extends Seeder
                 'end_time' => Carbon::yesterday()->setTime(21, 0, 0)->toDateTimeString(),
                 'status' => 'COMPLETED',
                 'note' => 'Khách đã thanh toán đầy đủ.',
+            ]
+        );
+
+        // 5. Seed Categories & Products (From Hieu's local stashed changes)
+        $drinkCategory = Category::firstOrCreate(['name' => 'Đồ uống']);
+        $foodCategory  = Category::firstOrCreate(['name' => 'Đồ ăn']);
+
+        Product::firstOrCreate(
+            ['name' => 'Coca-Cola'],
+            [
+                'category_id' => $drinkCategory->id,
+                'price'       => 15000,
+                'quantity'    => 100,
+                'status'      => true,
+            ]
+        );
+
+        Product::firstOrCreate(
+            ['name' => 'Sting Dâu'],
+            [
+                'category_id' => $drinkCategory->id,
+                'price'       => 18000,
+                'quantity'    => 50,
+                'status'      => true,
+            ]
+        );
+
+        Product::firstOrCreate(
+            ['name' => 'Mì xào trứng'],
+            [
+                'category_id' => $foodCategory->id,
+                'price'       => 30000,
+                'quantity'    => 15,
+                'status'      => true,
+            ]
+        );
+
+        Product::firstOrCreate(
+            ['name' => 'Bánh tráng trộn'],
+            [
+                'category_id' => $foodCategory->id,
+                'price'       => 20000,
+                'quantity'    => 20,
+                'status'      => true,
             ]
         );
     }

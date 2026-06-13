@@ -27,7 +27,7 @@
                 <x-card>
                     <x-slot:title>
                         <i class="bi bi-info-circle me-2 text-primary"></i>Chi tiết tiền giờ: Bàn {{ $session->billiardTable->table_number }}
-                    </x-slot>
+                    </x-slot:title>
 
                     <div class="row g-3 mb-3">
                         <div class="col-6">
@@ -60,7 +60,7 @@
                 <x-card>
                     <x-slot:title>
                         <i class="bi bi-cart-plus me-2 text-success"></i>Thêm dịch vụ & sản phẩm
-                    </x-slot>
+                    </x-slot:title>
 
                     <!-- Chọn sản phẩm -->
                     <div class="row g-2 mb-4">
@@ -112,7 +112,7 @@
                 <x-card>
                     <x-slot:title>
                         <i class="bi bi-receipt-cutoff me-2 text-warning"></i>Tổng hợp hóa đơn
-                    </x-slot>
+                    </x-slot:title>
 
                     <div class="d-flex justify-content-between mb-2 small text-muted">
                         <span>Tiền giờ chơi:</span>
@@ -222,8 +222,8 @@
                     <td class="text-end text-white-50">${new Intl.NumberFormat('vi-VN').format(item.price)} ₫</td>
                     <td class="text-center">
                         <input type="number" class="form-control form-control-sm text-center text-white border-secondary mx-auto qty-update" 
-                               data-product-id="${productId}" value="${item.quantity}" min="1" max="${item.stock}" 
-                               style="width: 70px; background-color: rgba(255,255,255,0.07);">
+                                data-product-id="${productId}" value="${item.quantity}" min="1" max="${item.stock}" 
+                                style="width: 70px; background-color: rgba(255,255,255,0.07);">
                     </td>
                     <td class="text-end fw-semibold text-white">${new Intl.NumberFormat('vi-VN').format(rowTotal)} ₫</td>
                     <td class="text-center">
