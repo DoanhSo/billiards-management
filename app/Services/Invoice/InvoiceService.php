@@ -145,6 +145,17 @@ class InvoiceService
     }
 
     /**
+     * Tính tổng doanh thu hóa đơn theo khoảng thời gian.
+     */
+    public function getInvoiceRevenue(string $from = '', string $to = ''): float
+    {
+        return (float) Invoice::when($from, fn(Builder $query): Builder => $query->whereDate('created_at', '>=', $from))
+            ->when($to, fn(Builder $query): Builder => $query->whereDate('created_at', '<=', $to))
+            ->sum('total_amount');
+    }
+
+
+    /**
      * Lấy 10 hóa đơn gần nhất.
      *
      * @return Collection<int, Invoice>
