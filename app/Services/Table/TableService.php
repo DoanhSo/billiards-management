@@ -42,7 +42,27 @@ class TableService
     {
         $data['status'] = $data['status'] ?? 'AVAILABLE';
 
-        return BilliardTable::create($data);
+        $table = BilliardTable::create($data);
+
+        // Thêm phụ kiện mặc định
+        $defaultEquipments = [
+            ['name' => 'Cơ Bida', 'quantity' => 4],
+            ['name' => 'Bộ Bi', 'quantity' => 1],
+            ['name' => 'Lơ Bida', 'quantity' => 4],
+            ['name' => 'Lết Bida', 'quantity' => 1],
+            ['name' => 'Găng Tay', 'quantity' => 4],
+        ];
+
+        foreach ($defaultEquipments as $eq) {
+            $table->equipments()->create([
+                'name' => $eq['name'],
+                'quantity' => $eq['quantity'],
+                'broken_quantity' => 0,
+                'note' => 'Theo máy',
+            ]);
+        }
+
+        return $table;
     }
 
     /**
