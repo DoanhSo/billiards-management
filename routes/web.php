@@ -53,8 +53,16 @@ Route::middleware('auth')->group(function () {
     // Tables
     Route::resource('tables', TableController::class);
     Route::patch('tables/{id}/status', [TableController::class, 'updateStatus'])->name('tables.update-status');
+    
+    // Table Equipments
+    Route::post('tables/{table}/equipments', [\App\Http\Controllers\TableEquipmentController::class, 'store'])->name('tables.equipments.store');
+    Route::put('tables/{table}/equipments/{equipment}', [\App\Http\Controllers\TableEquipmentController::class, 'update'])->name('tables.equipments.update');
+    Route::delete('tables/{table}/equipments/{equipment}', [\App\Http\Controllers\TableEquipmentController::class, 'destroy'])->name('tables.equipments.destroy');
+    Route::patch('tables/{table}/equipments/{equipment}/report', [\App\Http\Controllers\TableEquipmentController::class, 'report'])->name('tables.equipments.report');
 
     // Bookings
+    Route::get('bookings/calendar', [BookingController::class, 'calendar'])->name('bookings.calendar');
+    Route::get('api/bookings/events', [BookingController::class, 'getEvents'])->name('api.bookings.events');
     Route::get('bookings/history', [BookingController::class, 'history'])->name('bookings.history');
     Route::resource('bookings', BookingController::class);
     Route::patch('bookings/{id}/confirm', [BookingController::class, 'confirm'])->name('bookings.confirm');

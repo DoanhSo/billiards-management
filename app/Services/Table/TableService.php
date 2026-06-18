@@ -42,7 +42,27 @@ class TableService
     {
         $data['status'] = $data['status'] ?? 'AVAILABLE';
 
-        return BilliardTable::create($data);
+        $table = BilliardTable::create($data);
+
+        // Thêm phụ kiện mặc định
+        $defaultEquipments = [
+            ['name' => 'Cơ Bida', 'quantity' => 4],
+            ['name' => 'Bộ Bi', 'quantity' => 1],
+            ['name' => 'Lơ Bida', 'quantity' => 4],
+            ['name' => 'Lết Bida', 'quantity' => 1],
+            ['name' => 'Găng Tay', 'quantity' => 4],
+        ];
+
+        foreach ($defaultEquipments as $eq) {
+            $table->equipments()->create([
+                'name' => $eq['name'],
+                'quantity' => $eq['quantity'],
+                'broken_quantity' => 0,
+                'note' => 'Theo máy',
+            ]);
+        }
+
+        return $table;
     }
 
     /**
@@ -69,13 +89,23 @@ class TableService
         abort_unless(in_array($status, $allowed), 422, 'Trạng thái không hợp lệ.');
 
         $table = $this->getTableById($id);
+
+        if ($table->status === 'PLAYING' && $status !== 'PLAYING') {
+            $hasActiveSession = $table->tableSessions()->where('status', 'PLAYING')->exists();
+            abort_if(
+                $hasActiveSession,
+                422,
+                'Bàn đang có phiên chơi đang hoạt động, không thể chuyển trạng thái.'
+            );
+        }
+
         $table->update(['status' => $status]);
 
         return $table->fresh();
     }
 
     /**
-     * Xóa bàn (chỉ cho phép xóa khi bàn đang AVAILABLE).
+     * Xóa bàn (chỉ cho phép xóa khi bàn đang AVAILABLE và không có lịch đặt trước).
      */
     public function deleteTable(int $id): bool
     {
@@ -84,7 +114,21 @@ class TableService
         abort_unless(
             $table->status === 'AVAILABLE',
             422,
-            'Không thể xóa bàn đang được sử dụng hoặc đặt trước.'
+            'Không thể xóa bàn đang được sử dụng hoặc bảo trì.'
+        );
+
+        $hasActiveSession = $table->tableSessions()->where('status', 'PLAYING')->exists();
+        abort_if(
+            $hasActiveSession,
+            422,
+            'Không thể xóa bàn vì đang có phiên chơi đang hoạt động.'
+        );
+
+        $hasFutureBookings = $table->bookings()->whereIn('status', ['PENDING', 'CONFIRMED'])->exists();
+        abort_if(
+            $hasFutureBookings,
+            422,
+            'Không thể xóa bàn vì đang có lịch đặt trước chưa hoàn thành.'
         );
 
         return (bool) $table->delete();

@@ -510,6 +510,7 @@ h1, h2, h3, h4, h5, h6 {
 .table {
     color: var(--text-primary) !important;
     margin-bottom: 0;
+    --bs-table-bg: transparent !important;
 }
 
 .table thead th {
@@ -527,10 +528,11 @@ h1, h2, h3, h4, h5, h6 {
 .table tbody tr {
     border-color: var(--border-light) !important;
     transition: background-color 0.15s ease;
+    background-color: transparent !important;
 }
 
 .table tbody tr:hover {
-    background-color: var(--bg-elevated) !important;
+    background-color: var(--bg-hover) !important;
 }
 
 .table tbody td {
@@ -538,6 +540,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 14px 16px !important;
     vertical-align: middle !important;
     color: var(--text-primary) !important;
+    background-color: transparent !important;
 }
 
 .table-hover > tbody > tr:hover > * {

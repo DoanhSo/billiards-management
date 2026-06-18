@@ -42,6 +42,13 @@ class BookingService
      */
     public function createBooking(array $data): Booking
     {
+        // Kiểm tra xem giờ bắt đầu có ở trong quá khứ không
+        if (now()->gt($data['start_time'])) {
+            throw ValidationException::withMessages([
+                'start_time' => ['Giờ bắt đầu đặt bàn không thể ở trong quá khứ.'],
+            ]);
+        }
+
         $isAvailable = $this->checkTableAvailability(
             (int) $data['billiard_table_id'],
             $data['start_time'],
@@ -165,5 +172,55 @@ class BookingService
                       ->where('end_time', '>', $startTime);
             })
             ->exists();
+    }
+
+    public function getBookingStatusSummary(): array
+    {
+        return Booking::selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->toArray();
+    }
+
+    /**
+     * Lấy danh sách events cho FullCalendar
+     */
+    public function getEventsForCalendar(string $start, string $end): array
+    {
+        $bookings = Booking::with(['user', 'billiardTable'])
+            ->whereNotIn('status', ['CANCELLED'])
+            ->where(function (Builder $query) use ($start, $end): void {
+                $query->whereBetween('start_time', [$start, $end])
+                      ->orWhereBetween('end_time', [$start, $end]);
+            })
+            ->get();
+
+        $events = [];
+        foreach ($bookings as $booking) {
+            $color = match ($booking->status) {
+                'PENDING'   => '#f59e0b', // warning
+                'CONFIRMED' => '#10b981', // success
+                'COMPLETED' => '#3b82f6', // primary
+                default     => '#6b7280', // gray
+            };
+
+            $events[] = [
+                'id' => $booking->id,
+                'resourceId' => $booking->billiard_table_id, // For resource-based timeline view
+                'title' => $booking->user->name . ' - ' . $booking->billiardTable->table_number,
+                'start' => $booking->start_time,
+                'end' => $booking->end_time,
+                'color' => $color,
+                'extendedProps' => [
+                    'status' => $booking->status,
+                    'note' => $booking->note,
+                    'customer' => $booking->user->name,
+                    'phone' => $booking->user->phone,
+                    'table_number' => $booking->billiardTable->table_number,
+                ],
+            ];
+        }
+
+        return $events;
     }
 }

@@ -21,14 +21,70 @@
         </div>
     </div>
 
+    {{-- ═══ STAT CARDS ═══ --}}
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-warning">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Chờ xác nhận</div>
+                        <div class="stat-value" style="color: var(--warning)">{{ $summary['PENDING'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-warning">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-success">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Đã xác nhận</div>
+                        <div class="stat-value" style="color: var(--success)">{{ $summary['CONFIRMED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-info">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Hoàn thành</div>
+                        <div class="stat-value" style="color: var(--info)">{{ $summary['COMPLETED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-info">
+                        <i class="bi bi-check2-all"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-secondary">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Đã hủy</div>
+                        <div class="stat-value" style="color: var(--danger)">{{ $summary['CANCELLED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-danger">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- ═══ FILTER BAR ═══ --}}
-    <div class="filter-bar mb-4" style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+    <div class="filter-bar mb-4" style="background: var(--bg-surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
         <form action="{{ route('bookings.index') }}" method="GET">
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Tìm kiếm</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-search"></i></span>
+                        <span class="input-group-text text-muted border-end-0" style="background: transparent;"><i class="bi bi-search"></i></span>
                         <input type="text" name="search" class="form-control border-start-0" style="height: 40px;"
                                placeholder="Tên khách hàng, số bàn..." value="{{ $search }}">
                     </div>
@@ -92,12 +148,12 @@
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             <div class="avatar-circle" style="background: var(--primary-glow); color: var(--primary); font-weight: 700; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                {{ strtoupper(substr($booking->user->name, 0, 1)) }}
+                                {{ strtoupper(substr($booking->user?->name ?? 'K', 0, 1)) }}
                             </div>
                             <div>
-                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ $booking->user->name }}</div>
-                                <div class="text-xxs" style="color: var(--text-secondary);">
-                                    <i class="bi bi-telephone me-1"></i>{{ $booking->user->phone ?? 'Chưa có SĐT' }}
+                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ $booking->user?->name ?? 'Khách vãng lai' }}</div>
+                                <div class="text-xxs" style="color: var(--text-secondary); font-size: 0.75rem;">
+                                    <i class="bi bi-telephone me-1"></i>{{ $booking->user?->phone ?? 'Chưa có SĐT' }}
                                 </div>
                             </div>
                         </div>
