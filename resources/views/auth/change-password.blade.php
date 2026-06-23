@@ -114,11 +114,16 @@
                                 type="password"
                                 id="new_password_confirmation"
                                 name="new_password_confirmation"
-                                class="form-control"
+                                class="form-control @error('new_password_confirmation') is-invalid @enderror"
                                 placeholder="Nhập lại mật khẩu mới"
                                 autocomplete="new-password"
                             >
                         </div>
+                        @error('new_password_confirmation')
+                            <div class="invalid-feedback d-block">
+                                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     {{-- Buttons --}}
