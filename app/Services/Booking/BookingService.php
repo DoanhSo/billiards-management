@@ -49,6 +49,7 @@ class BookingService
             ]);
         }
 
+        // Kiểm tra bàn có trống trong khung giờ đó không
         $isAvailable = $this->checkTableAvailability(
             (int) $data['billiard_table_id'],
             $data['start_time'],
@@ -61,13 +62,11 @@ class BookingService
             ]);
         }
 
+        // Chỉ tạo booking PENDING — KHÔNG đổi trạng thái bàn ngay.
+        // Bàn chỉ chuyển RESERVED khi staff xác nhận (confirmBooking).
         $data['status'] = 'PENDING';
 
         $booking = Booking::create($data);
-
-        // Cập nhật trạng thái bàn sang RESERVED
-        BilliardTable::findOrFail($data['billiard_table_id'])
-            ->update(['status' => 'RESERVED']);
 
         return $booking->load(['user', 'billiardTable']);
     }
@@ -88,6 +87,12 @@ class BookingService
         }
 
         $booking->update(['status' => 'CONFIRMED']);
+
+        // Khi staff xác nhận → bàn chuyển RESERVED để báo hiệu đã được giữ chỗ.
+        // Chỉ cập nhật nếu bàn đang AVAILABLE (tránh ghi đè PLAYING/MAINTENANCE).
+        if ($booking->billiardTable->status === 'AVAILABLE') {
+            $booking->billiardTable->update(['status' => 'RESERVED']);
+        }
 
         return $booking->fresh(['user', 'billiardTable']);
     }
