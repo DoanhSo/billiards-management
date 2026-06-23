@@ -16,9 +16,46 @@
                         <i class="bi bi-house-fill me-1"></i>Trang chủ
                     </a>
                 </li>
-                <li class="breadcrumb-item active text-muted">
-                    {{ request()->segment(1) ? ucfirst(str_replace('-', ' ', request()->segment(1))) : 'Dashboard' }}
-                </li>
+                @php
+                    $segment1 = request()->segment(1);
+                    $segment2 = request()->segment(2);
+                    
+                    $translationMap = [
+                        'dashboard'       => 'Tổng quan',
+                        'staff'           => 'Nhân viên',
+                        'customers'       => 'Khách hàng',
+                        'tables'          => 'Bàn chơi',
+                        'bookings'        => 'Đặt bàn',
+                        'sessions'        => 'Phiên chơi',
+                        'invoices'        => 'Hóa đơn',
+                        'products'        => 'Sản phẩm',
+                        'categories'      => 'Danh mục',
+                        'change-password' => 'Đổi mật khẩu',
+                    ];
+                    
+                    $translatedSegment1 = $translationMap[$segment1] ?? ($segment1 ? ucfirst(str_replace('-', ' ', $segment1)) : 'Tổng quan');
+                @endphp
+                
+                @if ($segment2)
+                    <li class="breadcrumb-item">
+                        <a href="{{ url($segment1) }}" style="color: var(--text-secondary); text-decoration: none;">
+                            {{ $translatedSegment1 }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active text-muted">
+                        @if ($segment2 === 'create')
+                            Thêm mới
+                        @elseif ($segment2 === 'edit' || request()->segment(3) === 'edit')
+                            Chỉnh sửa
+                        @else
+                            Chi tiết
+                        @endif
+                    </li>
+                @else
+                    <li class="breadcrumb-item active text-muted">
+                        {{ $translatedSegment1 }}
+                    </li>
+                @endif
             </ol>
         </nav>
     </div>

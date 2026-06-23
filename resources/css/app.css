@@ -358,6 +358,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-control::placeholder { color: var(--text-muted-c) !important; }
 
+/* Hide browser native password reveal/clear buttons (e.g. in Microsoft Edge) */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none !important;
+}
+
 .form-control:focus,
 .form-select:focus {
     background-color: var(--bg-hover) !important;
@@ -390,6 +396,59 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--bg-elevated) !important;
     border: 1px solid var(--border-light) !important;
     color: var(--text-secondary) !important;
+}
+
+/* Custom premium password input group style to place the show/hide button "inside" the field */
+.input-group-password > .input-group-text {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+    border-right: none !important;
+    background-color: var(--bg-elevated) !important;
+    border-color: var(--border-light) !important;
+}
+
+.input-group-password > .form-control {
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.input-group-password > .btn-toggle-pw {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    border-left: none !important;
+    background-color: var(--bg-elevated) !important;
+    border: 1px solid var(--border-light) !important;
+    color: var(--text-secondary) !important;
+    padding: 0 16px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.input-group-password > .btn-toggle-pw:hover {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-hover) !important;
+}
+
+.input-group-password:focus-within > .input-group-text,
+.input-group-password:focus-within > .form-control,
+.input-group-password:focus-within > .btn-toggle-pw {
+    border-color: var(--primary) !important;
+}
+
+/* Styling when the input group has an invalid input */
+.input-group-password:has(.is-invalid) > .input-group-text,
+.input-group-password:has(.is-invalid) > .form-control,
+.input-group-password:has(.is-invalid) > .btn-toggle-pw {
+    border-color: var(--danger) !important;
+}
+
+.input-group-password > .form-control.is-invalid {
+    background-image: none !important;
+    padding-right: 14px !important;
 }
 
 .invalid-feedback { color: var(--danger) !important; font-size: 0.78rem; }
