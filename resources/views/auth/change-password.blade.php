@@ -118,6 +118,10 @@
                                 placeholder="Nhập lại mật khẩu mới"
                                 autocomplete="new-password"
                             >
+                            <button type="button" class="btn btn-outline-secondary btn-toggle-pw"
+                                    data-target="new_password_confirmation" title="Hiện/ẩn">
+                                <i class="bi bi-eye"></i>
+                            </button>
                         </div>
                         @error('new_password_confirmation')
                             <div class="invalid-feedback d-block">
