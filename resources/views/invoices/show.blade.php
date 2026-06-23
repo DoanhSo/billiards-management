@@ -119,7 +119,7 @@
                     <span class="text-white fw-medium">{{ number_format($invoice->subtotal, 0, ',', '.') }} ₫</span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Giảm giá/Chiết khấu:</span>
+                    <span class="text-muted">Giảm giá/Chiết khấu ({{ number_format($invoice->discount_percent, 0) }}%):</span>
                     <span class="text-white fw-medium">-{{ number_format($invoice->discount, 0, ',', '.') }} ₫</span>
                 </div>
                 <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 0.75rem 0;">

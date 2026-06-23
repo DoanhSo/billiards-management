@@ -28,6 +28,9 @@ return new class extends Migration
             $table->decimal('discount', 12, 2)
                 ->default(0);
 
+            $table->decimal('discount_percent', 5, 2)
+                ->default(0);
+
             $table->decimal('total_amount', 12, 2);
 
             $table->enum('payment_method', [

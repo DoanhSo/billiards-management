@@ -16,7 +16,7 @@ class StoreInvoiceRequest extends FormRequest
         return [
             'table_session_id'       => ['required', 'integer', 'exists:table_sessions,id'],
             'staff_id'               => ['nullable', 'integer', 'exists:users,id'],
-            'discount'               => ['nullable', 'numeric', 'min:0'],
+            'discount_percent'       => ['nullable', 'numeric', 'min:0', 'max:100'],
             'payment_method'         => ['required', 'string', 'in:CASH,BANKING'],
             'items'                  => ['nullable', 'array'],
             'items.*.product_id'     => ['required', 'integer', 'exists:products,id'],

@@ -157,7 +157,7 @@
 
                 @if($invoice->discount > 0)
                     <div class="info-row">
-                        <div class="info-label">Giảm giá</div>
+                        <div class="info-label">Giảm giá ({{ number_format($invoice->discount_percent, 0) }}%)</div>
                         <div class="info-value" style="font-weight: 600; color: var(--danger);">-{{ number_format($invoice->discount, 0, ',', '.') }} ₫</div>
                     </div>
                 @endif
