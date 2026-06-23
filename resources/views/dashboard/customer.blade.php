@@ -9,9 +9,71 @@
                 <a href="{{ route('bookings.create') }}" class="btn btn-primary px-4 py-2 fw-semibold">
                     <i class="bi bi-calendar-plus me-2"></i> Đặt bàn chơi ngay
                 </a>
+                <a href="{{ route('my-sessions.index') }}" class="btn btn-outline-light px-4 py-2 fw-semibold">
+                    <i class="bi bi-controller me-2"></i> Lịch sử chơi
+                </a>
+                <a href="{{ route('my-invoices.index') }}" class="btn btn-outline-light px-4 py-2 fw-semibold">
+                    <i class="bi bi-receipt me-2"></i> Hóa đơn của tôi
+                </a>
             </div>
         </div>
         <div class="position-absolute end-0 bottom-0 opacity-10 p-5 d-none d-md-block" style="font-size: 8rem; line-height: 1; transform: translate(10%, 10%);">🎱</div>
+    </div>
+
+    {{-- ═══ STAT CARDS ═══ --}}
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-info">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Tổng lần chơi</div>
+                        <div class="stat-value" style="color: var(--info)">{{ number_format($data['total_sessions']) }}</div>
+                    </div>
+                    <div class="stat-icon icon-info">
+                        <i class="bi bi-controller"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-warning">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Tổng giờ chơi</div>
+                        <div class="stat-value" style="color: var(--warning)">{{ number_format($data['total_hours'], 1) }}h</div>
+                    </div>
+                    <div class="stat-icon icon-warning">
+                        <i class="bi bi-stopwatch-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-success">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Tổng chi tiêu</div>
+                        <div class="stat-value" style="color: var(--success)">{{ number_format($data['total_spent'], 0, ',', '.') }}₫</div>
+                    </div>
+                    <div class="stat-icon icon-success">
+                        <i class="bi bi-cash-stack"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-secondary">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Lượt đặt bàn</div>
+                        <div class="stat-value" style="color: var(--primary)">{{ number_format($data['total_bookings']) }}</div>
+                    </div>
+                    <div class="stat-icon icon-primary">
+                        <i class="bi bi-calendar-check-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row mb-5">

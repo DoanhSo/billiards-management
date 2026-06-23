@@ -29,7 +29,7 @@
 
 <x-card>
     {{-- Tìm kiếm & lọc --}}
-    <form action="{{ route('customers.index') }}" method="GET" class="row g-3 mb-4 p-3 border-bottom">
+    <form action="{{ route('customers.index') }}" method="GET" class="ajax-search-form row g-3 mb-4 p-3 border-bottom">
         <div class="col-md-6">
             <x-input name="search" placeholder="Tìm theo tên, email, SĐT..." value="{{ $search }}" />
         </div>
@@ -47,7 +47,8 @@
         </div>
     </form>
 
-    <x-table>
+    <div id="searchable-content">
+        <x-table>
         <x-slot:thead>
             <tr>
                 <th style="width: 50px;">#</th>
@@ -134,10 +135,11 @@
                 </td>
             </tr>
         @endforelse
-    </x-table>
+        </x-table>
 
-    <div class="px-3 py-2">
-        {{ $users->withQueryString()->links() }}
+        <div class="px-3 py-2">
+            {{ $users->withQueryString()->links() }}
+        </div>
     </div>
 </x-card>
 @endsection

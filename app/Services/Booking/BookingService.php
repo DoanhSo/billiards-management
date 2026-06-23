@@ -13,12 +13,15 @@ class BookingService
     /**
      * Lấy danh sách tất cả đặt bàn (phân trang, tìm kiếm, lọc trạng thái).
      */
-    public function getAllBookings(string $search = '', string $status = '', int $perPage = 15): LengthAwarePaginator
+    public function getAllBookings(string $search = '', string $status = '', int $perPage = 15, ?int $userId = null): LengthAwarePaginator
     {
         return Booking::with(['user', 'billiardTable'])
+            ->when($userId, fn(Builder $query) => $query->where('user_id', $userId))
             ->when($search, function (Builder $query) use ($search): void {
-                $query->whereHas('user', fn(Builder $q): Builder => $q->where('name', 'like', "%{$search}%"))
-                      ->orWhereHas('billiardTable', fn(Builder $q): Builder => $q->where('table_number', 'like', "%{$search}%"));
+                $query->where(function (Builder $q) use ($search) {
+                    $q->whereHas('user', fn(Builder $userQuery): Builder => $userQuery->where('name', 'like', "%{$search}%")->orWhere('phone', 'like', "%{$search}%"))
+                      ->orWhereHas('billiardTable', fn(Builder $tableQuery): Builder => $tableQuery->where('table_number', 'like', "%{$search}%"));
+                });
             })
             ->when($status, fn(Builder $query): Builder => $query->where('status', $status))
             ->latest()
@@ -150,10 +153,11 @@ class BookingService
     /**
      * Lấy lịch sử đặt bàn (đã hoàn thành hoặc đã hủy).
      */
-    public function getBookingHistory(int $perPage = 15): LengthAwarePaginator
+    public function getBookingHistory(int $perPage = 15, ?int $userId = null): LengthAwarePaginator
     {
         return Booking::with(['user', 'billiardTable'])
             ->whereIn('status', ['COMPLETED', 'CANCELLED'])
+            ->when($userId, fn(Builder $query) => $query->where('user_id', $userId))
             ->latest()
             ->paginate($perPage);
     }
@@ -179,9 +183,10 @@ class BookingService
             ->exists();
     }
 
-    public function getBookingStatusSummary(): array
+    public function getBookingStatusSummary(?int $userId = null): array
     {
         return Booking::selectRaw('status, COUNT(*) as total')
+            ->when($userId, fn(Builder $query) => $query->where('user_id', $userId))
             ->groupBy('status')
             ->pluck('total', 'status')
             ->toArray();
@@ -190,7 +195,7 @@ class BookingService
     /**
      * Lấy danh sách events cho FullCalendar
      */
-    public function getEventsForCalendar(string $start, string $end): array
+    public function getEventsForCalendar(string $start, string $end, ?int $currentUserId = null, bool $isCustomer = false): array
     {
         $bookings = Booking::with(['user', 'billiardTable'])
             ->whereNotIn('status', ['CANCELLED'])
@@ -209,18 +214,32 @@ class BookingService
                 default     => '#6b7280', // gray
             };
 
+            $isOwner = $currentUserId === $booking->user_id;
+            
+            if ($isCustomer && !$isOwner) {
+                $title = 'Bàn ' . $booking->billiardTable->table_number . ' - Đã đặt';
+                $customerName = 'Khách hàng';
+                $phone = '***';
+                $note = '';
+            } else {
+                $title = $booking->user->name . ' - ' . $booking->billiardTable->table_number;
+                $customerName = $booking->user->name;
+                $phone = $booking->user->phone;
+                $note = $booking->note;
+            }
+
             $events[] = [
                 'id' => $booking->id,
                 'resourceId' => $booking->billiard_table_id, // For resource-based timeline view
-                'title' => $booking->user->name . ' - ' . $booking->billiardTable->table_number,
+                'title' => $title,
                 'start' => $booking->start_time,
                 'end' => $booking->end_time,
                 'color' => $color,
                 'extendedProps' => [
                     'status' => $booking->status,
-                    'note' => $booking->note,
-                    'customer' => $booking->user->name,
-                    'phone' => $booking->user->phone,
+                    'note' => $note,
+                    'customer' => $customerName,
+                    'phone' => $phone,
                     'table_number' => $booking->billiardTable->table_number,
                 ],
             ];

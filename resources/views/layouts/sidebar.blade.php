@@ -31,7 +31,7 @@
             @endif
             <li>
                 <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.index') || request()->routeIs('bookings.create') || request()->routeIs('bookings.show') ? 'active' : '' }}">
-                    <i class="bi bi-calendar-check-fill"></i> Danh sách đặt bàn
+                    <i class="bi bi-calendar-check-fill"></i> {{ auth()->user()->isCustomer() ? 'Đặt bàn của tôi' : 'Danh sách đặt bàn' }}
                 </a>
             </li>
             <li>
@@ -43,6 +43,21 @@
             <li>
                 <a href="{{ route('sessions.index') }}" class="{{ request()->routeIs('sessions.*') ? 'active' : '' }}">
                     <i class="bi bi-play-circle-fill"></i> Phiên chơi
+                </a>
+            </li>
+            @endif
+
+            {{-- Customer: Hoạt động của tôi --}}
+            @if(auth()->user()->isCustomer())
+            <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Hoạt động</li>
+            <li>
+                <a href="{{ route('my-sessions.index') }}" class="{{ request()->routeIs('my-sessions.*') ? 'active' : '' }}">
+                    <i class="bi bi-controller"></i> Lịch sử phiên chơi
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('my-invoices.index') }}" class="{{ request()->routeIs('my-invoices.*') ? 'active' : '' }}">
+                    <i class="bi bi-receipt-cutoff"></i> Hóa đơn của tôi
                 </a>
             </li>
             @endif
@@ -66,7 +81,7 @@
             </li>
             @endif
 
-            <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">Hệ thống</li>
+            <li class="sidebar-label text-uppercase mb-2 mt-4 px-3" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted-c); letter-spacing: 0.5px;">{{ auth()->user()->isCustomer() ? 'Tài khoản' : 'Hệ thống' }}</li>
             @if(auth()->user()->isAdmin())
             <li>
                 <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}">
@@ -81,6 +96,11 @@
                 </a>
             </li>
             @endif
+            <li>
+                <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-circle"></i> Hồ sơ cá nhân
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

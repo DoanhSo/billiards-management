@@ -25,8 +25,12 @@ class BookingController extends Controller
     {
         $search   = $request->string('search')->toString();
         $status   = $request->string('status')->toString();
-        $bookings = $this->bookingService->getAllBookings($search, $status);
-        $summary  = $this->bookingService->getBookingStatusSummary();
+        /** @var \App\Models\User $user */
+        $user     = $request->user();
+        $userId   = $user->isCustomer() ? $user->id : null;
+
+        $bookings = $this->bookingService->getAllBookings($search, $status, 15, $userId);
+        $summary  = $this->bookingService->getBookingStatusSummary($userId);
 
         return view('bookings.index', compact('bookings', 'search', 'status', 'summary'));
     }
@@ -56,9 +60,15 @@ class BookingController extends Controller
     /**
      * Chi tiết đặt bàn.
      */
-    public function show(int $id): View
+    public function show(Request $request, int $id): View
     {
         $booking = $this->bookingService->getBookingById($id);
+
+        /** @var \App\Models\User $user */
+        $user = $request->user();
+        if ($user->isCustomer() && $booking->user_id !== $user->id) {
+            abort(403, 'Bạn không có quyền xem thông tin đặt bàn này.');
+        }
 
         return view('bookings.show', compact('booking'));
     }
@@ -101,7 +111,10 @@ class BookingController extends Controller
      */
     public function history(Request $request): View
     {
-        $bookings = $this->bookingService->getBookingHistory();
+        /** @var \App\Models\User $user */
+        $user     = $request->user();
+        $userId   = $user->isCustomer() ? $user->id : null;
+        $bookings = $this->bookingService->getBookingHistory(15, $userId);
 
         return view('bookings.history', compact('bookings'));
     }
@@ -128,7 +141,12 @@ class BookingController extends Controller
             return response()->json([]);
         }
 
-        $events = $this->bookingService->getEventsForCalendar($start, $end);
+        /** @var \App\Models\User|null $user */
+        $user = $request->user();
+        $userId = $user ? $user->id : null;
+        $isCustomer = $user ? $user->isCustomer() : false;
+
+        $events = $this->bookingService->getEventsForCalendar($start, $end, $userId, $isCustomer);
         return response()->json($events);
     }
 }

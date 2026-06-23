@@ -77,7 +77,7 @@
 
     {{-- ═══ FILTER BAR ═══ --}}
     <div class="filter-bar mb-4">
-        <form action="{{ route('tables.index') }}" method="GET">
+        <form action="{{ route('tables.index') }}" method="GET" class="ajax-search-form">
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Tìm kiếm bàn</label>
@@ -110,9 +110,10 @@
         </form>
     </div>
 
-    {{-- ═══ TABLE GRID CARDS ═══ --}}
-    <div class="row g-3 mb-4">
-        @forelse($tables as $table)
+    <div id="searchable-content">
+        {{-- ═══ TABLE GRID CARDS ═══ --}}
+        <div class="row g-3 mb-4">
+            @forelse($tables as $table)
             @php
                 $statusConfig = match($table->status) {
                     'AVAILABLE'   => ['badge' => 'badge-available',   'label' => 'Sẵn sàng',     'icon' => 'check-circle-fill',    'bar' => 'var(--success)'],
@@ -245,9 +246,10 @@
         @endforelse
     </div>
 
-    {{-- ═══ PAGINATION ═══ --}}
-    <div class="d-flex justify-content-end">
-        {{ $tables->links() }}
+        {{-- ═══ PAGINATION ═══ --}}
+        <div class="d-flex justify-content-end">
+            {{ $tables->links() }}
+        </div>
     </div>
 
 </div>
