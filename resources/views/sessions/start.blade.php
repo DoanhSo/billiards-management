@@ -63,15 +63,52 @@
 
                         {{-- Customer Selection --}}
                         <h6 class="mb-3"><i class="bi bi-person me-1"></i> Khách hàng (không bắt buộc)</h6>
-                        <div class="mb-4">
-                            <select class="form-select" id="customer-select">
-                                <option value="">— Khách vãng lai —</option>
+                        <div class="mb-4 position-relative">
+                            <div class="input-group">
+                                <span class="input-group-text border-end-0 text-muted" style="background: transparent;">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text"
+                                       class="form-control border-start-0"
+                                       id="customer-search"
+                                       placeholder="Nhập tên hoặc email khách hàng để tìm..."
+                                       autocomplete="off"
+                                       style="height: 40px;">
+                                <button type="button" class="btn btn-outline-secondary" id="btn-clear-customer" style="display: none;" title="Xóa chọn">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
+                            {{-- Dropdown danh sách khách hàng --}}
+                            <div id="customer-dropdown"
+                                 class="position-absolute w-100 rounded-3 shadow-lg border mt-1"
+                                 style="display: none; max-height: 240px; overflow-y: auto; z-index: 100; background: var(--bg-surface, #1e293b); border-color: var(--border, #334155) !important;">
+                                <div class="customer-option px-3 py-2 text-muted" data-id="" style="cursor: pointer; border-bottom: 1px solid var(--border, #334155);">
+                                    <i class="bi bi-person-dash me-1"></i> Khách vãng lai (không chọn)
+                                </div>
                                 @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">
-                                        {{ $customer->name }} — {{ $customer->email }}
-                                    </option>
+                                    <div class="customer-option px-3 py-2"
+                                         data-id="{{ $customer->id }}"
+                                         data-name="{{ $customer->name }}"
+                                         data-email="{{ $customer->email }}"
+                                         data-phone="{{ $customer->phone }}"
+                                         style="cursor: pointer; border-bottom: 1px solid var(--border, #334155);">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary-glow, rgba(102,126,234,0.15)); color: var(--primary, #667eea); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">
+                                                {{ strtoupper(substr($customer->name, 0, 1)) }}
+                                            </div>
+                                            <div>
+                                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary, #f1f5f9);">{{ $customer->name }}</div>
+                                                <div style="font-size: 0.75rem; color: var(--text-secondary, #94a3b8);">{{ $customer->email }}{{ $customer->phone ? ' · ' . $customer->phone : '' }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
-                            </select>
+                            </div>
+                            {{-- Hiển thị khách hàng đã chọn --}}
+                            <div id="selected-customer-info" class="alert alert-success d-none mt-2 mb-0 py-2 px-3" style="font-size: 0.875rem;">
+                                <i class="bi bi-person-check-fill me-1"></i>
+                                Khách hàng: <strong id="selected-customer-name"></strong>
+                            </div>
                         </div>
 
                         {{-- Submit --}}
@@ -138,9 +175,96 @@
         document.getElementById('btn-start').disabled = false;
     }
 
-    // Sync customer select → hidden input
-    document.getElementById('customer-select').addEventListener('change', function () {
-        document.getElementById('customer-id-input').value = this.value;
+    // ═══ CUSTOMER SEARCHABLE DROPDOWN ═══
+    const searchInput    = document.getElementById('customer-search');
+    const dropdown       = document.getElementById('customer-dropdown');
+    const hiddenInput    = document.getElementById('customer-id-input');
+    const btnClear       = document.getElementById('btn-clear-customer');
+    const selectedInfo   = document.getElementById('selected-customer-info');
+    const selectedName   = document.getElementById('selected-customer-name');
+    const allOptions     = dropdown.querySelectorAll('.customer-option');
+
+    // Show dropdown on focus
+    searchInput.addEventListener('focus', function () {
+        filterOptions(this.value);
+        dropdown.style.display = 'block';
+    });
+
+    // Filter as user types
+    searchInput.addEventListener('input', function () {
+        filterOptions(this.value);
+        dropdown.style.display = 'block';
+    });
+
+    // Filter options by keyword
+    function filterOptions(keyword) {
+        const kw = keyword.toLowerCase().trim();
+        allOptions.forEach(function (opt) {
+            const name  = (opt.dataset.name  || '').toLowerCase();
+            const email = (opt.dataset.email || '').toLowerCase();
+            const phone = (opt.dataset.phone || '').toLowerCase();
+            const id    = opt.dataset.id;
+
+            // Always show "Khách vãng lai" option
+            if (id === '') {
+                opt.style.display = '';
+                return;
+            }
+
+            if (name.includes(kw) || email.includes(kw) || phone.includes(kw)) {
+                opt.style.display = '';
+            } else {
+                opt.style.display = 'none';
+            }
+        });
+    }
+
+    // Click on option → select it
+    allOptions.forEach(function (opt) {
+        opt.addEventListener('click', function () {
+            const id   = this.dataset.id;
+            const name = this.dataset.name || '';
+
+            hiddenInput.value = id;
+
+            if (id && name) {
+                searchInput.value = name;
+                selectedName.textContent = name + ' (' + (this.dataset.email || '') + ')';
+                selectedInfo.classList.remove('d-none');
+                btnClear.style.display = '';
+            } else {
+                // "Khách vãng lai"
+                searchInput.value = '';
+                selectedInfo.classList.add('d-none');
+                btnClear.style.display = 'none';
+            }
+
+            dropdown.style.display = 'none';
+        });
+
+        // Hover effect
+        opt.addEventListener('mouseenter', function () {
+            this.style.background = 'var(--bg-hover, rgba(255,255,255,0.06))';
+        });
+        opt.addEventListener('mouseleave', function () {
+            this.style.background = '';
+        });
+    });
+
+    // Clear button
+    btnClear.addEventListener('click', function () {
+        hiddenInput.value = '';
+        searchInput.value = '';
+        selectedInfo.classList.add('d-none');
+        btnClear.style.display = 'none';
+        searchInput.focus();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!searchInput.contains(e.target) && !dropdown.contains(e.target) && !btnClear.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
     });
 </script>
 @endpush

@@ -7,16 +7,7 @@
     <h1 class="auth-card-title">Tạo tài khoản mới</h1>
     <p class="auth-card-subtitle">Tham gia hệ thống quản lý quán billiards của chúng tôi.</p>
 
-    {{-- Flash messages --}}
-    @if ($errors->any())
-        <div class="alert alert-danger" style="font-size: 0.85rem; padding: 12px; border-radius: 10px;">
-            <ul class="mb-0 ps-3">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+
 
     {{-- Form --}}
     <form id="form-register" method="POST" action="{{ route('auth.register.post') }}" novalidate>
@@ -109,8 +100,8 @@
                     placeholder="Tối thiểu 8 ký tự"
                     autocomplete="new-password"
                 >
-                <button type="button" class="btn-toggle-pw" id="btn-toggle-password" title="Hiện/ẩn mật khẩu">
-                    <i class="bi bi-eye" id="icon-eye"></i>
+                <button type="button" class="btn-toggle-pw" data-target="password" title="Hiện/ẩn mật khẩu">
+                    <i class="bi bi-eye"></i>
                 </button>
             </div>
             @error('password')
@@ -131,11 +122,19 @@
                     type="password"
                     id="password_confirmation"
                     name="password_confirmation"
-                    class="form-control"
+                    class="form-control @error('password_confirmation') is-invalid @enderror"
                     placeholder="Nhập lại mật khẩu"
                     autocomplete="new-password"
                 >
+                <button type="button" class="btn-toggle-pw" data-target="password_confirmation" title="Hiện/ẩn mật khẩu">
+                    <i class="bi bi-eye"></i>
+                </button>
             </div>
+            @error('password_confirmation')
+                <div class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                </div>
+            @enderror
         </div>
 
         {{-- Submit --}}
@@ -153,13 +152,16 @@
 
 @push('scripts')
 <script>
-    // Toggle hiện / ẩn mật khẩu
-    document.getElementById('btn-toggle-password').addEventListener('click', function () {
-        const input   = document.getElementById('password');
-        const icon    = document.getElementById('icon-eye');
-        const isHidden = input.type === 'password';
-        input.type     = isHidden ? 'text' : 'password';
-        icon.className = isHidden ? 'bi bi-eye-slash' : 'bi bi-eye';
+    // Toggle hiện/ẩn mật khẩu cho từng input
+    document.querySelectorAll('.btn-toggle-pw').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const targetId = this.dataset.target;
+            const input    = document.getElementById(targetId);
+            const icon     = this.querySelector('i');
+            const isHidden = input.type === 'password';
+            input.type     = isHidden ? 'text' : 'password';
+            icon.className = isHidden ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
     });
 
     // Loading state khi submit

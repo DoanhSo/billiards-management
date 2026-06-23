@@ -162,6 +162,7 @@
                                     <div class="col-6">
                                         <form action="{{ route('sessions.end', $activeSession->id) }}" method="POST">
                                             @csrf
+                                            @method('PATCH')
                                             <button type="submit" class="btn btn-sm btn-danger w-100 py-2" onclick="return confirm('Xác nhận tắt giờ chơi và lập hóa đơn thanh toán?')">
                                                 <i class="bi bi-calculator me-1"></i> Tắt bàn
                                             </button>

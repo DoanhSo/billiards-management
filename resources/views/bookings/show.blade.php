@@ -128,7 +128,7 @@
                         Thao tác nhanh
                     </h6>
                     <div class="d-flex flex-wrap gap-3">
-                        @if($booking->status === 'PENDING')
+                        @if(($booking->status === 'PENDING') && (auth()->user()->isAdmin() || auth()->user()->isStaff()))
                             <form action="{{ route('bookings.confirm', $booking->id) }}" method="POST" class="m-0">
                                 @csrf @method('PATCH')
                                 <button type="submit" class="btn btn-success" style="height: 40px; display: inline-flex; align-items: center;">
@@ -137,7 +137,7 @@
                             </form>
                         @endif
 
-                        @if($booking->status === 'CONFIRMED')
+                        @if(($booking->status === 'CONFIRMED') && (auth()->user()->isAdmin() || auth()->user()->isStaff()))
                             <form action="{{ route('bookings.complete', $booking->id) }}" method="POST" class="m-0">
                                 @csrf @method('PATCH')
                                 <button type="submit" class="btn btn-info text-white" style="height: 40px; display: inline-flex; align-items: center;">

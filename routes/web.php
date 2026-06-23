@@ -10,6 +10,9 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerSessionController;
+use App\Http\Controllers\CustomerInvoiceController;
 use Illuminate\Support\Facades\Route;
 
 // ── Trang chủ redirect ─────────────────────────────────────────
@@ -36,6 +39,15 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
+    // Profile (Hồ sơ cá nhân — tất cả user)
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Customer: Lịch sử phiên chơi & Hóa đơn của tôi
+    Route::get('/my-sessions', [CustomerSessionController::class, 'index'])->name('my-sessions.index');
+    Route::get('/my-invoices', [CustomerInvoiceController::class, 'index'])->name('my-invoices.index');
+    Route::get('/my-invoices/{id}', [CustomerInvoiceController::class, 'show'])->name('my-invoices.show');
+
     // Admin Only
     Route::middleware('role:admin')->group(function () {
         // Staff (nhân viên)
@@ -48,6 +60,10 @@ Route::middleware('auth')->group(function () {
         // Customers (khách hàng)
         Route::resource('customers', CustomerController::class)->except(['show']);
         Route::patch('customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('customers.toggle-status');
+
+        // Booking Admin Actions
+        Route::patch('bookings/{id}/confirm', [BookingController::class, 'confirm'])->name('bookings.confirm');
+        Route::patch('bookings/{id}/complete', [BookingController::class, 'complete'])->name('bookings.complete');
     });
 
     // Tables
@@ -65,9 +81,7 @@ Route::middleware('auth')->group(function () {
     Route::get('api/bookings/events', [BookingController::class, 'getEvents'])->name('api.bookings.events');
     Route::get('bookings/history', [BookingController::class, 'history'])->name('bookings.history');
     Route::resource('bookings', BookingController::class);
-    Route::patch('bookings/{id}/confirm', [BookingController::class, 'confirm'])->name('bookings.confirm');
     Route::patch('bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
-    Route::patch('bookings/{id}/complete', [BookingController::class, 'complete'])->name('bookings.complete');
 
     // Sessions (Table Sessions - Hieu's version under auth middleware)
     Route::prefix('sessions')->name('sessions.')->group(function () {

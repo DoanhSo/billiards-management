@@ -79,14 +79,14 @@
 
     {{-- ═══ FILTER BAR ═══ --}}
     <div class="filter-bar mb-4" style="background: var(--bg-surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-        <form action="{{ route('bookings.index') }}" method="GET">
+        <form action="{{ route('bookings.index') }}" method="GET" class="ajax-search-form">
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Tìm kiếm</label>
                     <div class="input-group">
                         <span class="input-group-text text-muted border-end-0" style="background: transparent;"><i class="bi bi-search"></i></span>
                         <input type="text" name="search" class="form-control border-start-0" style="height: 40px;"
-                               placeholder="Tên khách hàng, số bàn..." value="{{ $search }}">
+                               placeholder="Tên, SĐT khách, số bàn..." value="{{ $search }}">
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -113,9 +113,10 @@
         </form>
     </div>
 
-    {{-- ═══ DATA TABLE ═══ --}}
-    <x-card>
-        <x-table>
+    <div id="searchable-content">
+        {{-- ═══ DATA TABLE ═══ --}}
+        <x-card>
+            <x-table>
             <x-slot:thead>
                 <tr>
                     <th style="width: 50px; padding-left: 20px !important;">#</th>
@@ -192,7 +193,7 @@
                                 <i class="bi bi-eye"></i> Chi tiết
                             </a>
 
-                            @if($booking->status === 'PENDING')
+                            @if(($booking->status === 'PENDING') && (auth()->user()->isAdmin() || auth()->user()->isStaff()))
                                 <form action="{{ route('bookings.confirm', $booking->id) }}" method="POST" class="m-0">
                                     @csrf @method('PATCH')
                                     <button type="submit" class="btn btn-success btn-sm" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Xác nhận đặt bàn">
@@ -201,7 +202,7 @@
                                 </form>
                             @endif
 
-                            @if($booking->status === 'CONFIRMED')
+                            @if(($booking->status === 'CONFIRMED') && (auth()->user()->isAdmin() || auth()->user()->isStaff()))
                                 <form action="{{ route('bookings.complete', $booking->id) }}" method="POST" class="m-0">
                                     @csrf @method('PATCH')
                                     <button type="submit" class="btn btn-info btn-sm text-white" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Hoàn tất">
@@ -236,9 +237,10 @@
         </x-table>
     </x-card>
 
-    {{-- ═══ PAGINATION ═══ --}}
-    <div class="d-flex justify-content-end mt-3">
-        {{ $bookings->links() }}
+        {{-- ═══ PAGINATION ═══ --}}
+        <div class="d-flex justify-content-end mt-3">
+            {{ $bookings->links() }}
+        </div>
     </div>
 
 </div>

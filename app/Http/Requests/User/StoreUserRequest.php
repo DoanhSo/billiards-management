@@ -18,7 +18,7 @@ class StoreUserRequest extends FormRequest
             'role_id'  => ['nullable', 'integer', 'exists:roles,id'],
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'phone'    => ['nullable', 'string', 'max:20'],
+            'phone'    => ['nullable', 'digits:10'],
             'avatar'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'password' => ['required', Password::defaults(), 'confirmed'],
             'status'   => ['nullable', 'boolean'],
@@ -35,6 +35,7 @@ class StoreUserRequest extends FormRequest
             'password.confirmed'=> 'Xác nhận mật khẩu không khớp.',
             'avatar.image'      => 'Avatar phải là file ảnh.',
             'avatar.max'        => 'Avatar không được vượt quá 2MB.',
+            'phone.digits'      => 'Số điện thoại phải bao gồm đúng 10 chữ số.',
         ];
     }
 }

@@ -252,10 +252,31 @@ class DashboardService
             $query->where('status', true);
         }])->get();
 
+        // Thống kê tổng quan cho khách hàng
+        $sessionIds = TableSession::where('customer_id', $customerId)->pluck('id');
+
+        $totalSessions = TableSession::where('customer_id', $customerId)
+            ->where('status', 'FINISHED')
+            ->count();
+
+        $totalHours = (float) TableSession::where('customer_id', $customerId)
+            ->where('status', 'FINISHED')
+            ->sum('total_hours');
+
+        $totalSpent = (float) Invoice::whereIn('table_session_id', $sessionIds)
+            ->where('payment_status', 'PAID')
+            ->sum('total_amount');
+
+        $totalBookings = Booking::where('user_id', $customerId)->count();
+
         return [
-            'tables'      => $tables,
-            'my_bookings' => $myBookings,
-            'categories'  => $categories,
+            'tables'         => $tables,
+            'my_bookings'    => $myBookings,
+            'categories'     => $categories,
+            'total_sessions' => $totalSessions,
+            'total_hours'    => $totalHours,
+            'total_spent'    => $totalSpent,
+            'total_bookings' => $totalBookings,
         ];
     }
 }
