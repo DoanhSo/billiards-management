@@ -135,11 +135,23 @@ class TableService
     }
 
     /**
-     * Lấy danh sách bàn trống.
+     * Lấy danh sách bàn trống (status = AVAILABLE).
      */
     public function getAvailableTables(): Collection
     {
         return BilliardTable::available()->orderBy('table_number')->get();
+    }
+
+    /**
+     * Lấy danh sách bàn có thể đặt lịch trước (AVAILABLE hoặc RESERVED).
+     * Bàn RESERVED vẫn cho phép đặt khung giờ khác — hệ thống sẽ kiểm tra overlap.
+     * Bàn PLAYING và MAINTENANCE không cho đặt.
+     */
+    public function getBookableTables(): Collection
+    {
+        return BilliardTable::whereIn('status', ['AVAILABLE', 'RESERVED'])
+            ->orderBy('table_number')
+            ->get();
     }
 
     /**

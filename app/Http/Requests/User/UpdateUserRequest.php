@@ -14,7 +14,8 @@ class UpdateUserRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = $this->route('user') ?? $this->route('id');
+        $userParam = $this->route('user') ?? $this->route('staff') ?? $this->route('customer') ?? $this->route('id');
+        $userId = $userParam instanceof \App\Models\User ? $userParam->id : $userParam;
 
         return [
             'role_id' => ['nullable', 'integer', 'exists:roles,id'],

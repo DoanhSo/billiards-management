@@ -36,7 +36,8 @@ class BookingController extends Controller
      */
     public function create(): View
     {
-        $tables = $this->tableService->getAvailableTables();
+        // Lấy bàn AVAILABLE + RESERVED (bàn RESERVED vẫn có thể đặt khung giờ khác)
+        $tables = $this->tableService->getBookableTables();
 
         return view('bookings.create', compact('tables'));
     }

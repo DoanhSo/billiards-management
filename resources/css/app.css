@@ -511,6 +511,10 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary) !important;
     margin-bottom: 0;
     --bs-table-bg: transparent !important;
+    --bs-table-color: var(--text-primary) !important;
+    --bs-table-striped-color: var(--text-primary) !important;
+    --bs-table-hover-color: var(--text-primary) !important;
+    --bs-table-border-color: var(--border-light) !important;
 }
 
 .table thead th {
@@ -532,19 +536,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .table tbody tr:hover {
-    background-color: var(--bg-hover) !important;
+    background-color: var(--bg-elevated) !important;
 }
 
-.table tbody td {
+.table tbody td,
+.table tbody th {
     border-color: var(--border-light) !important;
     padding: 14px 16px !important;
     vertical-align: middle !important;
+    color: var(--text-primary) !important;
+    background-color: transparent !important;
+    --bs-table-bg-type: transparent !important;
+    --bs-table-bg-state: transparent !important;
+}
+
+/* Force Bootstrap table cells to use dark theme colors */
+.table > :not(caption) > * > * {
     color: var(--text-primary) !important;
     background-color: transparent !important;
 }
 
 .table-hover > tbody > tr:hover > * {
     --bs-table-accent-bg: var(--bg-elevated) !important;
+    --bs-table-bg-state: var(--bg-elevated) !important;
+    color: var(--text-primary) !important;
 }
 
 /* ============================================================
@@ -938,9 +953,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-custom.badge-secondary {
-    background-color: rgba(100, 116, 139, 0.12);
-    color: #475569;
-    border: 1px solid rgba(100, 116, 139, 0.3);
+    background-color: rgba(100, 116, 139, 0.15);
+    color: #94a3b8;
+    border: 1px solid rgba(100, 116, 139, 0.4);
 }
 
 /* ============================================================
