@@ -127,8 +127,8 @@
 
                     {{-- Chiết khấu / Giảm giá --}}
                     <div class="mb-3">
-                        <label for="discount" class="form-label text-muted small">Chiết khấu / Giảm giá (VNĐ):</label>
-                        <input type="number" name="discount" id="discount" class="form-control text-white border-secondary" placeholder="Nhập số tiền giảm giá..." min="0" value="0" style="background-color: rgba(255,255,255,0.07);">
+                        <label for="discount_percent" class="form-label text-muted small">Chiết khấu / Giảm giá (%):</label>
+                        <input type="number" name="discount_percent" id="discount_percent" class="form-control text-white border-secondary" placeholder="Nhập % giảm giá..." min="0" max="100" step="any" value="0" style="background-color: rgba(255,255,255,0.07);">
                     </div>
 
                     {{-- Phương thức thanh toán --}}
@@ -168,7 +168,7 @@
         const servicesList = document.getElementById('services-list');
         const servicesTotalDisplay = document.getElementById('services-total-display');
         const tablePrice = parseFloat(document.getElementById('table-price-display').getAttribute('data-value'));
-        const discountInput = document.getElementById('discount');
+        const discountPercentInput = document.getElementById('discount_percent');
         const totalAmountDisplay = document.getElementById('total-amount-display');
         
         let addedServices = {}; // Quản lý {productId: {name, price, quantity}}
@@ -184,7 +184,8 @@
             servicesTotalDisplay.textContent = new Intl.NumberFormat('vi-VN').format(servicesTotal) + ' ₫';
             
             // Tính tổng cộng sau giảm giá
-            const discount = parseFloat(discountInput.value) || 0;
+            const discountPercent = parseFloat(discountPercentInput.value) || 0;
+            const discount = Math.round(((tablePrice + servicesTotal) * discountPercent) / 100);
             const finalTotal = Math.max(0, (tablePrice + servicesTotal) - discount);
             
             totalAmountDisplay.textContent = new Intl.NumberFormat('vi-VN').format(finalTotal) + ' ₫';
@@ -309,7 +310,7 @@
         });
 
         // Bấm nhập discount
-        discountInput.addEventListener('input', calculateInvoiceTotals);
+        discountPercentInput.addEventListener('input', calculateInvoiceTotals);
     });
 </script>
 <style>

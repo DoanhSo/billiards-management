@@ -75,15 +75,17 @@ class InvoiceService
             $session = TableSession::with('billiardTable')->findOrFail($data['table_session_id']);
 
             // Tính tiền sản phẩm — cast table_price sang float để tránh lỗi decimal|null
-            $items    = $data['items'] ?? [];
-            $subtotal = (float) $session->table_price + $this->calculateSubtotal($items);
-            $discount = (float) ($data['discount'] ?? 0);
-            $total    = $this->calculateTotalAmount($subtotal, $discount);
+            $items           = $data['items'] ?? [];
+            $subtotal        = (float) $session->table_price + $this->calculateSubtotal($items);
+            $discountPercent = (float) ($data['discount_percent'] ?? 0);
+            $discount        = round(($subtotal * $discountPercent) / 100, 2);
+            $total           = $this->calculateTotalAmount($subtotal, $discount);
 
             $invoice = Invoice::create([
                 'table_session_id' => $session->id,
                 'staff_id'         => $data['staff_id'] ?? Auth::id(),
                 'subtotal'         => $subtotal,
+                'discount_percent' => $discountPercent,
                 'discount'         => $discount,
                 'total_amount'     => $total,
                 'payment_method'   => $data['payment_method'],
