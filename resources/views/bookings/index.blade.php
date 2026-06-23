@@ -212,13 +212,12 @@
                             @endif
 
                             @if($booking->status === 'PENDING' || $booking->status === 'CONFIRMED')
-                                <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST" class="m-0"
-                                      onsubmit="return confirm('Hủy lịch đặt của {{ addslashes($booking->user->name) }}?')">
-                                    @csrf @method('PATCH')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Hủy đặt bàn">
-                                        <i class="bi bi-x-circle"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-outline-danger btn-sm" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Hủy đặt bàn"
+                                        data-bs-toggle="modal" data-bs-target="#cancelModal"
+                                        data-booking-id="{{ $booking->id }}"
+                                        data-booking-user="{{ addslashes($booking->user?->name ?? 'Khách vãng lai') }}">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
                             @endif
                         </div>
                     </td>
@@ -244,4 +243,58 @@
     </div>
 
 </div>
+
+{{-- ═══ CANCEL CONFIRM MODAL ═══ --}}
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+        <div class="modal-content" style="background: var(--bg-surface); border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+            <div class="modal-body p-4 text-center">
+                <div class="mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <i class="bi bi-x-circle-fill" style="font-size: 1.75rem; color: var(--danger);"></i>
+                </div>
+                <h5 class="fw-bold mb-2" style="color: var(--text-primary); font-size: 1.1rem;">Xác nhận hủy đặt bàn</h5>
+                <p class="text-secondary mb-1" style="font-size: 0.9rem;">
+                    Bạn có chắc muốn hủy lịch đặt bàn của <strong id="modalBookingUser" style="color: var(--danger);"></strong>?
+                </p>
+                <p class="text-muted mb-4" style="font-size: 0.8rem;">Hành động này <strong>không thể hoàn tác</strong>.</p>
+
+                <form id="cancelForm" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="height: 40px; min-width: 100px;">
+                            <i class="bi bi-arrow-return-left me-1"></i> Quay lại
+                        </button>
+                        <button type="submit" class="btn btn-danger" style="height: 40px; min-width: 120px;">
+                            <i class="bi bi-x-circle-fill me-1"></i> Hủy lịch
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cancelModal = document.getElementById('cancelModal');
+    if (cancelModal) {
+        cancelModal.addEventListener('show.bs.modal', function (e) {
+            const btn = e.relatedTarget;
+            const bookingId   = btn.getAttribute('data-booking-id');
+            const bookingUser = btn.getAttribute('data-booking-user');
+
+            document.getElementById('modalBookingUser').textContent = bookingUser;
+            
+            // Cập nhật action cho form
+            const form = document.getElementById('cancelForm');
+            form.action = `/bookings/${bookingId}/cancel`;
+        });
+    }
+});
+</script>
+@endpush
 @endsection
+ 
+ 

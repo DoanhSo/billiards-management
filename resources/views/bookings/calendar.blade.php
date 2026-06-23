@@ -125,26 +125,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             `;
             
-            // Dùng Swal để hiển thị
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    title: 'Chi tiết đặt bàn',
-                    html: html,
-                    icon: 'info',
-                    confirmButtonText: 'Đóng',
-                    background: 'var(--bg-surface)',
-                    color: 'var(--text-primary)',
-                    customClass: {
-                        popup: 'rounded-4'
-                    }
-                });
-            } else {
-                alert(`Khách: ${props.customer}\nBàn: ${props.table_number}\nThời gian: ${info.event.start.toLocaleTimeString()} - ${info.event.end ? info.event.end.toLocaleTimeString() : ''}`);
-            }
+            // Dùng Bootstrap Modal thay vì alert
+            document.getElementById('eventModalCustomer').innerText = `${props.customer} (${props.phone || 'N/A'})`;
+            document.getElementById('eventModalTable').innerText = `Bàn ${props.table_number}`;
+            document.getElementById('eventModalTime').innerText = `${info.event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${info.event.end ? info.event.end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'N/A'}`;
+            document.getElementById('eventModalStatus').innerHTML = statusBadge;
+            document.getElementById('eventModalNote').innerText = props.note || 'Không có';
+            
+            let eventModal = new bootstrap.Modal(document.getElementById('calendarEventModal'));
+            eventModal.show();
         }
     });
 
     calendar.render();
 });
 </script>
+
+<!-- Bootstrap Modal for Event Details -->
+<div class="modal fade" id="calendarEventModal" tabindex="-1" aria-labelledby="calendarEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-light);">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="calendarEventModalLabel"><i class="bi bi-info-circle text-info me-2"></i>Chi tiết đặt bàn</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2"><strong>Khách hàng:</strong> <span id="eventModalCustomer"></span></p>
+                <p class="mb-2"><strong>Bàn:</strong> <span id="eventModalTable"></span></p>
+                <p class="mb-2"><strong>Thời gian:</strong> <span id="eventModalTime"></span></p>
+                <p class="mb-2"><strong>Trạng thái:</strong> <span id="eventModalStatus"></span></p>
+                <p class="mb-0"><strong>Ghi chú:</strong> <span id="eventModalNote"></span></p>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
