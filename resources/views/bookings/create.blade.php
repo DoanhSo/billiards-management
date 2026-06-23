@@ -28,16 +28,26 @@
             @if(auth()->user()->isCustomer())
                 <input type="hidden" name="user_id" value="{{ auth()->id() }}">
             @else
-                <div>
-                    <x-input name="user_id"
-                             label="ID Khách hàng"
-                             type="number"
-                             placeholder="Nhập ID tài khoản khách hàng (VD: 1, 2...)"
-                             value="{{ old('user_id') }}"
-                             required="true"
-                             error="{{ $errors->first('user_id') }}"
-                             min="1" />
-                    <div class="form-text text-muted mt-1"><i class="bi bi-info-circle me-1"></i>Nhập mã ID của tài khoản khách hàng trong hệ thống</div>
+                <div class="d-flex flex-column gap-1 w-100">
+                    <label for="user_id" class="form-label mb-1">
+                        Khách hàng <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text border-end-0 text-muted" style="background: transparent;"><i class="bi bi-person"></i></span>
+                        <select id="user_id" name="user_id"
+                                class="form-select border-start-0 @error('user_id') is-invalid @enderror" 
+                                style="height: 40px; background-color: rgba(255, 255, 255, 0.07); color: #fff;" required>
+                            <option value="" disabled {{ !old('user_id') ? 'selected' : '' }}>— Chọn khách hàng —</option>
+                            @foreach($customers as $customer)
+                                <option value="{{ $customer->id }}" {{ old('user_id') == $customer->id ? 'selected' : '' }} style="background-color: var(--card-bg); color: #fff;">
+                                    {{ $customer->name }} - {{ $customer->phone ?? $customer->email }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('user_id')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
             @endif
 

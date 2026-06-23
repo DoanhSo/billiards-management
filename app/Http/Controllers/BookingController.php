@@ -42,8 +42,11 @@ class BookingController extends Controller
     {
         // Lấy bàn AVAILABLE + RESERVED (bàn RESERVED vẫn có thể đặt khung giờ khác)
         $tables = $this->tableService->getBookableTables();
+        
+        // Lấy danh sách khách hàng để staff/admin chọn
+        $customers = $this->userService->getAllUsers('', 'customer', '1', 1000);
 
-        return view('bookings.create', compact('tables'));
+        return view('bookings.create', compact('tables', 'customers'));
     }
 
     /**

@@ -59,7 +59,7 @@
                     'MAINTENANCE' => 'table-status-maintenance',
                 ][$table->status] ?? 'table-status-maintenance';
                 $activeSession = $table->status === 'PLAYING' ? $table->tableSessions->first() : null;
-                $booking = $table->status === 'RESERVED' ? ($data['today_bookings'][$table->id]->first() ?? null) : null;
+                $booking = $table->status === 'RESERVED' && isset($data['today_bookings'][$table->id]) ? $data['today_bookings'][$table->id]->first() : null;
             @endphp
 
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3">

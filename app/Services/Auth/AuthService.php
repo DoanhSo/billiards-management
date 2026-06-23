@@ -23,7 +23,7 @@ class AuthService
         $attempt = Auth::attempt([
             'email'  => $credentials['email'],
             'password' => $credentials['password'],
-            'status' => true,
+            'status' => 1,
         ], $remember);
 
         if (! $attempt) {
