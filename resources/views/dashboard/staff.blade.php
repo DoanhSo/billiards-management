@@ -163,7 +163,7 @@
                                         <form action="{{ route('sessions.end', $activeSession->id) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-danger w-100 py-2" onclick="return confirm('Xác nhận tắt giờ chơi và lập hóa đơn thanh toán?')">
+                                            <button type="submit" class="btn btn-sm btn-danger w-100 py-2" data-confirm-click="Xác nhận tắt giờ chơi và lập hóa đơn thanh toán?">
                                                 <i class="bi bi-calculator me-1"></i> Tắt bàn
                                             </button>
                                         </form>
@@ -184,7 +184,7 @@
                                         <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger w-100 py-2" onclick="return confirm('Bạn có chắc chắn muốn hủy đặt bàn này?')">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger w-100 py-2" data-confirm-click="Bạn có chắc chắn muốn hủy đặt bàn này?">
                                                 <i class="bi bi-x-circle me-1"></i> Hủy
                                             </button>
                                         </form>
@@ -266,7 +266,7 @@
                                         <form action="{{ route('bookings.cancel', $pending->id) }}" method="POST" class="m-0">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Từ chối lịch đặt bàn này?')">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" data-confirm-click="Từ chối lịch đặt bàn này?">
                                                 Từ chối
                                             </button>
                                         </form>

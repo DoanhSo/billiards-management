@@ -172,7 +172,7 @@
                 <div class="card-body d-grid gap-2">
                     @if ($session->status === 'PLAYING')
                         <form action="{{ route('sessions.end', $session->id) }}" method="POST"
-                              onsubmit="return confirm('Bạn có chắc muốn kết thúc phiên chơi này?');">
+                              data-confirm="Bạn có chắc muốn kết thúc phiên chơi này?">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="btn btn-danger w-100">
