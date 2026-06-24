@@ -15,6 +15,7 @@ class ProductSeeder extends Seeder
         $food    = Category::firstOrCreate(['name' => 'Đồ ăn'],    ['description' => 'Các món ăn nhẹ']);
         $snacks  = Category::firstOrCreate(['name' => 'Snack'],    ['description' => 'Bánh kẹo, đồ ăn vặt']);
         $tobacco = Category::firstOrCreate(['name' => 'Thuốc lá'], ['description' => 'Thuốc lá các loại']);
+        $cue_rental = Category::firstOrCreate(['name' => 'Thuê gậy'], ['description' => 'Thuê gậy bida các loại']);
 
         // ── Sản phẩm ────────────────────────────────────────────────
         $products = [
@@ -43,6 +44,11 @@ class ProductSeeder extends Seeder
             ['category_id' => $tobacco->id, 'name' => 'Thuốc lá Marlboro', 'price' => 28000, 'quantity' => 50,  'status' => true,  'description' => 'Marlboro Red gói 20 điếu'],
             ['category_id' => $tobacco->id, 'name' => 'Thuốc lá Thăng Long','price' => 15000,'quantity' => 40,  'status' => true,  'description' => 'Thăng Long gói 20 điếu'],
             ['category_id' => $tobacco->id, 'name' => 'Thuốc lá 555',      'price' => 32000, 'quantity' => 0,   'status' => false, 'description' => 'Thuốc lá 555 (tạm hết hàng)'],
+
+            // Thuê gậy
+            ['category_id' => $cue_rental->id, 'name' => 'Thuê gậy VIP', 'price' => 50000, 'quantity' => 10, 'status' => true, 'description' => 'Gậy carbon nguyên khối'],
+            ['category_id' => $cue_rental->id, 'name' => 'Thuê gậy Phá (Break)', 'price' => 30000, 'quantity' => 5, 'status' => true, 'description' => 'Gậy chuyên phá bóng'],
+            ['category_id' => $cue_rental->id, 'name' => 'Thuê gậy Nhảy (Jump)', 'price' => 40000, 'quantity' => 5, 'status' => true, 'description' => 'Gậy chuyên nhảy bóng'],
         ];
 
         foreach ($products as $data) {

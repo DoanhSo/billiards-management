@@ -65,24 +65,7 @@ class TableService
 
         $table = BilliardTable::create($data);
 
-        // Danh sách các phụ kiện/thiết bị mặc định cần có cho mỗi bàn bida
-        $defaultEquipments = [
-            ['name' => 'Cơ Bida', 'quantity' => 4],
-            ['name' => 'Bộ Bi', 'quantity' => 1],
-            ['name' => 'Lơ Bida', 'quantity' => 4],
-            ['name' => 'Lết Bida', 'quantity' => 1],
-            ['name' => 'Găng Tay', 'quantity' => 4],
-        ];
-
-        // Tự động seed dữ liệu vào bảng table_equipments
-        foreach ($defaultEquipments as $eq) {
-            $table->equipments()->create([
-                'name' => $eq['name'],
-                'quantity' => $eq['quantity'],
-                'broken_quantity' => 0, // Mới tạo thì chưa có đồ hỏng
-                'note' => 'Theo máy',
-            ]);
-        }
+        // Đã xóa tạo phụ kiện mặc định theo yêu cầu.
 
         return $table;
     }

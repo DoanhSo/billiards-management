@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             UserSeeder::class,
             BilliardTableSeeder::class,
-            TableEquipmentSeeder::class,
             BookingSeeder::class,
             ProductSeeder::class,
             TableSessionSeeder::class,
