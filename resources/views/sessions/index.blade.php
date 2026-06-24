@@ -1,4 +1,4 @@
-﻿{{-- resources/views/sessions/index.blade.php --}}
+{{-- resources/views/sessions/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý phiên chơi')
@@ -112,8 +112,8 @@
                                             </a>
 
                                             @if ($session->status === 'PLAYING')
-                                                <form action="{{ route('sessions.end', $session->id) }}" method="POST"
-                                                      onsubmit="return confirm('Bạn có chắc muốn kết thúc phiên chơi này?');">
+                                                <form action="{{ route('sessions.end', $session->id) }}" method="POST" class="d-inline form-confirm"
+                                                      data-action="kết thúc" data-name="phiên chơi tại Bàn {{ $session->billiardTable->table_number }}">
                                                     @csrf
                                                     @method('PATCH')
                                                     <button type="submit" class="btn btn-outline-danger" title="Kết thúc">

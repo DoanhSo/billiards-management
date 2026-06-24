@@ -1,4 +1,4 @@
-﻿{{-- resources/views/dashboard/staff.blade.php --}}
+{{-- resources/views/dashboard/staff.blade.php --}}
 <div class="page-content-padding pt-0">
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
@@ -160,10 +160,11 @@
                                         </a>
                                     </div>
                                     <div class="col-6">
-                                        <form action="{{ route('sessions.end', $activeSession->id) }}" method="POST">
+                                        <form action="{{ route('sessions.end', $activeSession->id) }}" method="POST" class="form-confirm"
+                                              data-action="tắt giờ chơi và thanh toán" data-name="Bàn {{ $table->table_number }}">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-danger w-100 py-2" onclick="return confirm('Xác nhận tắt giờ chơi và lập hóa đơn thanh toán?')">
+                                            <button type="submit" class="btn btn-sm btn-danger w-100 py-2">
                                                 <i class="bi bi-calculator me-1"></i> Tắt bàn
                                             </button>
                                         </form>
