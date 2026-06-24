@@ -79,11 +79,9 @@ class CategoryService
         $category = $this->getCategoryById($id);
 
         // Kiểm tra số lượng sản phẩm con, nếu > 0 thì ném lỗi, bắt người dùng phải xóa/chuyển sản phẩm đi trước
-        abort_unless(
-            $category->products()->count() === 0,
-            422,
-            'Không thể xóa danh mục đang có sản phẩm.'
-        );
+        if ($category->products()->count() > 0) {
+            throw new \Exception('Không thể xóa danh mục đang có sản phẩm.');
+        }
 
         return (bool) $category->delete();
     }

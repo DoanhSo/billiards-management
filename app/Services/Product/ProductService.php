@@ -118,11 +118,9 @@ class ProductService
         $product = $this->getProductById($id);
 
         // Kiểm tra ràng buộc khóa ngoại (Foreign key) với bảng invoice_details
-        abort_if(
-            $product->invoiceDetails()->exists(),
-            422,
-            'Không thể xóa sản phẩm đã có trong hóa đơn.'
-        );
+        if ($product->invoiceDetails()->exists()) {
+            throw new \Exception('Không thể xóa sản phẩm đã có trong hóa đơn.');
+        }
 
         // Xóa file ảnh vật lý để giải phóng dung lượng
         if ($product->image) {

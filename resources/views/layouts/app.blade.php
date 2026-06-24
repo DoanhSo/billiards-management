@@ -1,4 +1,4 @@
-﻿{{-- resources/views/layouts/app.blade.php --}}
+{{-- resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -123,6 +123,108 @@
                     e.preventDefault();
                     submitForm();
                 });
+            });
+        });
+    </script>
+    
+    {{-- Global Delete Modal --}}
+    <div class="modal fade" id="globalDeleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+            <div class="modal-content" style="background: var(--bg-surface); border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                        <i class="bi bi-x-circle-fill" style="font-size: 1.75rem; color: var(--danger);"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-primary); font-size: 1.1rem;">Xác nhận xóa dữ liệu</h5>
+                    <p class="text-secondary mb-1" style="font-size: 0.9rem;">
+                        Bạn có chắc muốn xóa <strong id="globalDeleteName" style="color: var(--danger);"></strong>?
+                    </p>
+                    <p class="text-muted mb-4" style="font-size: 0.8rem;">Hành động này <strong>không thể hoàn tác</strong>.</p>
+                    
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="height: 40px; min-width: 100px;">
+                            <i class="bi bi-arrow-return-left me-1"></i> Quay lại
+                        </button>
+                        <button type="button" id="globalDeleteConfirmBtn" class="btn btn-danger" style="height: 40px; min-width: 120px;">
+                            <i class="bi bi-trash3-fill me-1"></i> Xóa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Global Confirm Modal (Khóa/Mở khóa, v.v...) --}}
+    <div class="modal fade" id="globalConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+            <div class="modal-content" style="background: var(--bg-surface); border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(245,158,11,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                        <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.75rem; color: #f59e0b;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-primary); font-size: 1.1rem;">Xác nhận thao tác</h5>
+                    <p class="text-secondary mb-1" style="font-size: 0.9rem;">
+                        Bạn có chắc muốn <strong id="globalConfirmAction" style="color: #f59e0b;"></strong> <strong id="globalConfirmName" style="color: var(--text-primary);"></strong>?
+                    </p>
+                    
+                    <div class="d-flex gap-2 justify-content-center mt-4">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="height: 40px; min-width: 100px;">
+                            <i class="bi bi-arrow-return-left me-1"></i> Quay lại
+                        </button>
+                        <button type="button" id="globalConfirmBtn" class="btn btn-warning" style="height: 40px; min-width: 120px; color: #fff;">
+                            <i class="bi bi-check-circle-fill me-1"></i> Xác nhận
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let formToSubmit = null;
+            const deleteModal = new bootstrap.Modal(document.getElementById('globalDeleteModal'));
+            
+            // Lắng nghe sự kiện submit của tất cả các form-delete
+            document.body.addEventListener('submit', function(e) {
+                if (e.target && e.target.classList.contains('form-delete')) {
+                    e.preventDefault();
+                    formToSubmit = e.target;
+                    let itemName = formToSubmit.getAttribute('data-name') || 'mục này';
+                    
+                    document.getElementById('globalDeleteName').textContent = itemName;
+                    deleteModal.show();
+                }
+            });
+
+            // Khi người dùng bấm nút "Xóa" trên Modal
+            document.getElementById('globalDeleteConfirmBtn').addEventListener('click', function() {
+                if (formToSubmit) {
+                    formToSubmit.submit();
+                }
+            });
+            let confirmFormToSubmit = null;
+            const confirmModal = new bootstrap.Modal(document.getElementById('globalConfirmModal'));
+
+            // Lắng nghe sự kiện submit của tất cả các form-confirm
+            document.body.addEventListener('submit', function(e) {
+                if (e.target && e.target.classList.contains('form-confirm')) {
+                    e.preventDefault();
+                    confirmFormToSubmit = e.target;
+                    let action = confirmFormToSubmit.getAttribute('data-action') || 'thực hiện thao tác với';
+                    let itemName = confirmFormToSubmit.getAttribute('data-name') || 'mục này';
+                    
+                    document.getElementById('globalConfirmAction').textContent = action;
+                    document.getElementById('globalConfirmName').textContent = itemName;
+                    confirmModal.show();
+                }
+            });
+
+            // Khi người dùng bấm nút "Xác nhận" trên Confirm Modal
+            document.getElementById('globalConfirmBtn').addEventListener('click', function() {
+                if (confirmFormToSubmit) {
+                    confirmFormToSubmit.submit();
+                }
             });
         });
     </script>
