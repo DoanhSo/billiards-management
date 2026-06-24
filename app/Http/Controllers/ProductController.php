@@ -79,10 +79,12 @@ class ProductController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        $this->productService->deleteProduct($id);
-
-        return redirect()->route('products.index')
-            ->with('success', 'Xóa sản phẩm thành công.');
+        try {
+            $this->productService->deleteProduct($id);
+            return redirect()->route('products.index')->with('success', 'Xóa sản phẩm thành công.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

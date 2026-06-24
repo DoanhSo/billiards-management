@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Quản lý Bàn chơi')
 
@@ -216,13 +216,13 @@
 
                             {{-- Delete --}}
                             @if($table->status === 'AVAILABLE')
-                                <button type="button" class="btn btn-outline-danger btn-sm" title="Xóa bàn"
-                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    data-table-id="{{ $table->id }}"
-                                    data-table-number="{{ $table->table_number }}"
-                                    data-table-type="{{ $table->table_type }}">
-                                    <i class="bi bi-trash3-fill"></i>
-                                </button>
+                                <form action="{{ route('tables.destroy', $table->id) }}" method="POST" class="d-inline form-delete" data-name="Bàn {{ $table->table_number }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Xóa bàn">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </form>
                             @else
                                 <button class="btn btn-sm" style="background: #f1f5f9; border: 1px solid #e2e8f0; cursor: not-allowed;" title="Không thể xóa khi bàn đang {{ strtolower($statusConfig['label']) }}" disabled>
                                     <i class="bi bi-trash3" style="color: #94a3b8"></i>
@@ -254,60 +254,7 @@
 
 </div>
 
-{{-- ═══ DELETE CONFIRM MODAL ═══ --}}
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
-        <div class="modal-content" style="background: var(--bg-surface); border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
-            <div class="modal-body p-4 text-center">
-                <div class="mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                    <i class="bi bi-trash3-fill" style="font-size: 1.75rem; color: var(--danger);"></i>
-                </div>
-                <h5 class="fw-bold mb-2" style="color: var(--text-primary); font-size: 1.1rem;">Xác nhận xóa bàn</h5>
-                <p class="text-secondary mb-1" style="font-size: 0.9rem;">
-                    Bạn có chắc muốn xóa
-                    <strong id="modalTableNumber" style="color: var(--danger);"></strong>
-                    (<span id="modalTableType" style="color: var(--text-secondary);"></span>)?
-                </p>
-                <p class="text-muted mb-4" style="font-size: 0.8rem;">Hành động này <strong>không thể hoàn tác</strong>.</p>
 
-                <form id="deleteForm" method="POST" novalidate>
-                    @csrf
-                    @method('DELETE')
-                    <div class="d-flex gap-2 justify-content-center">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="height: 40px; min-width: 100px;">
-                            <i class="bi bi-x-lg me-1"></i> Hủy
-                        </button>
-                        <button type="submit" class="btn btn-danger" style="height: 40px; min-width: 120px;">
-                            <i class="bi bi-trash3-fill me-1"></i> Xóa bàn
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const deleteModal = document.getElementById('deleteModal');
-    if (deleteModal) {
-        deleteModal.addEventListener('show.bs.modal', function (e) {
-            const btn = e.relatedTarget;
-            const tableId     = btn.getAttribute('data-table-id');
-            const tableNumber = btn.getAttribute('data-table-number');
-            const tableType   = btn.getAttribute('data-table-type');
-
-            document.getElementById('modalTableNumber').textContent = 'Bàn ' + tableNumber;
-            document.getElementById('modalTableType').textContent   = tableType;
-
-            const baseUrl = '{{ url('/tables') }}';
-            document.getElementById('deleteForm').action = baseUrl + '/' + tableId;
-        });
-    }
-});
-</script>
-@endpush
 @endsection
 
 
