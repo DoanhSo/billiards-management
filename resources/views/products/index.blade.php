@@ -11,9 +11,6 @@
     </a>
 </div>
 
-@if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-@endif
 
 <x-card>
     <div class="filter-bar mb-0" style="padding: 16px 0 16px 0;">

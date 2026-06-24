@@ -1,9 +1,38 @@
-﻿{{-- resources/views/invoices/create.blade.php --}}
+{{-- resources/views/invoices/create.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Tạo hóa đơn & Thanh toán')
 
 @section('content')
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+    <style>
+        .ts-control {
+            background-color: rgba(255, 255, 255, 0.07) !important;
+            border-color: rgba(255,255,255,0.15) !important;
+            color: #fff !important;
+            border-radius: 0.375rem !important;
+        }
+        .ts-control input {
+            color: #fff !important;
+        }
+        .ts-dropdown {
+            background-color: var(--bg-surface) !important;
+            border-color: rgba(255,255,255,0.15) !important;
+            border-radius: 0.375rem !important;
+        }
+        .ts-dropdown .option {
+            color: #e2e8f0;
+        }
+        .ts-dropdown .option.active, .ts-dropdown .option:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #fff;
+        }
+        .ts-wrapper.form-select.single.input-active .ts-control {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+    </style>
+@endpush
 <div class="container-fluid px-0" style="max-width: 1000px;">
     <!-- Header Page -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -160,6 +189,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const productSelect = document.getElementById('product-select');
@@ -267,7 +297,17 @@
             calculateInvoiceTotals();
         }
 
-        // Bấm nút thêm dịch vụ
+        // Initialize TomSelect
+        const tomSelect = new TomSelect('#product-select', {
+            create: false,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            },
+            placeholder: '-- Gõ tìm tên sản phẩm/dịch vụ --',
+        });
+
+        // Bấm Thêm
         btnAddService.addEventListener('click', function() {
             const selectedOption = productSelect.options[productSelect.selectedIndex];
             if (!selectedOption || !productSelect.value) {
@@ -304,7 +344,7 @@
 
             // Reset input số lượng và select
             productQty.value = 1;
-            productSelect.value = '';
+            tomSelect.clear();
 
             renderServicesTable();
         });
