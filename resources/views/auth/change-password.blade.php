@@ -1,4 +1,4 @@
-{{-- resources/views/auth/change-password.blade.php --}}
+﻿{{-- resources/views/auth/change-password.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Đổi mật khẩu')
@@ -8,7 +8,7 @@
     <div class="col-md-6 col-lg-5">
 
         <div class="card border-0 shadow-sm" style="border-radius: 1rem;">
-            <div class="card-header bg-white border-0 pt-4 px-4" style="border-radius: 1rem 1rem 0 0;">
+            <div class="card-header border-0 pt-4 px-4" style="background: transparent; border-radius: 1rem 1rem 0 0;">
                 <h4 class="mb-1 fw-bold">
                     <i class="bi bi-shield-lock me-2 text-primary"></i>Đổi mật khẩu
                 </h4>
@@ -25,16 +25,7 @@
                     </div>
                 @endif
 
-                @if ($errors->any())
-                    <div class="alert alert-danger d-flex align-items-start mt-3" role="alert">
-                        <i class="bi bi-exclamation-circle-fill me-2 mt-1"></i>
-                        <ul class="mb-0 ps-2">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+
 
                 <form id="form-change-password"
                       method="POST"
@@ -48,8 +39,8 @@
                         <label for="current_password" class="form-label fw-medium">
                             Mật khẩu hiện tại
                         </label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light">
+                        <div class="input-group input-group-password">
+                            <span class="input-group-text" style="background: transparent;">
                                 <i class="bi bi-lock text-secondary"></i>
                             </span>
                             <input
@@ -60,15 +51,16 @@
                                 placeholder="Nhập mật khẩu hiện tại"
                                 autocomplete="current-password"
                             >
-                            <button type="button" class="btn btn-outline-secondary btn-toggle-pw"
+                            <button type="button" class="btn-toggle-pw"
                                     data-target="current_password" title="Hiện/ẩn">
                                 <i class="bi bi-eye"></i>
                             </button>
                         </div>
                         @error('current_password')
-                            <div class="invalid-feedback d-block">
-                                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-                            </div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
+                </div>
                         @enderror
                     </div>
 
@@ -77,8 +69,8 @@
                         <label for="new_password" class="form-label fw-medium">
                             Mật khẩu mới
                         </label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light">
+                        <div class="input-group input-group-password">
+                            <span class="input-group-text" style="background: transparent;">
                                 <i class="bi bi-key text-secondary"></i>
                             </span>
                             <input
@@ -89,15 +81,16 @@
                                 placeholder="Tối thiểu 8 ký tự"
                                 autocomplete="new-password"
                             >
-                            <button type="button" class="btn btn-outline-secondary btn-toggle-pw"
+                            <button type="button" class="btn-toggle-pw"
                                     data-target="new_password" title="Hiện/ẩn">
                                 <i class="bi bi-eye"></i>
                             </button>
                         </div>
                         @error('new_password')
-                            <div class="invalid-feedback d-block">
-                                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-                            </div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
+                </div>
                         @enderror
                     </div>
 
@@ -106,23 +99,33 @@
                         <label for="new_password_confirmation" class="form-label fw-medium">
                             Xác nhận mật khẩu mới
                         </label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light">
+                        <div class="input-group input-group-password">
+                            <span class="input-group-text" style="background: transparent;">
                                 <i class="bi bi-shield-check text-secondary"></i>
                             </span>
                             <input
                                 type="password"
                                 id="new_password_confirmation"
                                 name="new_password_confirmation"
-                                class="form-control"
+                                class="form-control @error('new_password_confirmation') is-invalid @enderror"
                                 placeholder="Nhập lại mật khẩu mới"
                                 autocomplete="new-password"
                             >
+                            <button type="button" class="btn-toggle-pw"
+                                    data-target="new_password_confirmation" title="Hiện/ẩn">
+                                <i class="bi bi-eye"></i>
+                            </button>
                         </div>
+                        @error('new_password_confirmation')
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
+                </div>
+                        @enderror
                     </div>
 
                     {{-- Buttons --}}
-                    <div class="d-flex gap-2">
+                    <div class="d-flex justify-content-center gap-2">
                         <button type="submit" class="btn btn-primary px-4" id="btn-submit">
                             <i class="bi bi-check-lg me-1"></i>Lưu thay đổi
                         </button>
@@ -160,3 +163,5 @@
     });
 </script>
 @endpush
+
+

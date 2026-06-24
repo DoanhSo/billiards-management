@@ -1,4 +1,4 @@
-{{-- resources/views/layouts/auth.blade.php --}}
+﻿{{-- resources/views/layouts/auth.blade.php --}}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -143,8 +143,14 @@
             border-radius: 0 0.75rem 0.75rem 0;
         }
 
+        .input-group:has(.btn-toggle-pw) .form-control {
+            border-radius: 0;
+            border-right: none;
+        }
+
         .input-group .form-control:focus {
             border-left: none;
+            box-shadow: none;
         }
 
         .btn-toggle-pw {
@@ -160,6 +166,26 @@
 
         .btn-toggle-pw:hover {
             color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Focus within: light up the whole input group */
+        .input-group:focus-within .input-group-text,
+        .input-group:focus-within .form-control,
+        .input-group:focus-within .btn-toggle-pw {
+            border-color: #667eea;
+        }
+
+        /* Invalid state: light up the whole input group red */
+        .input-group:has(.is-invalid) .input-group-text,
+        .input-group:has(.is-invalid) .form-control,
+        .input-group:has(.is-invalid) .btn-toggle-pw {
+            border-color: #ef4444 !important;
+            background-color: rgba(239, 68, 68, 0.03);
+        }
+
+        .input-group .form-control.is-invalid {
+            background-image: none !important;
+            padding-right: 1rem !important;
         }
 
         /* Error feedback */
@@ -310,3 +336,4 @@
     @stack('scripts')
 </body>
 </html>
+

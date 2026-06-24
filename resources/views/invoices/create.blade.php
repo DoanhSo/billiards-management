@@ -1,4 +1,4 @@
-{{-- resources/views/invoices/create.blade.php --}}
+﻿{{-- resources/views/invoices/create.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Tạo hóa đơn & Thanh toán')
@@ -27,7 +27,7 @@
                 <x-card>
                     <x-slot:title>
                         <i class="bi bi-info-circle me-2 text-primary"></i>Chi tiết tiền giờ: Bàn {{ $session->billiardTable->table_number }}
-                    </x-slot>
+                    </x-slot:title>
 
                     <div class="row g-3 mb-3">
                         <div class="col-6">
@@ -60,7 +60,7 @@
                 <x-card>
                     <x-slot:title>
                         <i class="bi bi-cart-plus me-2 text-success"></i>Thêm dịch vụ & sản phẩm
-                    </x-slot>
+                    </x-slot:title>
 
                     <!-- Chọn sản phẩm -->
                     <div class="row g-2 mb-4">
@@ -112,7 +112,7 @@
                 <x-card>
                     <x-slot:title>
                         <i class="bi bi-receipt-cutoff me-2 text-warning"></i>Tổng hợp hóa đơn
-                    </x-slot>
+                    </x-slot:title>
 
                     <div class="d-flex justify-content-between mb-2 small text-muted">
                         <span>Tiền giờ chơi:</span>
@@ -127,8 +127,8 @@
 
                     {{-- Chiết khấu / Giảm giá --}}
                     <div class="mb-3">
-                        <label for="discount" class="form-label text-muted small">Chiết khấu / Giảm giá (VNĐ):</label>
-                        <input type="number" name="discount" id="discount" class="form-control text-white border-secondary" placeholder="Nhập số tiền giảm giá..." min="0" value="0" style="background-color: rgba(255,255,255,0.07);">
+                        <label for="discount_percent" class="form-label text-muted small">Chiết khấu / Giảm giá (%):</label>
+                        <input type="number" name="discount_percent" id="discount_percent" class="form-control text-white border-secondary" placeholder="Nhập % giảm giá..." min="0" max="100" step="any" value="0" style="background-color: rgba(255,255,255,0.07);">
                     </div>
 
                     {{-- Phương thức thanh toán --}}
@@ -168,7 +168,7 @@
         const servicesList = document.getElementById('services-list');
         const servicesTotalDisplay = document.getElementById('services-total-display');
         const tablePrice = parseFloat(document.getElementById('table-price-display').getAttribute('data-value'));
-        const discountInput = document.getElementById('discount');
+        const discountPercentInput = document.getElementById('discount_percent');
         const totalAmountDisplay = document.getElementById('total-amount-display');
         
         let addedServices = {}; // Quản lý {productId: {name, price, quantity}}
@@ -184,7 +184,8 @@
             servicesTotalDisplay.textContent = new Intl.NumberFormat('vi-VN').format(servicesTotal) + ' ₫';
             
             // Tính tổng cộng sau giảm giá
-            const discount = parseFloat(discountInput.value) || 0;
+            const discountPercent = parseFloat(discountPercentInput.value) || 0;
+            const discount = Math.round(((tablePrice + servicesTotal) * discountPercent) / 100);
             const finalTotal = Math.max(0, (tablePrice + servicesTotal) - discount);
             
             totalAmountDisplay.textContent = new Intl.NumberFormat('vi-VN').format(finalTotal) + ' ₫';
@@ -222,8 +223,8 @@
                     <td class="text-end text-white-50">${new Intl.NumberFormat('vi-VN').format(item.price)} ₫</td>
                     <td class="text-center">
                         <input type="number" class="form-control form-control-sm text-center text-white border-secondary mx-auto qty-update" 
-                               data-product-id="${productId}" value="${item.quantity}" min="1" max="${item.stock}" 
-                               style="width: 70px; background-color: rgba(255,255,255,0.07);">
+                                data-product-id="${productId}" value="${item.quantity}" min="1" max="${item.stock}" 
+                                style="width: 70px; background-color: rgba(255,255,255,0.07);">
                     </td>
                     <td class="text-end fw-semibold text-white">${new Intl.NumberFormat('vi-VN').format(rowTotal)} ₫</td>
                     <td class="text-center">
@@ -309,7 +310,7 @@
         });
 
         // Bấm nhập discount
-        discountInput.addEventListener('input', calculateInvoiceTotals);
+        discountPercentInput.addEventListener('input', calculateInvoiceTotals);
     });
 </script>
 <style>
@@ -318,3 +319,4 @@
     }
 </style>
 @endpush
+

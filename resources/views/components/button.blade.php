@@ -1,7 +1,8 @@
-{{-- resources/views/components/button.blade.php --}}
+﻿{{-- resources/views/components/button.blade.php --}}
+{{-- variant: primary | secondary | danger --}}
 @props([
     'type' => 'submit',
-    'variant' => 'primary', {{-- primary, secondary, danger --}}
+    'variant' => 'primary',
     'icon' => null,
 ])
 
@@ -20,3 +21,4 @@
     @endif
     {{ $slot }}
 </button>
+

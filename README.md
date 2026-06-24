@@ -13,6 +13,8 @@ Hệ thống quản lý quán Billiards là một ứng dụng web được xây
 * Quản lý sản phẩm
 * Quản lý hóa đơn
 * Thống kê doanh thu
+* Tích hợp giao diện riêng cho Khách hàng (Customer Portal)
+* Tìm kiếm trực tiếp Live Search (AJAX) không tải lại trang
 
 Dự án được phát triển trong khuôn khổ môn Công Nghệ Web.
 
@@ -154,6 +156,15 @@ routes/
 * Thống kê doanh thu
 * Thống kê lượt đặt bàn
 * Thống kê sản phẩm bán chạy
+
+---
+
+## Giao Diện Khách Hàng (Customer Portal)
+
+* Xem lịch sử phiên chơi cá nhân
+* Quản lý và theo dõi lịch đặt bàn
+* Cập nhật thông tin hồ sơ (Profile)
+* Tra cứu hóa đơn điện tử
 
 ---
 

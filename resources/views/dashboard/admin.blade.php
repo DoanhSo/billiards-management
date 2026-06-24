@@ -1,4 +1,4 @@
-{{-- resources/views/dashboard/admin.blade.php --}}
+﻿{{-- resources/views/dashboard/admin.blade.php --}}
 <div class="page-content-padding pt-0">
     <div class="d-flex align-items-center justify-content-between mb-4">
         <h1 class="page-title mb-0">Tổng Quan Dashboard</h1>
@@ -252,3 +252,4 @@
     });
 </script>
 @endpush
+

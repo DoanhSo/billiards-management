@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Quản lý Đặt bàn')
 
@@ -21,16 +21,72 @@
         </div>
     </div>
 
+    {{-- ═══ STAT CARDS ═══ --}}
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-warning">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Chờ xác nhận</div>
+                        <div class="stat-value" style="color: var(--warning)">{{ $summary['PENDING'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-warning">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-success">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Đã xác nhận</div>
+                        <div class="stat-value" style="color: var(--success)">{{ $summary['CONFIRMED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-info">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Hoàn thành</div>
+                        <div class="stat-value" style="color: var(--info)">{{ $summary['COMPLETED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-info">
+                        <i class="bi bi-check2-all"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card stat-secondary">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label mb-2">Đã hủy</div>
+                        <div class="stat-value" style="color: var(--danger)">{{ $summary['CANCELLED'] ?? 0 }}</div>
+                    </div>
+                    <div class="stat-icon icon-danger">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- ═══ FILTER BAR ═══ --}}
-    <div class="filter-bar mb-4" style="background: white; border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-        <form action="{{ route('bookings.index') }}" method="GET">
+    <div class="filter-bar mb-4" style="background: var(--bg-surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+        <form action="{{ route('bookings.index') }}" method="GET" class="ajax-search-form" novalidate>
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Tìm kiếm</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-search"></i></span>
+                        <span class="input-group-text text-muted border-end-0" style="background: transparent;"><i class="bi bi-search"></i></span>
                         <input type="text" name="search" class="form-control border-start-0" style="height: 40px;"
-                               placeholder="Tên khách hàng, số bàn..." value="{{ $search }}">
+                               placeholder="Tên, SĐT khách, số bàn..." value="{{ $search }}">
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -57,9 +113,10 @@
         </form>
     </div>
 
-    {{-- ═══ DATA TABLE ═══ --}}
-    <x-card>
-        <x-table>
+    <div id="searchable-content">
+        {{-- ═══ DATA TABLE ═══ --}}
+        <x-card>
+            <x-table>
             <x-slot:thead>
                 <tr>
                     <th style="width: 50px; padding-left: 20px !important;">#</th>
@@ -92,12 +149,12 @@
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             <div class="avatar-circle" style="background: var(--primary-glow); color: var(--primary); font-weight: 700; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                {{ strtoupper(substr($booking->user->name, 0, 1)) }}
+                                {{ strtoupper(substr($booking->user?->name ?? 'K', 0, 1)) }}
                             </div>
                             <div>
-                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ $booking->user->name }}</div>
-                                <div class="text-xxs" style="color: var(--text-secondary);">
-                                    <i class="bi bi-telephone me-1"></i>{{ $booking->user->phone ?? 'Chưa có SĐT' }}
+                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ $booking->user?->name ?? 'Khách vãng lai' }}</div>
+                                <div class="text-xxs" style="color: var(--text-secondary); font-size: 0.75rem;">
+                                    <i class="bi bi-telephone me-1"></i>{{ $booking->user?->phone ?? 'Chưa có SĐT' }}
                                 </div>
                             </div>
                         </div>
@@ -136,7 +193,7 @@
                                 <i class="bi bi-eye"></i> Chi tiết
                             </a>
 
-                            @if($booking->status === 'PENDING')
+                            @if(($booking->status === 'PENDING') && (auth()->user()->isAdmin() || auth()->user()->isStaff()))
                                 <form action="{{ route('bookings.confirm', $booking->id) }}" method="POST" class="m-0">
                                     @csrf @method('PATCH')
                                     <button type="submit" class="btn btn-success btn-sm" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Xác nhận đặt bàn">
@@ -145,7 +202,7 @@
                                 </form>
                             @endif
 
-                            @if($booking->status === 'CONFIRMED')
+                            @if(($booking->status === 'CONFIRMED') && (auth()->user()->isAdmin() || auth()->user()->isStaff()))
                                 <form action="{{ route('bookings.complete', $booking->id) }}" method="POST" class="m-0">
                                     @csrf @method('PATCH')
                                     <button type="submit" class="btn btn-info btn-sm text-white" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Hoàn tất">
@@ -155,13 +212,12 @@
                             @endif
 
                             @if($booking->status === 'PENDING' || $booking->status === 'CONFIRMED')
-                                <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST" class="m-0"
-                                      onsubmit="return confirm('Hủy lịch đặt của {{ addslashes($booking->user->name) }}?')">
-                                    @csrf @method('PATCH')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Hủy đặt bàn">
-                                        <i class="bi bi-x-circle"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-outline-danger btn-sm" style="height: 32px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Hủy đặt bàn"
+                                        data-bs-toggle="modal" data-bs-target="#cancelModal"
+                                        data-booking-id="{{ $booking->id }}"
+                                        data-booking-user="{{ addslashes($booking->user?->name ?? 'Khách vãng lai') }}">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
                             @endif
                         </div>
                     </td>
@@ -180,10 +236,67 @@
         </x-table>
     </x-card>
 
-    {{-- ═══ PAGINATION ═══ --}}
-    <div class="d-flex justify-content-end mt-3">
-        {{ $bookings->links() }}
+        {{-- ═══ PAGINATION ═══ --}}
+        <div class="d-flex justify-content-end mt-3">
+            {{ $bookings->links() }}
+        </div>
     </div>
 
 </div>
+
+{{-- ═══ CANCEL CONFIRM MODAL ═══ --}}
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+        <div class="modal-content" style="background: var(--bg-surface); border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+            <div class="modal-body p-4 text-center">
+                <div class="mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <i class="bi bi-x-circle-fill" style="font-size: 1.75rem; color: var(--danger);"></i>
+                </div>
+                <h5 class="fw-bold mb-2" style="color: var(--text-primary); font-size: 1.1rem;">Xác nhận hủy đặt bàn</h5>
+                <p class="text-secondary mb-1" style="font-size: 0.9rem;">
+                    Bạn có chắc muốn hủy lịch đặt bàn của <strong id="modalBookingUser" style="color: var(--danger);"></strong>?
+                </p>
+                <p class="text-muted mb-4" style="font-size: 0.8rem;">Hành động này <strong>không thể hoàn tác</strong>.</p>
+
+                <form id="cancelForm" method="POST" novalidate>
+                    @csrf
+                    @method('PATCH')
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="height: 40px; min-width: 100px;">
+                            <i class="bi bi-arrow-return-left me-1"></i> Quay lại
+                        </button>
+                        <button type="submit" class="btn btn-danger" style="height: 40px; min-width: 120px;">
+                            <i class="bi bi-x-circle-fill me-1"></i> Hủy lịch
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cancelModal = document.getElementById('cancelModal');
+    if (cancelModal) {
+        cancelModal.addEventListener('show.bs.modal', function (e) {
+            const btn = e.relatedTarget;
+            const bookingId   = btn.getAttribute('data-booking-id');
+            const bookingUser = btn.getAttribute('data-booking-user');
+
+            document.getElementById('modalBookingUser').textContent = bookingUser;
+            
+            // Cập nhật action cho form
+            const form = document.getElementById('cancelForm');
+            form.action = `/bookings/${bookingId}/cancel`;
+        });
+    }
+});
+</script>
+@endpush
 @endsection
+ 
+ 
+
+

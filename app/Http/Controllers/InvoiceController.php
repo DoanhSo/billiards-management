@@ -63,10 +63,11 @@ class InvoiceController extends Controller
      */
     public function history(Request $request): View
     {
-        $from     = $request->string('from')->toString();
-        $to       = $request->string('to')->toString();
-        $invoices = $this->invoiceService->getInvoiceHistory($from, $to);
+        $from         = $request->string('from')->toString();
+        $to           = $request->string('to')->toString();
+        $invoices     = $this->invoiceService->getInvoiceHistory($from, $to);
+        $totalRevenue = $this->invoiceService->getInvoiceRevenue($from, $to);
 
-        return view('invoices.history', compact('invoices', 'from', 'to'));
+        return view('invoices.history', compact('invoices', 'from', 'to', 'totalRevenue'));
     }
 }

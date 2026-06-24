@@ -14,13 +14,14 @@ class UpdateUserRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = $this->route('user') ?? $this->route('id');
+        $userParam = $this->route('user') ?? $this->route('staff') ?? $this->route('customer') ?? $this->route('id');
+        $userId = $userParam instanceof \App\Models\User ? $userParam->id : $userParam;
 
         return [
             'role_id' => ['nullable', 'integer', 'exists:roles,id'],
             'name'    => ['required', 'string', 'max:255'],
             'email'   => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
-            'phone'   => ['nullable', 'string', 'max:20'],
+            'phone'   => ['nullable', 'digits:10'],
             'avatar'  => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'status'  => ['nullable', 'boolean'],
         ];
@@ -34,6 +35,7 @@ class UpdateUserRequest extends FormRequest
             'email.unique'   => 'Email đã tồn tại trong hệ thống.',
             'avatar.image'   => 'Avatar phải là file ảnh.',
             'avatar.max'     => 'Avatar không được vượt quá 2MB.',
+            'phone.digits'   => 'Số điện thoại phải bao gồm đúng 10 chữ số.',
         ];
     }
 }

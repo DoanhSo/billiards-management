@@ -1,4 +1,4 @@
-{{-- resources/views/products/edit.blade.php --}}
+﻿{{-- resources/views/products/edit.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Chỉnh sửa sản phẩm')
@@ -9,7 +9,7 @@
 </div>
 
 <x-card title="Chỉnh sửa sản phẩm: {{ $product->name }}">
-    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="p-3 row g-3">
+    <form novalidate action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="p-3 row g-3">
         @csrf
         @method('PUT')
 
@@ -28,7 +28,7 @@
                 @endforeach
             </select>
             @error('category_id')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
             @enderror
         </div>
 
@@ -58,7 +58,7 @@
             <input type="file" name="image" id="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" accept="image/*">
             <small class="text-muted">Chỉ chọn ảnh mới nếu muốn thay đổi ảnh hiện tại.</small>
             @error('image')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
             @enderror
         </div>
 
@@ -66,7 +66,7 @@
             <label for="description" class="form-label mb-1">Mô tả</label>
             <textarea name="description" id="description" class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" rows="4">{{ old('description', $product->description) }}</textarea>
             @error('description')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
             @enderror
         </div>
 
@@ -77,3 +77,5 @@
     </form>
 </x-card>
 @endsection
+
+

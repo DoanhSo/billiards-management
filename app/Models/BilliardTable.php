@@ -36,6 +36,8 @@ class BilliardTable extends Model
         return $this->hasMany(TableSession::class);
     }
 
+
+
     // =====================
     // Scopes
     // =====================

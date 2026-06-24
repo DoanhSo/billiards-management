@@ -1,4 +1,4 @@
-{{-- resources/views/categories/index.blade.php --}}
+﻿{{-- resources/views/categories/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý danh mục')
@@ -53,3 +53,4 @@
     </x-table>
 </x-card>
 @endsection
+

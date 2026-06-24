@@ -1,4 +1,4 @@
-{{-- resources/views/products/index.blade.php --}}
+﻿{{-- resources/views/products/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý sản phẩm')
@@ -16,34 +16,53 @@
 @endif
 
 <x-card>
-    <form action="{{ route('products.index') }}" method="GET" class="row g-3 mb-4 p-3 border-bottom">
-        <div class="col-md-4">
-            <x-input name="search" placeholder="Tìm tên sản phẩm..." value="{{ request('search') }}" />
-        </div>
-        <div class="col-md-3">
-            <select name="category_id" class="form-select" style="height: 40px;">
-                <option value="">Tất cả danh mục</option>
-                @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
-                        {{ $cat->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-3">
-            <select name="status" class="form-select" style="height: 40px;">
-                <option value="">Tất cả trạng thái</option>
-                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Đang bán</option>
-                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Ngừng bán</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <x-button type="submit" variant="secondary" class="w-100">Lọc</x-button>
-        </div>
-    </form>
+    <div class="filter-bar mb-0" style="padding: 16px 0 16px 0;">
+        <form action="{{ route('products.index') }}" method="GET" class="ajax-search-form">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                    <label class="form-label">Tìm kiếm</label>
+                    <div class="input-group">
+                        <span class="input-group-text text-muted border-end-0" style="background: transparent;"><i class="bi bi-search"></i></span>
+                        <input type="text" name="search" class="form-control border-start-0" style="height: 40px;"
+                               placeholder="Tên sản phẩm..." value="{{ request('search') }}">
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Danh mục</label>
+                    <select name="category_id" class="form-select" style="height: 40px;">
+                        <option value="">Tất cả danh mục</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
+                                {{ $cat->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Trạng thái</label>
+                    <select name="status" class="form-select" style="height: 40px;">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>🟢 Đang bán</option>
+                        <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>🔴 Ngừng bán</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1" style="height: 40px; display: inline-flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-funnel-fill me-1"></i> Lọc
+                    </button>
+                    @if(request('search') || request('category_id') || request('status'))
+                        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary" style="height: 40px; display: inline-flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </form>
+    </div>
 
-    <x-table>
-        <x-slot:thead>
+    <div id="searchable-content">
+        <x-table>
+            <x-slot:thead>
             <tr>
                 <th>Ảnh</th>
                 <th>Tên sản phẩm</th>
@@ -97,10 +116,12 @@
                 <td colspan="7" class="text-center py-4">Không tìm thấy sản phẩm nào.</td>
             </tr>
         @endforelse
-    </x-table>
-    
-    <div class="px-3 py-2">
-        {{ $products->links() }}
+        </x-table>
+        
+        <div class="px-3 py-2">
+            {{ $products->links() }}
+        </div>
     </div>
 </x-card>
 @endsection
+

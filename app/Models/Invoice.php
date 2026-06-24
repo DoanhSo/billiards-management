@@ -14,6 +14,7 @@ class Invoice extends Model
         'staff_id',
         'subtotal',
         'discount',
+        'discount_percent',
         'total_amount',
         'payment_method',
         'payment_status',
@@ -22,9 +23,10 @@ class Invoice extends Model
     protected function casts(): array
     {
         return [
-            'subtotal'      => 'decimal:2',
-            'discount'      => 'decimal:2',
-            'total_amount'  => 'decimal:2',
+            'subtotal'          => 'decimal:2',
+            'discount'          => 'decimal:2',
+            'discount_percent'  => 'decimal:2',
+            'total_amount'      => 'decimal:2',
         ];
     }
 

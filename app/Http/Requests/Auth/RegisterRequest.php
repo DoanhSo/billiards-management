@@ -23,23 +23,26 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'phone'    => 'nullable|string|max:15',
-            'password' => 'required|min:8|confirmed',
+            'name'                  => ['required', 'string', 'max:255'],
+            'email'                 => ['required', 'email', 'unique:users,email'],
+            'phone'                 => ['nullable', 'digits:10'],
+            'password'              => ['required', 'string', 'min:8'],
+            'password_confirmation' => ['required_with:password', 'same:password'],
         ];
     }
     
     public function messages(): array
     {
         return [
-            'name.required'     => 'Vui lòng nhập họ tên.',
-            'email.required'    => 'Vui lòng nhập email.',
-            'email.email'       => 'Email không đúng định dạng.',
-            'email.unique'      => 'Email này đã được đăng ký.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
-            'password.min'      => 'Mật khẩu phải dài ít nhất 8 ký tự.',
-            'password.confirmed'=> 'Mật khẩu xác nhận không khớp.',
+            'name.required'                      => 'Vui lòng nhập họ tên.',
+            'email.required'                     => 'Vui lòng nhập email.',
+            'email.email'                        => 'Email không đúng định dạng.',
+            'email.unique'                       => 'Email này đã được đăng ký.',
+            'password.required'                  => 'Vui lòng nhập mật khẩu.',
+            'password.min'                       => 'Mật khẩu phải dài ít nhất 8 ký tự.',
+            'password_confirmation.required_with'=> 'Vui lòng xác nhận lại mật khẩu.',
+            'password_confirmation.same'         => 'Mật khẩu xác nhận không khớp.',
+            'phone.digits'                       => 'Số điện thoại phải bao gồm đúng 10 chữ số.',
         ];
     }
 }

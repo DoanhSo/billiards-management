@@ -1,4 +1,4 @@
-{{-- resources/views/invoices/show.blade.php --}}
+﻿{{-- resources/views/invoices/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Chi tiết hóa đơn #' . $invoice->id)
@@ -119,7 +119,7 @@
                     <span class="text-white fw-medium">{{ number_format($invoice->subtotal, 0, ',', '.') }} ₫</span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Giảm giá/Chiết khấu:</span>
+                    <span class="text-muted">Giảm giá/Chiết khấu ({{ number_format($invoice->discount_percent, 0) }}%):</span>
                     <span class="text-white fw-medium">-{{ number_format($invoice->discount, 0, ',', '.') }} ₫</span>
                 </div>
                 <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 0.75rem 0;">
@@ -154,7 +154,7 @@
             color: #000000 !important;
             width: 100% !important;
         }
-
+        
         /* Biến đổi card glass-panel tối thành bảng in trắng đen */
         .invoice-print-box {
             background: #ffffff !important;
@@ -201,3 +201,4 @@
     }
 </style>
 @endsection
+

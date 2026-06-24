@@ -25,9 +25,14 @@ class BookingController extends Controller
     {
         $search   = $request->string('search')->toString();
         $status   = $request->string('status')->toString();
-        $bookings = $this->bookingService->getAllBookings($search, $status);
+        /** @var \App\Models\User $user */
+        $user     = $request->user();
+        $userId   = $user->isCustomer() ? $user->id : null;
 
-        return view('bookings.index', compact('bookings', 'search', 'status'));
+        $bookings = $this->bookingService->getAllBookings($search, $status, 15, $userId);
+        $summary  = $this->bookingService->getBookingStatusSummary($userId);
+
+        return view('bookings.index', compact('bookings', 'search', 'status', 'summary'));
     }
 
     /**
@@ -35,9 +40,13 @@ class BookingController extends Controller
      */
     public function create(): View
     {
-        $tables = $this->tableService->getAvailableTables();
+        // Lấy bàn AVAILABLE + RESERVED (bàn RESERVED vẫn có thể đặt khung giờ khác)
+        $tables = $this->tableService->getBookableTables();
+        
+        // Lấy danh sách khách hàng để staff/admin chọn
+        $customers = $this->userService->getAllUsers('', 'customer', '1', 1000);
 
-        return view('bookings.create', compact('tables'));
+        return view('bookings.create', compact('tables', 'customers'));
     }
 
     /**
@@ -54,9 +63,15 @@ class BookingController extends Controller
     /**
      * Chi tiết đặt bàn.
      */
-    public function show(int $id): View
+    public function show(Request $request, int $id): View
     {
         $booking = $this->bookingService->getBookingById($id);
+
+        /** @var \App\Models\User $user */
+        $user = $request->user();
+        if ($user->isCustomer() && $booking->user_id !== $user->id) {
+            abort(403, 'Bạn không có quyền xem thông tin đặt bàn này.');
+        }
 
         return view('bookings.show', compact('booking'));
     }
@@ -99,8 +114,42 @@ class BookingController extends Controller
      */
     public function history(Request $request): View
     {
-        $bookings = $this->bookingService->getBookingHistory();
+        /** @var \App\Models\User $user */
+        $user     = $request->user();
+        $userId   = $user->isCustomer() ? $user->id : null;
+        $bookings = $this->bookingService->getBookingHistory(15, $userId);
 
         return view('bookings.history', compact('bookings'));
+    }
+
+    /**
+     * Giao diện lịch đặt bàn trực quan.
+     */
+    public function calendar(): View
+    {
+        // Lấy danh sách bàn để làm resource cho timeline (nếu dùng timeline view)
+        $tables = $this->tableService->getAvailableTables();
+        return view('bookings.calendar', compact('tables'));
+    }
+
+    /**
+     * API trả về JSON events cho FullCalendar
+     */
+    public function getEvents(Request $request)
+    {
+        $start = $request->input('start');
+        $end = $request->input('end');
+
+        if (!$start || !$end) {
+            return response()->json([]);
+        }
+
+        /** @var \App\Models\User|null $user */
+        $user = $request->user();
+        $userId = $user ? $user->id : null;
+        $isCustomer = $user ? $user->isCustomer() : false;
+
+        $events = $this->bookingService->getEventsForCalendar($start, $end, $userId, $isCustomer);
+        return response()->json($events);
     }
 }
