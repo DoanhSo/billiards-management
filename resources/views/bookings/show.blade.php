@@ -147,7 +147,7 @@
                         @endif
 
                         <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST" class="m-0"
-                              onsubmit="return confirm('Hủy lịch đặt bàn này? Hành động không thể hoàn tác!')">
+                              data-confirm="Hủy lịch đặt bàn này? Hành động không thể hoàn tác!">
                             @csrf @method('PATCH')
                             <button type="submit" class="btn btn-outline-danger" style="height: 40px; display: inline-flex; align-items: center;">
                                 <i class="bi bi-x-circle-fill me-1"></i> Hủy đặt bàn

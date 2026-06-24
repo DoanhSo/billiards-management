@@ -1,4 +1,4 @@
-﻿{{-- resources/views/customers/index.blade.php --}}
+{{-- resources/views/customers/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý khách hàng')
@@ -94,14 +94,13 @@
                 <td class="text-end">
                     <div class="d-flex justify-content-end gap-1">
                         {{-- Khóa / Mở khóa --}}
-                        <form action="{{ route('customers.toggle-status', $user->id) }}" method="POST" class="d-inline">
+                        <form action="{{ route('customers.toggle-status', $user->id) }}" method="POST" class="d-inline"
+                              data-confirm="{{ $user->status ? 'Khóa' : 'Mở khóa' }} tài khoản khách hàng này?">
                             @csrf
                             @method('PATCH')
-                            <button type="submit"
+                            <button type="submit" 
                                     class="btn btn-sm {{ $user->status ? 'btn-outline-warning' : 'btn-outline-success' }}"
-                                    title="{{ $user->status ? 'Khóa' : 'Mở khóa' }}"
-                                    data-confirm="{{ $user->status ? 'Khóa' : 'Mở khóa' }} tài khoản khách hàng này?"
-                                    onclick="return confirm(this.getAttribute('data-confirm'));">
+                                    title="{{ $user->status ? 'Khóa' : 'Mở khóa' }}">
                                 <i class="bi {{ $user->status ? 'bi-lock' : 'bi-unlock' }}"></i>
                             </button>
                         </form>
@@ -111,8 +110,7 @@
                         </a>
                         {{-- Xóa --}}
                         <form action="{{ route('customers.destroy', $user->id) }}" method="POST" class="d-inline"
-                              data-name="{{ $user->name }}"
-                              onsubmit="return confirm('Xóa tài khoản khách hàng ' + this.getAttribute('data-name') + '? Hành động này không thể hoàn tác.');">
+                              data-confirm="Xóa tài khoản khách hàng {{ $user->name }}? Hành động này không thể hoàn tác.">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">

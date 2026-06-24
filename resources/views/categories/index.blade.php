@@ -38,7 +38,7 @@
                 <td class="text-end">
                     <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-outline-primary me-1">Sửa</a>
                     
-                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">
+                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline" data-confirm="Bạn có chắc chắn muốn xóa danh mục này?">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-outline-danger" {{ $category->products_count > 0 ? 'disabled' : '' }}>Xóa</button>

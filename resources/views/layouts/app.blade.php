@@ -1,4 +1,4 @@
-﻿{{-- resources/views/layouts/app.blade.php --}}
+{{-- resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -37,6 +37,31 @@
             @yield('content')
         </div>
     </main>
+
+    {{-- ═══ GLOBAL CONFIRM MODAL ═══ --}}
+    <div class="modal fade" id="globalConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+            <div class="modal-content" style="background: var(--bg-surface); border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-3" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                        <i class="bi bi-exclamation-triangle-fill" id="confirmModalIcon" style="font-size: 1.75rem; color: var(--danger);"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2" style="color: var(--text-primary); font-size: 1.1rem;" id="confirmModalTitle">Xác nhận</h5>
+                    <p class="text-secondary mb-1" style="font-size: 0.9rem;" id="confirmModalText">Bạn có chắc chắn thực hiện hành động này?</p>
+                    <p class="text-muted mb-4" style="font-size: 0.8rem;" id="confirmModalSubtext">Hành động này không thể hoàn tác.</p>
+    
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="height: 40px; min-width: 100px;">
+                            <i class="bi bi-x-lg me-1"></i> Hủy
+                        </button>
+                        <button type="button" class="btn btn-danger" id="confirmModalSubmitBtn" style="height: 40px; min-width: 120px;">
+                            <i class="bi bi-check-lg me-1"></i> Đồng ý
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{-- Bootstrap 5 JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -124,6 +149,52 @@
                     submitForm();
                 });
             });
+        });
+
+        // ==========================================
+        // Global Confirmation Handler
+        // ==========================================
+        let formToSubmit = null;
+        let elementToClick = null;
+
+        document.addEventListener('submit', function(e) {
+            if (e.target && e.target.hasAttribute('data-confirm')) {
+                e.preventDefault();
+                formToSubmit = e.target;
+                
+                document.getElementById('confirmModalText').innerHTML = formToSubmit.getAttribute('data-confirm');
+                
+                const modal = new bootstrap.Modal(document.getElementById('globalConfirmModal'));
+                modal.show();
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            const el = e.target.closest('[data-confirm-click]');
+            if (el) {
+                e.preventDefault();
+                elementToClick = el;
+                
+                document.getElementById('confirmModalText').innerHTML = el.getAttribute('data-confirm-click');
+                
+                const modal = new bootstrap.Modal(document.getElementById('globalConfirmModal'));
+                modal.show();
+            }
+        });
+
+        document.getElementById('confirmModalSubmitBtn').addEventListener('click', function() {
+            if (formToSubmit) {
+                formToSubmit.removeAttribute('data-confirm'); 
+                formToSubmit.submit();
+                formToSubmit = null;
+            } else if (elementToClick) {
+                elementToClick.removeAttribute('data-confirm-click');
+                elementToClick.click();
+                elementToClick = null;
+            }
+            const modalEl = document.getElementById('globalConfirmModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
         });
     </script>
     @stack('scripts')

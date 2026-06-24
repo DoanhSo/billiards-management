@@ -104,7 +104,7 @@
                     </form>
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-outline-primary me-1">Sửa</a>
                     
-                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline" data-confirm="Bạn có chắc chắn muốn xóa sản phẩm này?">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-outline-danger">Xóa</button>
