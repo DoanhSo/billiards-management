@@ -36,13 +36,7 @@ class BilliardTable extends Model
         return $this->hasMany(TableSession::class);
     }
 
-    /**
-     * Bàn có nhiều Phụ kiện.
-     */
-    public function equipments(): HasMany
-    {
-        return $this->hasMany(TableEquipment::class);
-    }
+
 
     // =====================
     // Scopes
