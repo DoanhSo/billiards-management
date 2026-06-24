@@ -169,7 +169,7 @@
                                         <form action="{{ route('bookings.cancel', $myBooking->id) }}" method="POST" class="m-0">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger py-1" onclick="return confirm('Bạn có chắc chắn muốn hủy đặt bàn này?')">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger py-1" data-confirm-click="Bạn có chắc chắn muốn hủy đặt bàn này?">
                                                 Hủy lịch
                                             </button>
                                         </form>
