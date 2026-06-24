@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Quản lý Bàn chơi')
 
@@ -77,7 +77,7 @@
 
     {{-- ═══ FILTER BAR ═══ --}}
     <div class="filter-bar mb-4">
-        <form action="{{ route('tables.index') }}" method="GET" class="ajax-search-form">
+        <form action="{{ route('tables.index') }}" method="GET" class="ajax-search-form" novalidate>
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Tìm kiếm bàn</label>
@@ -270,7 +270,7 @@
                 </p>
                 <p class="text-muted mb-4" style="font-size: 0.8rem;">Hành động này <strong>không thể hoàn tác</strong>.</p>
 
-                <form id="deleteForm" method="POST">
+                <form id="deleteForm" method="POST" novalidate>
                     @csrf
                     @method('DELETE')
                     <div class="d-flex gap-2 justify-content-center">
@@ -309,3 +309,6 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 @endpush
 @endsection
+
+
+

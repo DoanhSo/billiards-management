@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
 
-            $table  ->foreignId('role_id')
-                    ->nullable()
-                    ->constrained('roles')
-                    ->nullOnDelete();
+            // role_id: không dùng constrained() ở đây vì bảng `roles` chưa tồn tại
+            // (migration này chạy trước do timestamp 0001).
+            // Foreign key thực sự được thêm trong migration create_roles_table
+            // sau khi bảng roles đã được tạo.
+            $table->unsignedBigInteger('role_id')->nullable();
 
             $table->string('name');
             $table->string('email')->unique();

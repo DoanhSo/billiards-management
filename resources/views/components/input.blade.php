@@ -1,12 +1,12 @@
-{{-- resources/views/components/input.blade.php --}}
+﻿{{-- resources/views/components/input.blade.php --}}
 @props([
     'name',
-    'label' => null,
-    'type' => 'text',
-    'value' => '',
+    'label'       => null,
+    'type'        => 'text',
+    'value'       => '',
     'placeholder' => '',
-    'required' => false,
-    'error' => null,
+    'required'    => false,
+    'error'       => null,
 ])
 
 <div class="d-flex flex-column gap-1 w-100">
@@ -18,7 +18,7 @@
             @endif
         </label>
     @endif
-    
+
     <input type="{{ $type }}"
            id="{{ $name }}"
            name="{{ $name }}"
@@ -29,8 +29,10 @@
            style="height: 40px;">
 
     @if($error)
-        <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">
-            {{ $error }}
+        <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+            <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+            <span>{{ $error }}</span>
         </div>
     @endif
 </div>
+

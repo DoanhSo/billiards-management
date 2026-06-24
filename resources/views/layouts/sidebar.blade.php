@@ -1,4 +1,4 @@
-{{-- resources/views/layouts/sidebar.blade.php --}}
+﻿{{-- resources/views/layouts/sidebar.blade.php --}}
 <nav id="sidebar" class="sidebar">
     <div class="sidebar-header d-flex align-items-center justify-content-between px-4" style="height: 64px; border-bottom: 1px solid var(--border-light);">
         <div class="d-flex align-items-center gap-2">
@@ -141,3 +141,4 @@
     }
 }
 </style>
+

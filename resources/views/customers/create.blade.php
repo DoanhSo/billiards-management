@@ -1,4 +1,4 @@
-{{-- resources/views/customers/create.blade.php --}}
+﻿{{-- resources/views/customers/create.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Thêm khách hàng')
@@ -13,7 +13,7 @@
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <x-card title="Thêm tài khoản khách hàng mới">
-            <form action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data" class="p-3 row g-3">
+            <form action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data" class="p-3 row g-3" novalidate>
                 @csrf
 
                 {{-- Họ tên --}}
@@ -26,7 +26,7 @@
 
                 {{-- Email --}}
                 <div class="col-md-6">
-                    <x-input name="email" type="email" label="Email" required="true"
+                    <x-input name="email" autocomplete="off" type="email" label="Email" required="true"
                              placeholder="example@email.com"
                              value="{{ old('email') }}"
                              error="{{ $errors->first('email') }}" />
@@ -51,14 +51,14 @@
 
                 {{-- Mật khẩu --}}
                 <div class="col-md-6">
-                    <x-input name="password" type="password" label="Mật khẩu" required="true"
+                    <x-input name="password" autocomplete="new-password" type="password" label="Mật khẩu" required="true"
                              placeholder="Tối thiểu 8 ký tự"
                              error="{{ $errors->first('password') }}" />
                 </div>
 
                 {{-- Xác nhận mật khẩu --}}
                 <div class="col-md-6">
-                    <x-input name="password_confirmation" type="password" label="Xác nhận mật khẩu" required="true"
+                    <x-input name="password_confirmation" autocomplete="new-password" type="password" label="Xác nhận mật khẩu" required="true"
                              placeholder="Nhập lại mật khẩu" />
                 </div>
 
@@ -69,7 +69,7 @@
                            class="form-control {{ $errors->has('avatar') ? 'is-invalid' : '' }}"
                            accept="image/jpeg,image/png,image/webp" style="height: 40px;">
                     <small class="text-muted">JPG, PNG hoặc WebP. Tối đa 2MB.</small>
-                    @error('avatar') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @error('avatar') <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div> @enderror
                 </div>
 
                 {{-- Ghi chú vai trò --}}
@@ -89,3 +89,6 @@
     </div>
 </div>
 @endsection
+
+
+

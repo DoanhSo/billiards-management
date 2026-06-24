@@ -1,4 +1,4 @@
-{{-- resources/views/sessions/show.blade.php --}}
+﻿{{-- resources/views/sessions/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Chi tiết phiên chơi #' . $session->id)
@@ -243,3 +243,4 @@
     setInterval(updateLivePrice, 1000);
 </script>
 @endpush
+

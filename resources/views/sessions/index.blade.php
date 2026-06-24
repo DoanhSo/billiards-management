@@ -1,4 +1,4 @@
-{{-- resources/views/sessions/index.blade.php --}}
+﻿{{-- resources/views/sessions/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý phiên chơi')
@@ -168,3 +168,4 @@
     setInterval(updateTimers, 1000);
 </script>
 @endpush
+

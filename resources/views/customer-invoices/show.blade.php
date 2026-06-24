@@ -1,4 +1,4 @@
-{{-- resources/views/customer-invoices/show.blade.php --}}
+﻿{{-- resources/views/customer-invoices/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Chi tiết hóa đơn #' . $invoice->id)
@@ -208,3 +208,4 @@
 
 </div>
 @endsection
+

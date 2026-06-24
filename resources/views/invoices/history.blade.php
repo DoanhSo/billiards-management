@@ -1,4 +1,4 @@
-{{-- resources/views/invoices/history.blade.php --}}
+﻿{{-- resources/views/invoices/history.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Lịch sử hóa đơn')
@@ -147,3 +147,4 @@
         </div>
     </div>
 @endsection
+

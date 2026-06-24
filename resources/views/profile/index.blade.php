@@ -1,4 +1,4 @@
-{{-- resources/views/profile/index.blade.php --}}
+﻿{{-- resources/views/profile/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Hồ sơ cá nhân')
@@ -119,7 +119,7 @@
                                style="height: 40px;">
                         <div class="form-text text-muted mt-1"><i class="bi bi-info-circle me-1"></i>Hỗ trợ JPG, PNG, WEBP. Tối đa 2MB.</div>
                         @error('avatar')
-                            <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
                         @enderror
                     </div>
 
@@ -186,3 +186,4 @@
     });
 </script>
 @endpush
+

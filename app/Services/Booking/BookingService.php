@@ -4,6 +4,7 @@ namespace App\Services\Booking;
 
 use App\Models\BilliardTable;
 use App\Models\Booking;
+use App\Models\TableSession;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\ValidationException;
@@ -142,10 +143,22 @@ class BookingService
 
         $booking->update(['status' => 'COMPLETED']);
 
-        // Trả bàn về AVAILABLE nếu đang RESERVED
+        // Khi khách đến bắt đầu chơi:
+        // 1. Đổi trạng thái bàn → PLAYING
+        // 2. Tự động mở một phiên chơi (TableSession) mới
         if ($booking->billiardTable->status === 'RESERVED') {
-            $booking->billiardTable->update(['status' => 'AVAILABLE']);
+            $booking->billiardTable->update(['status' => 'PLAYING']);
         }
+
+        // Tạo TableSession mới từ thông tin booking
+        TableSession::create([
+            'billiard_table_id' => $booking->billiard_table_id,
+            'customer_id'       => $booking->user_id,
+            'start_time'        => now(),
+            'status'            => 'PLAYING',
+            'total_hours'       => 0,
+            'table_price'       => 0,
+        ]);
 
         return $booking->fresh(['user', 'billiardTable']);
     }

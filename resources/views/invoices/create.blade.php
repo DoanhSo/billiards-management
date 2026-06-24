@@ -1,4 +1,4 @@
-{{-- resources/views/invoices/create.blade.php --}}
+﻿{{-- resources/views/invoices/create.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Tạo hóa đơn & Thanh toán')
@@ -319,3 +319,4 @@
     }
 </style>
 @endpush
+

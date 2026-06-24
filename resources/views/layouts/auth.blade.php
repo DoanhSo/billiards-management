@@ -1,4 +1,4 @@
-{{-- resources/views/layouts/auth.blade.php --}}
+﻿{{-- resources/views/layouts/auth.blade.php --}}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -336,3 +336,4 @@
     @stack('scripts')
 </body>
 </html>
+

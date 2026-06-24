@@ -1,4 +1,4 @@
-{{-- resources/views/layouts/topbar.blade.php --}}
+﻿{{-- resources/views/layouts/topbar.blade.php --}}
 <header class="topbar d-flex align-items-center justify-content-between">
 
     {{-- Left: Toggle + Breadcrumb --}}
@@ -120,3 +120,4 @@
 })();
 </script>
 @endpush
+

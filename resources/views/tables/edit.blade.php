@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Chỉnh sửa bàn #' . $table->table_number)
 
@@ -30,7 +30,7 @@
 
     {{-- ═══ FORM CARD ═══ --}}
     <x-card>
-        <form action="{{ route('tables.update', $table->id) }}" method="POST" class="d-flex flex-column gap-3">
+        <form novalidate action="{{ route('tables.update', $table->id) }}" method="POST" class="d-flex flex-column gap-3">
             @csrf
             @method('PUT')
 
@@ -58,7 +58,7 @@
                             <option value="CAROM"   {{ old('table_type', $table->table_type) === 'CAROM'   ? 'selected' : '' }}>⚪ Carom (Bida Phăng)</option>
                         </select>
                         @error('table_type')
-                            <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
                         @enderror
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                             <span class="input-group-text text-secondary" style="background: transparent; font-weight: 700; font-size: 0.8rem; height: 40px;">VNĐ</span>
                         </div>
                         @error('price_per_hour')
-                            <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
                         @enderror
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                             <option value="MAINTENANCE" {{ old('status', $table->status) === 'MAINTENANCE' ? 'selected' : '' }}>🔧 Bảo trì</option>
                         </select>
                         @error('status')
-                            <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
                         @enderror
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                           rows="4"
                           placeholder="Ví dụ: Vị trí góc VIP, bàn mới bọc vải nhung xanh...">{{ old('description', $table->description) }}</textarea>
                 @error('description')
-                    <div class="invalid-feedback d-block mt-1" style="color: var(--danger);">{{ $message }}</div>
+                    <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div>
                 @enderror
             </div>
 
@@ -147,3 +147,5 @@
 
 </div>
 @endsection
+
+

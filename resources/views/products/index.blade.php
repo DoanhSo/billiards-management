@@ -1,4 +1,4 @@
-{{-- resources/views/products/index.blade.php --}}
+﻿{{-- resources/views/products/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý sản phẩm')
@@ -124,3 +124,4 @@
     </div>
 </x-card>
 @endsection
+

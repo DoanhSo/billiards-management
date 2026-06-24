@@ -1,4 +1,4 @@
-{{-- resources/views/dashboard/index.blade.php --}}
+﻿{{-- resources/views/dashboard/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Dashboard')
@@ -12,3 +12,4 @@
         @include('dashboard.customer', ['data' => $data])
     @endif
 @endsection
+

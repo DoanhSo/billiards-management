@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Lịch đặt bàn')
 
@@ -164,3 +164,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 @endsection
+
