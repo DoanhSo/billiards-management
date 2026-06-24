@@ -1,4 +1,4 @@
-﻿{{-- resources/views/products/index.blade.php --}}
+{{-- resources/views/products/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý sản phẩm')
@@ -95,7 +95,9 @@
                     @endif
                 </td>
                 <td class="text-end">
-                    <form action="{{ route('products.toggle', $product->id) }}" method="POST" class="d-inline">
+                    <form action="{{ route('products.toggle', $product->id) }}" method="POST" class="d-inline form-confirm"
+                          data-action="{{ $product->status ? 'ngừng bán' : 'mở bán' }}"
+                          data-name="sản phẩm {{ $product->name }}">
                         @csrf
                         @method('PATCH')
                         <button type="submit" class="btn btn-sm btn-outline-warning me-1">
@@ -104,7 +106,7 @@
                     </form>
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-outline-primary me-1">Sửa</a>
                     
-                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline" data-confirm="Bạn có chắc chắn muốn xóa sản phẩm này?">
+                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline form-delete" data-name="sản phẩm {{ $product->name }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-outline-danger">Xóa</button>

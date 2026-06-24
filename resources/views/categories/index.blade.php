@@ -1,4 +1,4 @@
-﻿{{-- resources/views/categories/index.blade.php --}}
+{{-- resources/views/categories/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý danh mục')
@@ -38,10 +38,10 @@
                 <td class="text-end">
                     <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-outline-primary me-1">Sửa</a>
                     
-                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline" data-confirm="Bạn có chắc chắn muốn xóa danh mục này?">
+                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline form-delete" data-name="danh mục {{ $category->name }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger" {{ $category->products_count > 0 ? 'disabled' : '' }}>Xóa</button>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Xóa</button>
                     </form>
                 </td>
             </tr>

@@ -94,8 +94,9 @@
                 <td class="text-end">
                     <div class="d-flex justify-content-end gap-1">
                         {{-- Khóa / Mở khóa --}}
-                        <form action="{{ route('staff.toggle-status', $user->id) }}" method="POST" class="d-inline"
-                              data-confirm="{{ $user->status ? 'Khóa' : 'Mở khóa' }} tài khoản nhân viên này?">
+                        <form action="{{ route('staff.toggle-status', $user->id) }}" method="POST" class="d-inline form-confirm"
+                              data-action="{{ $user->status ? 'khóa' : 'mở khóa' }}"
+                              data-name="tài khoản nhân viên này">
                             @csrf
                             @method('PATCH')
                             <button type="submit"
@@ -109,8 +110,8 @@
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         {{-- Xóa --}}
-                        <form action="{{ route('staff.destroy', $user->id) }}" method="POST" class="d-inline"
-                              data-confirm="Xóa tài khoản nhân viên {{ $user->name }}? Hành động này không thể hoàn tác.">
+                        <form action="{{ route('staff.destroy', $user->id) }}" method="POST" class="d-inline form-delete"
+                              data-name="tài khoản nhân viên {{ $user->name }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
