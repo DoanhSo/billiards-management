@@ -1,4 +1,4 @@
-{{-- resources/views/invoices/index.blade.php --}}
+﻿{{-- resources/views/invoices/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Quản lý hóa đơn')
@@ -115,3 +115,4 @@
         </div>
     </div>
 @endsection
+

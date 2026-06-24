@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Quản lý Đặt bàn')
 
@@ -79,7 +79,7 @@
 
     {{-- ═══ FILTER BAR ═══ --}}
     <div class="filter-bar mb-4" style="background: var(--bg-surface); border-radius: 12px; padding: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-        <form action="{{ route('bookings.index') }}" method="GET" class="ajax-search-form">
+        <form action="{{ route('bookings.index') }}" method="GET" class="ajax-search-form" novalidate>
             <div class="row g-3 align-items-end">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Tìm kiếm</label>
@@ -258,7 +258,7 @@
                 </p>
                 <p class="text-muted mb-4" style="font-size: 0.8rem;">Hành động này <strong>không thể hoàn tác</strong>.</p>
 
-                <form id="cancelForm" method="POST">
+                <form id="cancelForm" method="POST" novalidate>
                     @csrf
                     @method('PATCH')
                     <div class="d-flex gap-2 justify-content-center">
@@ -298,3 +298,5 @@ document.addEventListener('DOMContentLoaded', function () {
 @endsection
  
  
+
+

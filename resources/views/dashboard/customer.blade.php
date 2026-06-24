@@ -1,4 +1,4 @@
-{{-- resources/views/dashboard/customer.blade.php --}}
+﻿{{-- resources/views/dashboard/customer.blade.php --}}
 <div class="page-content-padding pt-0">
     {{-- Banner chào mừng --}}
     <div class="card glass-panel border-0 mb-4 text-white overflow-hidden position-relative" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%); border: 1px solid rgba(102, 126, 234, 0.3) !important;">
@@ -232,3 +232,4 @@
         </div>
     @endif
 </div>
+

@@ -1,4 +1,4 @@
-{{-- resources/views/auth/register.blade.php --}}
+﻿{{-- resources/views/auth/register.blade.php --}}
 @extends('layouts.auth')
 
 @section('title', 'Đăng ký tài khoản')
@@ -32,8 +32,9 @@
                 >
             </div>
             @error('name')
-                <div class="invalid-feedback d-block">
-                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
                 </div>
             @enderror
         </div>
@@ -56,8 +57,9 @@
                 >
             </div>
             @error('email')
-                <div class="invalid-feedback d-block">
-                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
                 </div>
             @enderror
         </div>
@@ -79,8 +81,9 @@
                 >
             </div>
             @error('phone')
-                <div class="invalid-feedback d-block">
-                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
                 </div>
             @enderror
         </div>
@@ -105,8 +108,9 @@
                 </button>
             </div>
             @error('password')
-                <div class="invalid-feedback d-block">
-                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
                 </div>
             @enderror
         </div>
@@ -131,8 +135,9 @@
                 </button>
             </div>
             @error('password_confirmation')
-                <div class="invalid-feedback d-block">
-                    <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
+                <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
                 </div>
             @enderror
         </div>
@@ -172,3 +177,5 @@
     });
 </script>
 @endpush
+
+

@@ -1,4 +1,4 @@
-{{-- resources/views/staff/edit.blade.php --}}
+﻿{{-- resources/views/staff/edit.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Chỉnh sửa nhân viên')
@@ -13,7 +13,7 @@
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <x-card title="Chỉnh sửa nhân viên: {{ $user->name }}">
-            <form action="{{ route('staff.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="p-3 row g-3">
+            <form action="{{ route('staff.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="p-3 row g-3" novalidate>
                 @csrf
                 @method('PUT')
 
@@ -83,7 +83,7 @@
                            class="form-control {{ $errors->has('avatar') ? 'is-invalid' : '' }}"
                            accept="image/jpeg,image/png,image/webp" style="height: 40px;">
                     <small class="text-muted">Chỉ chọn ảnh mới nếu muốn thay đổi. Tối đa 2MB.</small>
-                    @error('avatar') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    @error('avatar') <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;"><i class="bi bi-exclamation-circle-fill flex-shrink-0"></i><span>{{ $message }}</span></div> @enderror
                 </div>
 
                 {{-- Ghi chú mật khẩu --}}
@@ -103,3 +103,5 @@
     </div>
 </div>
 @endsection
+
+

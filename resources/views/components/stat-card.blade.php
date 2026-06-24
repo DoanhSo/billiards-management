@@ -1,4 +1,4 @@
-{{-- resources/views/components/stat-card.blade.php --}}
+﻿{{-- resources/views/components/stat-card.blade.php --}}
 @props(['title', 'value', 'icon', 'color' => 'primary'])
 
 <div class="stat-card stat-{{ $color }} mb-0">
@@ -12,3 +12,4 @@
         </div>
     </div>
 </div>
+

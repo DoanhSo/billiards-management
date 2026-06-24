@@ -1,4 +1,4 @@
-{{-- resources/views/customer-sessions/index.blade.php --}}
+﻿{{-- resources/views/customer-sessions/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Lịch sử phiên chơi')
@@ -142,3 +142,4 @@
 
 </div>
 @endsection
+

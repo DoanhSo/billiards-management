@@ -1,4 +1,4 @@
-{{-- resources/views/auth/change-password.blade.php --}}
+﻿{{-- resources/views/auth/change-password.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Đổi mật khẩu')
@@ -57,9 +57,10 @@
                             </button>
                         </div>
                         @error('current_password')
-                            <div class="invalid-feedback d-block">
-                                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-                            </div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
+                </div>
                         @enderror
                     </div>
 
@@ -86,9 +87,10 @@
                             </button>
                         </div>
                         @error('new_password')
-                            <div class="invalid-feedback d-block">
-                                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-                            </div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
+                </div>
                         @enderror
                     </div>
 
@@ -115,9 +117,10 @@
                             </button>
                         </div>
                         @error('new_password_confirmation')
-                            <div class="invalid-feedback d-block">
-                                <i class="bi bi-exclamation-circle me-1"></i>{{ $message }}
-                            </div>
+                            <div class="d-flex align-items-center gap-1 mt-1" style="color: var(--danger); font-size: 0.82rem;">
+                    <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+                    <span>{{ $message }}</span>
+                </div>
                         @enderror
                     </div>
 
@@ -160,3 +163,5 @@
     });
 </script>
 @endpush
+
+

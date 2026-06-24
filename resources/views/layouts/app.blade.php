@@ -1,4 +1,4 @@
-{{-- resources/views/layouts/app.blade.php --}}
+﻿{{-- resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -129,3 +129,4 @@
     @stack('scripts')
 </body>
 </html>
+

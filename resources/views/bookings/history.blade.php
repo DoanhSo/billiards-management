@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Lịch sử Đặt bàn')
 
@@ -142,3 +142,4 @@
 
 </div>
 @endsection
+

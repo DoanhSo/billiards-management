@@ -1,4 +1,4 @@
-{{-- resources/views/sessions/start.blade.php --}}
+﻿{{-- resources/views/sessions/start.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Bắt đầu phiên chơi mới')
@@ -268,3 +268,4 @@
     });
 </script>
 @endpush
+

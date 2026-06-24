@@ -1,4 +1,4 @@
-{{-- resources/views/components/badge.blade.php --}}
+﻿{{-- resources/views/components/badge.blade.php --}}
 @props(['type' => 'primary'])
 
 @php
@@ -16,3 +16,4 @@
 <span class="badge rounded-pill badge-custom {{ $cssClass }}">
     {{ $slot }}
 </span>
+

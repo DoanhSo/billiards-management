@@ -16,7 +16,7 @@ class StoreProductRequest extends FormRequest
         return [
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'name'        => ['required', 'string', 'max:255'],
-            'price'       => ['required', 'numeric', 'min:0'],
+            'price'       => ['required', 'numeric', 'min:1'],
             'quantity'    => ['required', 'integer', 'min:0'],
             'image'       => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'description' => ['nullable', 'string', 'max:1000'],
@@ -32,7 +32,7 @@ class StoreProductRequest extends FormRequest
             'name.required'        => 'Vui lòng nhập tên sản phẩm.',
             'price.required'       => 'Vui lòng nhập giá sản phẩm.',
             'price.numeric'        => 'Giá sản phẩm phải là số.',
-            'price.min'            => 'Giá sản phẩm không được âm.',
+            'price.min'            => 'Giá sản phẩm phải lớn hơn 0.',
             'quantity.required'    => 'Vui lòng nhập số lượng.',
             'quantity.integer'     => 'Số lượng phải là số nguyên.',
             'quantity.min'         => 'Số lượng không được âm.',
