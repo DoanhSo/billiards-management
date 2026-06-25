@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Chỉnh sửa bàn #' . $table->table_number)
 
@@ -135,7 +135,8 @@
 
             {{-- ─── Actions ─── --}}
             <div class="d-flex justify-content-end gap-3">
-                <x-button type="button" variant="secondary" onclick="window.location.href='{{ route('tables.index') }}'">
+                @php $cancelUrl = route('tables.index'); @endphp
+                <x-button type="button" variant="secondary" onclick="window.location.href='{{ $cancelUrl }}'">
                     Hủy bỏ
                 </x-button>
                 <x-button type="submit" variant="primary" icon="save-fill">

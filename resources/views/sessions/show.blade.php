@@ -1,4 +1,4 @@
-﻿{{-- resources/views/sessions/show.blade.php --}}
+{{-- resources/views/sessions/show.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Chi tiết phiên chơi #' . $session->id)
@@ -171,8 +171,8 @@
                 </div>
                 <div class="card-body d-grid gap-2">
                     @if ($session->status === 'PLAYING')
-                        <form action="{{ route('sessions.end', $session->id) }}" method="POST"
-                              data-confirm="Bạn có chắc muốn kết thúc phiên chơi này?">
+                        <form action="{{ route('sessions.end', $session->id) }}" method="POST" class="form-confirm"
+                              data-action="kết thúc" data-name="phiên chơi này">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="btn btn-danger w-100">
