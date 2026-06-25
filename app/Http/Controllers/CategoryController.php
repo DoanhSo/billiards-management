@@ -69,9 +69,11 @@ class CategoryController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        $this->categoryService->deleteCategory($id);
-
-        return redirect()->route('categories.index')
-            ->with('success', 'Xóa danh mục thành công.');
+        try {
+            $this->categoryService->deleteCategory($id);
+            return redirect()->route('categories.index')->with('success', 'Xóa danh mục thành công.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }
