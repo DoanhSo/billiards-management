@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Lịch đặt bàn')
 
@@ -100,11 +100,11 @@ document.addEventListener('DOMContentLoaded', function() {
             center: 'title',
             right: 'timeGridWeek,timeGridDay,dayGridMonth'
         },
-        slotMinTime: '08:00:00', // Giờ mở cửa
+        slotMinTime: '00:00:00', // Giờ mở cửa
         slotMaxTime: '24:00:00', // Giờ đóng cửa
         allDaySlot: false,
         height: 'auto',
-        events: '{{ route('api.bookings.events') }}',
+        events: "{{ route('api.bookings.events') }}",
         eventClick: function(info) {
             // Hiển thị chi tiết khi click vào sự kiện
             let props = info.event.extendedProps;
