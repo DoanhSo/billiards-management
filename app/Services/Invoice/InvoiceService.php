@@ -196,7 +196,6 @@ class InvoiceService
 
     /**
      * Tính tổng doanh thu hóa đơn trong một khoảng thời gian.
-     * Phục vụ cho tính năng Báo cáo / Dashboard.
      *
      * @param string $from Ngày bắt đầu
      * @param string $to Ngày kết thúc

@@ -131,7 +131,8 @@
             @endphp
 
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="card table-card h-100" style="border-top: 3px solid {{ $statusConfig['bar'] }} !important;">
+                @php $styleAttr = 'style="border-top: 3px solid ' . $statusConfig['bar'] . ' !important;"'; @endphp
+                <div class="card table-card h-100" {!! $styleAttr !!}>
                     <div class="card-body d-flex flex-column p-4">
 
                         {{-- Header: Number + Status --}}
@@ -148,7 +149,8 @@
                         {{-- Type Chip --}}
                         <div class="mb-3">
                             <span style="background: var(--bg-elevated); border: 1px solid var(--border-light); color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 6px;">
-                                <i class="bi bi-circle-fill me-1" style="font-size: 0.4rem; vertical-align: middle; color: {{ $statusConfig['bar'] }}"></i>
+                                @php $iconStyle = 'style="font-size: 0.4rem; vertical-align: middle; color: ' . $statusConfig['bar'] . ';"'; @endphp
+                                <i class="bi bi-circle-fill me-1" {!! $iconStyle !!}></i>
                                 {{ $typeLabel }}
                             </span>
                         </div>
@@ -194,7 +196,8 @@
                                                 @csrf @method('PATCH')
                                                 <input type="hidden" name="status" value="{{ $val }}">
                                                 <button type="submit" class="dropdown-item {{ $table->status === $val ? 'active' : '' }}">
-                                                    <i class="bi bi-{{ $ico }}" style="color: {{ $col }}"></i>
+                                                    @php $dropdownIconStyle = 'style="color: ' . $col . ';"'; @endphp
+                                                    <i class="bi bi-{{ $ico }}" {!! $dropdownIconStyle !!}></i>
                                                     {{ $lbl }}
                                                     @if($table->status === $val)<i class="bi bi-check ms-auto" style="color: var(--success)"></i>@endif
                                                 </button>
