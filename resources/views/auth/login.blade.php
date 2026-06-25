@@ -1,4 +1,4 @@
-﻿{{-- resources/views/auth/login.blade.php --}}
+{{-- resources/views/auth/login.blade.php --}}
 @extends('layouts.auth')
 
 @section('title', 'Đăng nhập')
@@ -81,6 +81,7 @@
                     type="checkbox"
                     id="remember"
                     name="remember"
+                    value="1"
                     {{ old('remember') ? 'checked' : '' }}
                 >
                 <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>

@@ -33,7 +33,12 @@ class AuthService
     public function login(array $credentials): bool
     {
         // Lấy cờ ghi nhớ đăng nhập, mặc định là false nếu không truyền lên
-        $remember = $credentials['remember'] ?? false;
+        $remember = filter_var($credentials['remember'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+        \Illuminate\Support\Facades\Log::info('Login attempt', [
+            'credentials' => $credentials,
+            'remember' => $remember,
+        ]);
 
         // Thực hiện xác thực với Auth facade. Chú ý điều kiện status = 1 để chặn các tài khoản đã bị khóa.
         $attempt = Auth::attempt([
