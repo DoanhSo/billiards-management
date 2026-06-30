@@ -178,16 +178,16 @@ class TableService
     /**
      * Lấy danh sách các bàn có khả năng cho phép đặt lịch trước (Booking).
      * 
-     * Bao gồm: Bàn đang trống (AVAILABLE) hoặc bàn đã bị đặt trước đó (RESERVED).
-     * Lưu ý: Bàn đang RESERVED vẫn có thể được đặt trước cho một ngày/khung giờ khác ở tương lai,
-     * hệ thống sẽ dùng BookingService::checkTableAvailability để kiểm tra overlap giờ.
-     * Bàn đang PLAYING (đang chơi chưa biết khi nào nghỉ) và MAINTENANCE (đang sửa) sẽ bị loại trừ.
+     * Bao gồm: Bàn đang trống (AVAILABLE), bàn đã bị đặt trước đó (RESERVED)
+     * HOẶC bàn đang có người chơi (PLAYING) - vì khách vẫn có thể đặt trước bàn này
+     * cho một khung giờ khác trong ngày hoặc ngày mai.
+     * Chỉ loại trừ bàn đang bảo trì (MAINTENANCE).
      *
      * @return Collection Danh sách bàn có thể booking
      */
     public function getBookableTables(): Collection
     {
-        return BilliardTable::whereIn('status', ['AVAILABLE', 'RESERVED'])
+        return BilliardTable::where('status', '!=', 'MAINTENANCE')
             ->orderBy('table_number')
             ->get();
     }

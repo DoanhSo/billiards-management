@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Tạo lịch đặt bàn')
 
@@ -96,7 +96,6 @@
                             <option value="{{ $table->id }}" {{ old('billiard_table_id', request('table_id')) == $table->id ? 'selected' : '' }} style="background-color: var(--card-bg); color: #fff;">
                                 Bàn {{ $table->table_number }} · {{ $table->table_type }}
                                 — {{ number_format($table->price_per_hour, 0, ',', '.') }} VNĐ/giờ
-                                {{ $table->status === 'RESERVED' ? '[ Đã có booking giờ khác ]' : '' }}
                             </option>
                         @endforeach
                     </select>
@@ -109,10 +108,6 @@
                 @if($tables->isEmpty())
                     <div class="form-text mt-1 text-warning"><i class="bi bi-exclamation-triangle me-1"></i>Hiện tại không có bàn nào khả dụng để đặt lịch</div>
                 @endif
-                <div class="form-text mt-1">
-                    <i class="bi bi-info-circle me-1 text-info"></i>
-                    Bàn có nhãn <strong>[Đã có booking giờ khác]</strong> vẫn có thể đặt nếu bạn chọn khung giờ khác.
-                </div>
             </div>
 
             {{-- ─── Booking Date ─── --}}
